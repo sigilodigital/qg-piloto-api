@@ -1,0 +1,115 @@
+{
+    "folders": [
+        {
+            "path": "..",
+            "name": "ROOT"
+        },
+        {
+            "path": "../src",
+            "name": "SOURCE"
+        },
+        {
+            "path": "../libs",
+            "name": "LIBRARY"
+        },
+        {
+            "path": "../node_modules"
+        },
+        {
+            "path": "../dist"
+        },
+        {
+            "path": "../.git"
+        },
+    ],
+    "settings": {
+        "files.exclude": {
+            "src": true,
+            "libs": true,
+            "node_modules": true,
+            "dist": true,
+            ".git": true
+        },
+        "editor.formatOnSave": false,
+        "javascript.format.semicolons": "insert",
+        "typescript.format.semicolons": "insert",
+        "peacock.color": "#61dafb",
+        "peacock.remoteColor": "#1857a4",
+        "workbench.colorCustomizations": {
+            "activityBar.activeBackground": "#1f6fd0",
+            "activityBar.background": "#1f6fd0",
+            "activityBar.foreground": "#e7e7e7",
+            "activityBar.inactiveForeground": "#e7e7e799",
+            "activityBarBadge.background": "#ee90bb",
+            "activityBarBadge.foreground": "#15202b",
+            "commandCenter.border": "#e7e7e799",
+            "sash.hoverBorder": "#1f6fd0",
+            "statusBar.background": "#1857a4",
+            "statusBar.foreground": "#e7e7e7",
+            "statusBarItem.hoverBackground": "#1f6fd0",
+            "statusBarItem.remoteBackground": "#1857a4",
+            "statusBarItem.remoteForeground": "#e7e7e7",
+            "titleBar.activeBackground": "#1857a4",
+            "titleBar.activeForeground": "#e7e7e7",
+            "titleBar.inactiveBackground": "#1857a499",
+            "titleBar.inactiveForeground": "#e7e7e799"
+        },
+        "jest.disabledWorkspaceFolders": [
+            "node_modules",
+            "dist",
+            "gestao-acesso-api",
+            "libs",
+            "src",
+            "SOURCE",
+            "LIBRARY",
+            ".git"
+        ],
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "Docker: Attach to Node",
+                "type": "node",
+                "request": "attach",
+                "remoteRoot": "/app",
+                "port": 50010
+            },
+            {
+                "name": "Docker Node.js Launch",
+                "type": "docker",
+                "request": "launch",
+                "port": 50010, // Optional; otherwise inferred from the docker-compose.debug.yml.
+                "preLaunchTask": "docker-run: debug",
+                "platform": "node",
+                "dockerServerReadyAction": {
+                    "pattern": "Application has started on port (\\d+)"
+                }
+            }
+        ],
+        "compounds": []
+    },
+    "extensions": {
+        "recommendations": [
+            "aaron-bond.better-comments",
+            "wraith13.bracket-lens",
+            "hediet.vscode-drawio",
+            "pkief.material-icon-theme",
+            "johnpapa.vscode-peacock",
+            "ms-vscode-remote.remote-ssh",
+            "ms-vscode-remote.remote-ssh-edit",
+            "ms-vscode.remote-explorer",
+            "ms-vscode-remote.remote-wsl",
+            "gruntfuggly.todo-tree",
+            "napthedevhcj.console-flash",
+            "mhutchie.git-graph",
+            "donjayamanne.githistory",
+            "huizhou.githd",
+            "ms-vsliveshare.vsliveshare",
+            "rangav.vscode-thunder-client",
+            "hirse.vscode-ungit",
+            "adpyke.codesnap",
+            "dbaeumer.vscode-eslint"
+        ]
+    }
+}

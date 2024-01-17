@@ -1,0 +1,157 @@
+[
+  {
+    "_id": "837fcf35-2425-4749-934d-40a669db07b6",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3300",
+    "url": "localhost:3300",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-08-16T01:44:39.639Z",
+    "modified": "2022-08-16T01:44:39.718Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "7e3be4fa-3113-48f9-b431-df259efd788e",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://localhost:3300",
+    "url": "https://localhost:3300/email-validar/validar",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-08-16T01:44:53.022Z",
+    "modified": "2022-08-16T03:19:47.747Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"txtCnpjCpf\": \"87872451085\",\n  \"txtCodigoSeguranca\": \"a1b2c4\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "ce031f7d-e497-4abf-b3fa-e1a497f5df0e",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://localhost:3300/email-validar",
+    "url": "https://localhost:3300/email-validar",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-08-16T01:45:45.409Z",
+    "modified": "2022-08-16T03:10:54.985Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "a0993ac5-b067-477c-9c68-06bcdfe4a2ab",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://localhost:3300/email-validar",
+    "url": "https://localhost:3300/email-validar",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-08-16T02:41:57.931Z",
+    "modified": "2022-08-16T03:09:31.169Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"codCodigoVerificacaoPessoa\": 1,\n  \"txtInteressado\": \"Mario César\",\n  \"txtCnpjCpf\": \"87872451085\",\n  \"txtCodigoSeguranca\": \"a1b2c4\",\n    \"dtExpiracao\": \"2018-06-26\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "494de65a-2ffb-4f0c-9e36-aa7006779c43",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{dadosacesso}}",
+    "url": "{{dadosacesso}}",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-23T11:54:11.224Z",
+    "modified": "2022-11-23T11:54:11.224Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "625e240a-6da3-472f-8243-fa025ad96519",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{dadosAcesso}}",
+    "url": "{{dadosAcesso}}",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-23T11:54:44.020Z",
+    "modified": "2022-11-23T11:54:44.020Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "1668cc09-9c31-4d56-9c35-965eb443be9c",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{dadosAcesso}}auth/usuario-externo-senha-validar",
+    "url": "{{dadosAcesso}}auth/usuario-externo-senha-validar",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-11-23T11:55:34.724Z",
+    "modified": "2022-11-23T11:55:34.724Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\r\n  \"username\": \"78553520153\",\r\n  \"password\": \"#Jovem10\"\r\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "4312c45f-c629-4dd9-bc32-8dff42cc2410",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{dadosAcesso}}/auth/usuario-externo-senha-validar",
+    "url": "{{dadosAcesso}}/auth/usuario-externo-senha-validar",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-23T11:55:47.556Z",
+    "modified": "2023-01-02T18:40:25.041Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"username\": \"78553520153\",\n  \"password\": \"#Jovem10\"\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImRhdGEiOnsiY29kSW50ZXJlc3NhZG8iOjE0NzU1LCJ0eHRSYXphb1NvY2lhbCI6bnVsbCwidHh0SW50ZXJlc3NhZG8iOiJIdWdvIGVzdGV2YW0ifSwic3RhdHVzIjp7InN0YXR1c0NvZGUiOjE1LCJtZXNzYWdlIjoiUmVnaXN0cm8gZW5jb250cmFkby4iLCJlcnJvciI6eyJlbnRyYWRhIjp7InBhc3N3b3JkIjoiYWJjZDEyMzQiLCJ1c2VybmFtZSI6Ijc4NTUzNTIwMTUzIn0sInNhaWRhIjpudWxsfX19LCJpYXQiOjE2NzA0MjQ3MjEsImV4cCI6MTY3MDQyNDc4MX0.EK1kGN0mODvn12_-A-OJu2jm0IlPmlCOzVns-bENKv0"
+    },
+    "tests": []
+  },
+  {
+    "_id": "0d164046-84df-41ec-b2ca-655b371268df",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{dadosAcesso}}/auth/usuario-externo-senha-validar",
+    "url": "{{dadosAcesso}}/auth/usuario-externo-senha-validar",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-23T11:55:59.003Z",
+    "modified": "2022-11-29T14:32:48.859Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"username\": \"78553520153\",\n  \"password\": \"#Jovem10\"\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]

@@ -1,0 +1,123 @@
+{
+    "_id": "49e49a2a-4b6f-4c25-9976-fe017b57d9f0",
+    "colName": "Auth",
+    "created": "2022-11-23T11:58:29.098Z",
+    "sortNum": 20000,
+    "folders": [],
+    "requests": [
+        {
+            "_id": "6498c0cc-6364-45a8-acd3-15000d73073a",
+            "colId": "49e49a2a-4b6f-4c25-9976-fe017b57d9f0",
+            "containerId": "",
+            "name": "usuario-externo-senha-validar",
+            "url": "{{dadosAcesso}}/auth/usuario-externo-senha-validar",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2022-11-23T12:00:39.034Z",
+            "modified": "2023-01-02T16:35:54.225Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"78553520153\",\n  \"password\": \"abcd1234\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXN0ZW1hIjp7ImNvZFNlZ1Npc3RlbWFXcyI6MSwidHh0U2VnU2lzdGVtYVdzIjoiUG9ydGFsIGRlIHNlcnZpw6dvcyBkaWdpdGFpcyIsInR4dExvZ2luIjoiUFNEIiwidHh0RGVzY3JpY2FvIjoiU2lzdGVtYSBkbyBwb3J0YWwgZGUgc2VydmnDp29zIGRpZ2l0YWlzIiwiY29kQXRpdm8iOjF9LCJzaXN0ZW1hTWV0b2RvIjpbeyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxfSx7ImNvZFNlZ1Npc3RlbWFXcyI6MSwiY29kU2VnTWV0b2RvV3MiOjJ9LHsiY29kU2VnU2lzdGVtYVdzIjoxLCJjb2RTZWdNZXRvZG9XcyI6M30seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxN30seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxOH0seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxOX0seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoyMH0seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoyMX0seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoyMn1dLCJpYXQiOjE2NzI2NzczMTQsImV4cCI6MTY3MjY3NzM3NH0.dYPjl9agjega_9VoEH4qOqUBv-tnYVQc9HeWBqEP8H4"
+            },
+            "tests": [
+                {
+                    "type": "custom-header",
+                    "custom": "x-access-token-user",
+                    "action": "notequal",
+                    "value": "''"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "data"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "status"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "201"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "count",
+                    "value": "2"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.data",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ]
+        },
+        {
+            "_id": "34e28516-5457-4bd8-9532-39fdd650b0dc",
+            "colId": "49e49a2a-4b6f-4c25-9976-fe017b57d9f0",
+            "containerId": "",
+            "name": "sistema-senha-validar",
+            "url": "{{dadosAcesso}}/auth/sistema-senha-validar",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2022-11-23T12:01:43.642Z",
+            "modified": "2022-11-23T18:46:11.005Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n \"username\": \"PSD\", \n \"password\": \"abcd1234\"   \n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "custom-header",
+                    "custom": "x-access-token-system",
+                    "action": "notequal",
+                    "value": "''"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "data"
+                },
+                {
+                    "type": "res-body",
+                    "custom": "",
+                    "action": "contains",
+                    "value": "status"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.data",
+                    "action": "notequal",
+                    "value": "null"
+                }
+            ],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "6498c0cc-6364-45a8-acd3-15000d73073a",
+                        "colId": "49e49a2a-4b6f-4c25-9976-fe017b57d9f0",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        }
+    ]
+}

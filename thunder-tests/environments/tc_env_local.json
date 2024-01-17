@@ -1,0 +1,14 @@
+{
+    "_id": "187dc4ad-125a-44bd-8c99-823070f8dfbe",
+    "name": "local",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2022-09-03T01:11:12.541Z",
+    "modified": "2022-09-03T01:11:47.926Z",
+    "data": [
+        {
+            "name": "dadosAcesso",
+            "value": "https://localhost:3003"
+        }
+    ]
+}

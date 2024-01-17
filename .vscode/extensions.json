@@ -1,0 +1,23 @@
+{
+    "recommendations": [
+        "aaron-bond.better-comments",
+        "wraith13.bracket-lens",
+        "hediet.vscode-drawio",
+        "pkief.material-icon-theme",
+        "johnpapa.vscode-peacock",
+        "ms-vscode-remote.remote-ssh",
+        "ms-vscode-remote.remote-ssh-edit",
+        "ms-vscode.remote-explorer",
+        "ms-vscode-remote.remote-wsl",
+        "gruntfuggly.todo-tree",
+        "napthedevhcj.console-flash",
+        "mhutchie.git-graph",
+        "donjayamanne.githistory",
+        "huizhou.githd",
+        "ms-vsliveshare.vsliveshare",
+        "rangav.vscode-thunder-client",
+        "hirse.vscode-ungit",
+        "adpyke.codesnap",
+        "dbaeumer.vscode-eslint"
+    ]
+}

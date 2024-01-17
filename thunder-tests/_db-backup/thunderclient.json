@@ -1,0 +1,300 @@
+[
+  {
+    "_id": "f2319300-bb99-4c6d-866f-98b509858cc1",
+    "colId": "3de6be41-fe3b-4f96-a5df-bd519326e5e4",
+    "containerId": "",
+    "name": "codigo-verificacao",
+    "url": "{{dadosAcesso}}/codigo-verificacao",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2022-08-16T10:20:43.265Z",
+    "modified": "2022-09-03T01:12:41.762Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "2046b852-fb3d-4dc9-a772-a4173f766a84",
+    "colId": "3de6be41-fe3b-4f96-a5df-bd519326e5e4",
+    "containerId": "",
+    "name": "codigo-verificacao/validar",
+    "url": "{{dadosAcesso}}/codigo-verificacao/validar",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2022-08-16T10:20:58.877Z",
+    "modified": "2022-09-03T01:12:09.750Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"txtCnpjCpf\": \"10449712079\",\n  \"txtCodigoSeguranca\": \"z9y8x7\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "168ecb2d-bf58-4f48-bbda-3b72b9bf5999",
+    "colId": "3de6be41-fe3b-4f96-a5df-bd519326e5e4",
+    "containerId": "",
+    "name": "codigo-verificacao/registrar",
+    "url": "{{dadosAcesso}}/codigo-verificacao/registrar",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2022-08-16T10:21:05.391Z",
+    "modified": "2022-09-03T01:12:51.525Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"txtInteressado\": \"José Arimatéia\",\n  \"txtCnpjCpf\": \"10449712077\",\n  \"txtCodigoSeguranca\": \"z9y8x7\",\n  \"dtExpiracao\": \"2022-08-17\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "6498c0cc-6364-45a8-acd3-15000d73073a",
+    "colId": "49e49a2a-4b6f-4c25-9976-fe017b57d9f0",
+    "containerId": "",
+    "name": "usuario-externo-senha-validar",
+    "url": "{{dadosAcesso}}/auth/usuario-externo-senha-validar",
+    "method": "POST",
+    "sortNum": 10000,
+    "created": "2022-11-23T12:00:39.034Z",
+    "modified": "2023-01-02T16:35:54.225Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"username\": \"78553520153\",\n  \"password\": \"abcd1234\"\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXN0ZW1hIjp7ImNvZFNlZ1Npc3RlbWFXcyI6MSwidHh0U2VnU2lzdGVtYVdzIjoiUG9ydGFsIGRlIHNlcnZpw6dvcyBkaWdpdGFpcyIsInR4dExvZ2luIjoiUFNEIiwidHh0RGVzY3JpY2FvIjoiU2lzdGVtYSBkbyBwb3J0YWwgZGUgc2VydmnDp29zIGRpZ2l0YWlzIiwiY29kQXRpdm8iOjF9LCJzaXN0ZW1hTWV0b2RvIjpbeyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxfSx7ImNvZFNlZ1Npc3RlbWFXcyI6MSwiY29kU2VnTWV0b2RvV3MiOjJ9LHsiY29kU2VnU2lzdGVtYVdzIjoxLCJjb2RTZWdNZXRvZG9XcyI6M30seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxN30seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxOH0seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxOX0seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoyMH0seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoyMX0seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoyMn1dLCJpYXQiOjE2NzI2NzczMTQsImV4cCI6MTY3MjY3NzM3NH0.dYPjl9agjega_9VoEH4qOqUBv-tnYVQc9HeWBqEP8H4"
+    },
+    "tests": [
+      {
+        "type": "custom-header",
+        "custom": "x-access-token-user",
+        "action": "notequal",
+        "value": "''"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "data"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "status"
+      },
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "201"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "count",
+        "value": "2"
+      },
+      {
+        "type": "json-query",
+        "custom": "json.data",
+        "action": "notequal",
+        "value": "null"
+      }
+    ]
+  },
+  {
+    "_id": "34e28516-5457-4bd8-9532-39fdd650b0dc",
+    "colId": "49e49a2a-4b6f-4c25-9976-fe017b57d9f0",
+    "containerId": "",
+    "name": "sistema-senha-validar",
+    "url": "{{dadosAcesso}}/auth/sistema-senha-validar",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2022-11-23T12:01:43.642Z",
+    "modified": "2022-11-23T18:46:11.005Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n \"username\": \"PSD\", \n \"password\": \"abcd1234\"   \n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "custom-header",
+        "custom": "x-access-token-system",
+        "action": "notequal",
+        "value": "''"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "data"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "status"
+      },
+      {
+        "type": "json-query",
+        "custom": "json.data",
+        "action": "notequal",
+        "value": "null"
+      }
+    ],
+    "preReq": {
+      "runRequests": [
+        {
+          "reqId": "6498c0cc-6364-45a8-acd3-15000d73073a",
+          "colId": "49e49a2a-4b6f-4c25-9976-fe017b57d9f0",
+          "triggerCondition": "run-always",
+          "triggerValue": ""
+        }
+      ]
+    }
+  },
+  {
+    "_id": "7f042505-1396-43ae-b8a0-61c053543b5a",
+    "colId": "fd6f8bc4-88aa-4176-9e8e-bffe313e3307",
+    "containerId": "",
+    "name": "usuario-externo-lembranca-senha-alterar",
+    "url": "{{dadosAcesso}}/recuperacao-senha/usuario-externo-lembranca-senha-alterar",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2022-11-23T14:35:21.211Z",
+    "modified": "2022-11-25T18:43:32.035Z",
+    "headers": [
+      {
+        "name": "x-access-token-system",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXN0ZW1hIjp7ImNvZFNlZ1Npc3RlbWFXcyI6MSwidHh0U2VnU2lzdGVtYVdzIjoiUG9ydGFsIGRlIHNlcnZpw6dvcyBkaWdpdGFpcyIsInR4dExvZ2luIjoiUFNEIiwidHh0RGVzY3JpY2FvIjoiU2lzdGVtYSBkbyBwb3J0YWwgZGUgc2VydmnDp29zIGRpZ2l0YWlzIiwiY29kQXRpdm8iOjF9LCJzaXN0ZW1hTWV0b2RvIjpbeyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxfSx7ImNvZFNlZ1Npc3RlbWFXcyI6MSwiY29kU2VnTWV0b2RvV3MiOjJ9LHsiY29kU2VnU2lzdGVtYVdzIjoxLCJjb2RTZWdNZXRvZG9XcyI6M31dLCJpYXQiOjE2NjkyODIwMTMsImV4cCI6NzY2OTI4MjAxM30.yOcjERj7XZkAbCcJgtKLd7u2OnRi-Q9IqzW8nEDtKH0 ",
+        "isDisabled": true
+      }
+    ],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{ \n  \"userId\":14755,\n  \"sistemaOrigem\":\"PSD\",\n  \"username\":\"78553520153\",\n  \"codInteressado\": 14755,\n  \"codTipoLembrancaSenha\": 0,\n  \"codPerguntaSecreta\": 0,\n  \"txtRespostaPerguntaSecreta\": \"taipu de fora\"\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjkyODQ1OTQsImV4cCI6MTY2OTI4NDY1NH0.MEGwBMPMtGqs5hUHDmRaMolDblCTNO-G87zVVd-CN9w"
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "data"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "status"
+      }
+    ]
+  },
+  {
+    "_id": "5d53c411-6b3b-4f40-9c50-2488e4b7978a",
+    "colId": "fd6f8bc4-88aa-4176-9e8e-bffe313e3307",
+    "containerId": "",
+    "name": "usuario-externo-senha-pergunta-secreta-recuperar",
+    "url": "{{dadosAcesso}}/recuperacao-senha/usuario-externo-senha-pergunta-secreta-recuperar",
+    "method": "POST",
+    "sortNum": 40000,
+    "created": "2022-11-27T23:02:05.441Z",
+    "modified": "2023-01-03T00:14:19.229Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n        \"txtCnpjCpf\": \"78553520153\",\n        \"codPerguntaSecreta\": \"1x\",\n        \"txtRespostaSecreta\": \"taipu de fora\",\n        \"txtSenhaNova\": \"abcd1234\"\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXN0ZW1hIjp7ImNvZFNlZ1Npc3RlbWFXcyI6MSwidHh0U2VnU2lzdGVtYVdzIjoiUG9ydGFsIGRlIHNlcnZpw6dvcyBkaWdpdGFpcyIsInR4dExvZ2luIjoiUFNEIiwidHh0RGVzY3JpY2FvIjoiU2lzdGVtYSBkbyBwb3J0YWwgZGUgc2VydmnDp29zIGRpZ2l0YWlzIiwiY29kQXRpdm8iOjF9LCJzaXN0ZW1hTWV0b2RvIjpbeyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxfSx7ImNvZFNlZ1Npc3RlbWFXcyI6MSwiY29kU2VnTWV0b2RvV3MiOjJ9LHsiY29kU2VnU2lzdGVtYVdzIjoxLCJjb2RTZWdNZXRvZG9XcyI6M30seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxN30seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxOH0seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoxOX0seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoyMH0seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoyMX0seyJjb2RTZWdTaXN0ZW1hV3MiOjEsImNvZFNlZ01ldG9kb1dzIjoyMn1dLCJpYXQiOjE2NzI2NzczMTQsImV4cCI6MTY3MjY3NzM3NH0.dYPjl9agjega_9VoEH4qOqUBv-tnYVQc9HeWBqEP8H4"
+    },
+    "tests": []
+  },
+  {
+    "_id": "4cd668ba-a842-47a7-a9dc-951ddb403a89",
+    "colId": "fd6f8bc4-88aa-4176-9e8e-bffe313e3307",
+    "containerId": "",
+    "name": "usuario-externo-senha-email-recuperar",
+    "url": "{{dadosAcesso}}/recuperacao-senha/usuario-externo-senha-email-recuperar",
+    "method": "POST",
+    "sortNum": 50000,
+    "created": "2022-11-29T17:03:22.111Z",
+    "modified": "2023-01-02T20:14:33.224Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{ \n\n  \"txtCnpjCpf\":\"89282272249\",\n  \"txtEmail\":\"email234@ikhon.com.brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr\"\n\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImRhdGEiOnsiY29kSW50ZXJlc3NhZG8iOjE0NzU1LCJ0eHRSYXphb1NvY2lhbCI6bnVsbCwidHh0SW50ZXJlc3NhZG8iOiJIdWdvIGVzdGV2YW0ifSwic3RhdHVzIjp7InN0YXR1c0NvZGUiOjE1LCJtZXNzYWdlIjoiUmVnaXN0cm8gZW5jb250cmFkby4iLCJlcnJvciI6eyJlbnRyYWRhIjp7InBhc3N3b3JkIjoiYWJjZDEyMzQiLCJ1c2VybmFtZSI6Ijc4NTUzNTIwMTUzIn0sInNhaWRhIjpudWxsfX19LCJpYXQiOjE2NzA0MjQ3MjEsImV4cCI6MTY3MDQyNDc4MX0.EK1kGN0mODvn12_-A-OJu2jm0IlPmlCOzVns-bENKv0"
+    },
+    "tests": []
+  },
+  {
+    "_id": "cd33e793-fd45-48d6-97fd-04f9e782d694",
+    "colId": "fd6f8bc4-88aa-4176-9e8e-bffe313e3307",
+    "containerId": "",
+    "name": "usuario-externo-senha-alterar'",
+    "url": "{{dadosAcesso}}/recuperacao-senha/usuario-externo-senha-alterar",
+    "method": "POST",
+    "sortNum": 60000,
+    "created": "2022-11-30T00:03:46.378Z",
+    "modified": "2022-11-30T00:12:59.061Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"loginSistemaOrigem\":\"PSD\",\n  \"codInteressado\": 14755,\n  \"txtSenhaAtual\":\"abcd1234\",\n  \"txtSenhaNova\":\"abcde12345\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "e8777c3f-ac59-43c9-9fd6-fd0f66cf37f9",
+    "colId": "fd6f8bc4-88aa-4176-9e8e-bffe313e3307",
+    "containerId": "",
+    "name": "usuario-externo-lembranca-senha-consultar",
+    "url": "{{dadosAcesso}}/recuperacao-senha/usuario-externo-lembranca-senha-consultar",
+    "method": "POST",
+    "sortNum": 70000,
+    "created": "2022-11-30T19:55:31.553Z",
+    "modified": "2022-11-30T19:58:26.306Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"loginSistemaOrigem\":\"PSD\",\n  \"codInteressado\": 14755\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]

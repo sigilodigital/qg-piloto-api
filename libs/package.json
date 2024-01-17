@@ -1,0 +1,33 @@
+{
+  "name": "libs-api",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">   <a href=\"http://nestjs.com/\" target=\"blank\"><img src=\"https://nestjs.com/img/logo-small.svg\" width=\"200\" alt=\"Nest Logo\" /></a> </p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sigilodigital/libs-api.git"
+  },
+  "author": "Haroldo Cruz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sigilodigital/libs-api/issues"
+  },
+  "homepage": "https://github.com/sigilodigital/libs-api#readme",
+  "dependencies": {
+    "@nestjs/axios": "^3.0.0",
+    "@nestjs/common": "^10.1.3",
+    "@nestjs/core": "^10.1.3",
+    "@nestjs/swagger": "^7.1.4",
+    "@nestjs/typeorm": "^10.0.0",
+    "axios": "^1.4.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "dotenv": "^16.3.1",
+    "jwt-decode": "^3.1.2",
+    "typeorm": "^0.3.17",
+    "typeorm-model-generator": "^0.4.6"
+  }
+}

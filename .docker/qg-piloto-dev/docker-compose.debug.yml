@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  gestao-acesso-api:
+    build: 
+      context: ../../
+      dockerfile: ./.docker/qg-piloto-dev/dev.dockerfile
+
+    environment:
+      NODE_ENV: development
+    env_file:
+      - ../../.env
+      
+    container_name: "API-GA-DEV"
+    # restart: always
+    volumes:
+      - ./../../:/app
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    ports:
+      - "5001:5001"
+      - "50010:9229"
+    networks:
+      - "app-network"
+    depends_on:
+      - piloto-db
+
+    command: npm run start:debug
+
+
+  piloto-db:
+    image: postgres
+    environment:
+      POSTGRES_DB: piloto
+      POSTGRES_USER: piloto
+      POSTGRES_PASSWORD: piloto123
+      PGDATA: /var/lib/postgresql/data/pgdata
+      
+    container_name: "PILOTO_DB"
+    restart: always
+    volumes:
+      - ~/projects/qg/piloto/data_pg:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - "app-network"
+
+networks:
+  app-network:
+    driver: bridge

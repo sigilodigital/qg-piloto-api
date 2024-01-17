@@ -1,0 +1,30 @@
+[
+  {
+    "_id": "187dc4ad-125a-44bd-8c99-823070f8dfbe",
+    "name": "local",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2022-09-03T01:11:12.541Z",
+    "modified": "2022-09-03T01:11:47.926Z",
+    "data": [
+      {
+        "name": "dadosAcesso",
+        "value": "https://localhost:3003"
+      }
+    ]
+  },
+  {
+    "_id": "3218c348-a91c-4093-80af-d212c37741ac",
+    "name": "desenv",
+    "default": false,
+    "sortNum": 20000,
+    "created": "2022-11-23T11:52:59.302Z",
+    "modified": "2022-11-23T11:57:00.110Z",
+    "data": [
+      {
+        "name": "dadosAcesso",
+        "value": "https://192.168.33.119:3003"
+      }
+    ]
+  }
+]

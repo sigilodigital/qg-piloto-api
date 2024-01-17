@@ -1,0 +1,61 @@
+{
+    "_id": "3de6be41-fe3b-4f96-a5df-bd519326e5e4",
+    "colName": "Código Verificação",
+    "created": "2022-08-16T10:20:43.246Z",
+    "sortNum": 10000,
+    "folders": [],
+    "requests": [
+        {
+            "_id": "f2319300-bb99-4c6d-866f-98b509858cc1",
+            "colId": "3de6be41-fe3b-4f96-a5df-bd519326e5e4",
+            "containerId": "",
+            "name": "codigo-verificacao",
+            "url": "{{dadosAcesso}}/codigo-verificacao",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2022-08-16T10:20:43.265Z",
+            "modified": "2022-09-03T01:12:41.762Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "2046b852-fb3d-4dc9-a772-a4173f766a84",
+            "colId": "3de6be41-fe3b-4f96-a5df-bd519326e5e4",
+            "containerId": "",
+            "name": "codigo-verificacao/validar",
+            "url": "{{dadosAcesso}}/codigo-verificacao/validar",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2022-08-16T10:20:58.877Z",
+            "modified": "2022-09-03T01:12:09.750Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"txtCnpjCpf\": \"10449712079\",\n  \"txtCodigoSeguranca\": \"z9y8x7\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "168ecb2d-bf58-4f48-bbda-3b72b9bf5999",
+            "colId": "3de6be41-fe3b-4f96-a5df-bd519326e5e4",
+            "containerId": "",
+            "name": "codigo-verificacao/registrar",
+            "url": "{{dadosAcesso}}/codigo-verificacao/registrar",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2022-08-16T10:21:05.391Z",
+            "modified": "2022-09-03T01:12:51.525Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"txtInteressado\": \"José Arimatéia\",\n  \"txtCnpjCpf\": \"10449712077\",\n  \"txtCodigoSeguranca\": \"z9y8x7\",\n  \"dtExpiracao\": \"2022-08-17\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}

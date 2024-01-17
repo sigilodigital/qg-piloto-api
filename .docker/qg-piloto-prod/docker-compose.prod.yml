@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  gestao-acesso-api:
+    build: 
+      context: ../../
+      dockerfile: ./.docker/prod/prod.dockerfile
+
+    environment:
+      NODE_ENV: production
+    env_file:
+      - ../../.env
+      
+    container_name: "API-GA-PROD"
+    restart: always
+    volumes:
+      - /var/arquivos:/app/arquivos
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    ports:
+      - "5001:5001"
+      - "50010:9229"
+    networks:
+      - "app-prod-network"
+
+networks:
+  app-prod-network:
+    driver: bridge

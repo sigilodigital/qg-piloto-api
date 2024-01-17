@@ -1,0 +1,5 @@
+
+[submodule "libs"]
+	path = libs
+	url = https://github.com/sigilodigital/libs-api
+	branch = develop
