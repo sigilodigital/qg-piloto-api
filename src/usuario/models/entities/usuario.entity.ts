@@ -1,18 +1,24 @@
-import { Column, Entity } from "typeorm";
-
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'USUARIO' })
 export class UsuarioEntity {
-    @Column("varchar2", { name: "fullname", nullable: false, length: 255, })
+    
+    @PrimaryGeneratedColumn()
+    usuarioId: number;
+    
+    @Column("varchar", { name: "id", primary: true, nullable: false, length: 24, })
+    id: string;
+
+    @Column("varchar", { name: "fullname", nullable: false, length: 255, })
     fullname: string;
 
-    @Column("varchar2", { name: "fullname", nullable: false, length: 255, primary: true, unique: true })
+    @Column("integer", { name: "cpf", nullable: false, unique: true })
     cpf: number;
 
-    @Column("varchar2", { name: "email", length: 100 })
+    @Column("varchar", { name: "email", length: 100 })
     email: string;
 
-    @Column("varchar2", { name: "password", length: 20 })
+    @Column("varchar", { name: "password", length: 20, select: false })
     password: string;
 
     @Column("boolean", { name: "isActive", default: () => true })

@@ -1,5 +1,6 @@
 export enum CodigoAcaoEnum {
-    NAO_POSSUI_CODIGO_ACAO = 0,
+    PADRAO_NAO_POSSUI = 0,
+    PADRAO_SUCESSO = 7,
 
     USUARIO_INCLUIR = 1,
     USUARIO_ALTERAR = 2,

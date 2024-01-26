@@ -15,7 +15,7 @@ import { UsuarioModule } from './usuario/usuario.module';
             username: 'piloto',
             password: 'piloto123',
             database: 'piloto',
-            synchronize: true,
+            synchronize: false,
             ssl: false,
             entities: [
             ]

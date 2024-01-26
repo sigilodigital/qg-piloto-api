@@ -1,4 +1,5 @@
-import { env } from './envSchema'
+import { env } from "@libs/common/databases/envSchema";
+
 
 export default () => ({
     database: {

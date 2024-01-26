@@ -1,12 +1,12 @@
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
 import { DataSource } from "typeorm";
-import dbOrclProtonConfig from "./db-orcl-proton.config";
+import dbPgPilotoConfig from "./db-pg-piloto.config";
 
 export class AppDataSourceAsync {
 
     static async init(entityList: EntityClassOrSchema[]) {
 
-        const dataSource = new DataSource(dbOrclProtonConfig(entityList));
+        const dataSource = new DataSource(dbPgPilotoConfig(entityList));
 
         await dataSource.initialize()
             .then(() => {

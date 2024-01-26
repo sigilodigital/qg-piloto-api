@@ -22,7 +22,7 @@ export class UtilRepository implements IUtilRepository {
 
     async getSequence(name: string): Promise<number> {
         await this.init(this.config);
-        const sequence = (await this.queryDataSource.manager.query(`SELECT IUSR_PROTON.${name}.NEXTVAL FROM DUAL`))[0].NEXTVAL;
+        const sequence = (await this.queryDataSource.manager.query(`SELECT PUBLIC.${name}.NEXTVAL FROM DUAL`))[0].NEXTVAL;
         return sequence;
     }
 
