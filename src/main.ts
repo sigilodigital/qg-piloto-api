@@ -25,7 +25,7 @@ async function bootstrap() {
 
     SwaggerModule.setup('api', app, document);
 
-    await app.listen(configurations().server.port);
+    await app.listen(configurations().server.port, "0.0.0.0");
     console.log(`Nome: ${pack.name}`);
     console.log(`Descrição: ${pack.description}`);
     console.log(`Versão: ${pack.version}`);
