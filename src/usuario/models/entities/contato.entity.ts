@@ -13,13 +13,13 @@ export class ContatoEntity {
     @OneToMany(type => EmailEntity, e => e._contato, { eager: true, cascade: ['insert', 'update', 'remove'] })
     _emailList: EmailEntity[];
 
-    @OneToMany(type => TelefoneEntity, t => t._contato, { eager: true, cascade: ['insert', 'update', 'remove'] })
+    @OneToMany(type => TelefoneEntity, e => e._contato, { eager: true, cascade: ['insert', 'update', 'remove'] })
     _telefoneList: TelefoneEntity[];
 
     @OneToMany(type => EnderecoEntity, e => e._contato, { eager: true, cascade: ['insert', 'update', 'remove'] })
     _enderecoList: EnderecoEntity[];
 
-    @OneToOne(type => UsuarioEntity, u => u._contato)
+    @OneToOne(type => UsuarioEntity, e => e._contato)
     @JoinColumn({referencedColumnName: 'Usuario'})
     _usuario?: UsuarioEntity;
 }

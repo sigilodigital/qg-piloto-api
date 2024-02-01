@@ -13,7 +13,7 @@ export class TelefoneEntity {
     @Column({ nullable: true })
     description?: string;
 
-    @ManyToOne(type => ContatoEntity, t => t._telefoneList)
+    @ManyToOne(type => ContatoEntity, e => e._telefoneList)
     @JoinColumn()
     _contato?: ContatoEntity;
 

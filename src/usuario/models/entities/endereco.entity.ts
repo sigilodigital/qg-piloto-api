@@ -16,7 +16,7 @@ export class EnderecoEntity {
     @Column({ nullable: true })
     description: string | null;
 
-    @ManyToOne(type => ContatoEntity, c => c._enderecoList)
+    @ManyToOne(type => ContatoEntity, e => e._enderecoList)
     @JoinColumn()
     _contato?: ContatoEntity;
 

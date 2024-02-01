@@ -1,5 +1,7 @@
 import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 import { ContatoEntity } from "./contato.entity";
+import { LoginInfoEntity } from "./login-info.entity";
+import { DataAccessEntity } from "./data-access.entity";
 
 @Entity({ name: 'USUARIO' })
 export class UsuarioEntity {
@@ -19,8 +21,16 @@ export class UsuarioEntity {
     @Column("boolean", { name: "isActive", default: true })
     isActive: boolean;
 
-    @OneToOne(type => ContatoEntity, c => c._usuario, { eager: true, cascade: ['insert', 'update', 'remove'] })
+    @OneToOne(type => ContatoEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
     @JoinColumn()
     _contato: ContatoEntity;
+
+    @OneToOne(type => LoginInfoEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
+    @JoinColumn({name: 'LoginInfoId'})
+    _loginInfo: ContatoEntity;
+
+    @OneToOne(type => DataAccessEntity, e => e._usuario, { lazy: true, cascade: ['insert', 'update', 'remove'] })
+    @JoinColumn({name: 'DataAccessId'})
+    _dataAccess: DataAccessEntity;
 
 }
