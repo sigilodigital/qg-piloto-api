@@ -54,7 +54,7 @@ export class UsuarioConsultarInputDto {
 export class UsuarioConsultarOutputDto {
     
     @ApiProperty({ name: 'id', type: String })
-    id: string;
+    id?: string;
     
     @ApiProperty({ name: 'cpf', type: Number })
     cpf: number;

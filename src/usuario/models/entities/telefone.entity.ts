@@ -1,19 +1,19 @@
 import { Column, Entity, ManyToOne, JoinColumn } from "typeorm";
 import { ContatoEntity } from "./contato.entity";
 
-@Entity({ name: 'EMAIL' })
-export class EmailEntity {
+@Entity({ name: 'TELEFONE' })
+export class TelefoneEntity {
 
     @Column('uuid', { generated: 'uuid', primary: true })
     id?: string;
 
-    @Column({ name: "address", })
-    address: string;
+    @Column()
+    number: string;
 
-    @Column({ name: "description", nullable: true })
+    @Column({ nullable: true })
     description?: string;
 
-    @ManyToOne(type => ContatoEntity, c => c._emailList)
+    @ManyToOne(type => ContatoEntity, t => t._telefoneList)
     @JoinColumn()
     _contato?: ContatoEntity;
 

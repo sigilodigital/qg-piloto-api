@@ -1,15 +1,15 @@
 import { BadRequestException } from '@nestjs/common';
 
 import { ApiResponse } from '@libs/common/services/response-handler';
-import { IUsuarioIncluirDto } from '../models/dto/usuario-incluir.dto';
 import { IUsuarioRepository } from '../repositories/usuario-repository';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
+import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from '../models/dto/usuario-incluir.dto';
 
 export class UsuarioIncluirUseCase {
 
     constructor(public usuarioRepository: IUsuarioRepository) { }
 
-    public async handle(input: IUsuarioIncluirDto['input']): Promise<IUsuarioIncluirDto['output']> {
+    public async handle(input: UsuarioIncluirInputDto): Promise<UsuarioIncluirOutputDto> {
 
         try {
             const result = await this.usuarioRepository.save(<UsuarioEntity>input);
@@ -22,7 +22,7 @@ export class UsuarioIncluirUseCase {
     }
 }
 
-function dto(result: UsuarioEntity): IUsuarioIncluirDto['output'] {
+function dto(result: UsuarioEntity): UsuarioIncluirOutputDto {
     return { ...result };
 }
 

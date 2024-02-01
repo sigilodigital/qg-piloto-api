@@ -6,7 +6,7 @@ import { ApiResponse } from '@libs/common/services/response-handler';
 import { ValidationPipe } from '@libs/common/validations/validation.pipe';
 import { UsuarioService } from './usuario.service';
 import { UsuarioDoc } from './docs/usuario.doc';
-import { IUsuarioIncluirDto, UsuarioIncluirDto } from './models/dto/usuario-incluir.dto';
+import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from './models/dto/usuario-incluir.dto';
 import { UsuarioEntity } from './models/entities/usuario.entity';
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto} from './models/dto/usuario-consultar.dto';
 import { CodigoAcaoEnum } from '@libs/common/enumerations/codigo-acao.enum';
@@ -18,10 +18,10 @@ export class UsuarioController {
     constructor(private readonly usuarioService: UsuarioService) { }
 
     @ApiOperation(UsuarioDoc.incluir())
-    @ApiBody({ type: UsuarioIncluirDto })
+    @ApiBody({ type: UsuarioIncluirInputDto })
     @Post('incluir')
-    async usuarioIncluir(@Body(new ValidationPipe()) input: UsuarioIncluirDto, @Req() request: Request) {
-        const result: IUsuarioIncluirDto['output'] = await this.usuarioService.usuarioIncluir(input, request);
+    async usuarioIncluir(@Body(new ValidationPipe()) input: UsuarioIncluirInputDto, @Req() request: Request) {
+        const result: UsuarioIncluirOutputDto = await this.usuarioService.usuarioIncluir(input, request);
         return ApiResponse.handler({ codNumber: CodigoAcaoEnum.USUARIO_INCLUIR, output: result });
     }
 

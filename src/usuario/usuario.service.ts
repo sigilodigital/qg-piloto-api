@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
 
 import { RunnerTransaction } from '@libs/common/databases/runner-transaction/runner-transaction';
-import { IUsuarioIncluirDto } from './models/dto/usuario-incluir.dto';
 import { UsuarioEntity } from './models/entities/usuario.entity';
 import { CodigoAcaoEnum } from '@libs/common/enumerations/codigo-acao.enum';
 import { UsuarioRepository } from './repositories/usuario-repository';
@@ -12,11 +11,12 @@ import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from './models/dt
 import { UsuarioIncluirUseCase } from './usecases/usuario-incluir.usecase';
 import { UsuarioConsultarUseCase } from './usecases/usuario-consultar.usecase';
 import { UtilRepository } from '@libs/common/repository/util.repository';
+import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from './models/dto/usuario-incluir.dto';
 
 @Injectable()
 export class UsuarioService {
 
-    async usuarioIncluir(input: IUsuarioIncluirDto['input'], request: Request): Promise<IUsuarioIncluirDto['output']> {
+    async usuarioIncluir(input: UsuarioIncluirInputDto, request: Request): Promise<UsuarioIncluirOutputDto> {
 
         const queryRunner = await RunnerTransaction.startTransaction([UsuarioEntity]);
         const historico = { ...(await fnHistoricoDadosPrimarios()), codAcao: CodigoAcaoEnum.USUARIO_INCLUIR };

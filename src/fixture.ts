@@ -1,13 +1,13 @@
 import { NestFactory } from '@nestjs/core';
-import { getDataSourceToken } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
 
-import { AppModule } from './app.module';
-import { UsuarioRepository } from './usuario/repositories/usuario-repository';
-import { UsuarioEntity } from './usuario/models/entities/usuario.entity';
 import { UtilRepository } from '@libs/common/repository/util.repository';
+import { AppModule } from './app.module';
+import usuarios from './fixtures/usuarios';
 import { ContatoEntity } from './usuario/models/entities/contato.entity';
 import { EmailEntity } from './usuario/models/entities/email.entity';
+import { EnderecoEntity } from './usuario/models/entities/endereco.entity';
+import { TelefoneEntity } from './usuario/models/entities/telefone.entity';
+import { UsuarioEntity } from './usuario/models/entities/usuario.entity';
 
 async function bootstrap() {
 
@@ -18,35 +18,18 @@ async function bootstrap() {
     // const dataSouce = app.get<DataSource>(getDataSourceToken())
     // await dataSouce.synchronize(true)
 
-    const utilRepo = await (new UtilRepository()).init([UsuarioEntity, ContatoEntity, EmailEntity]);
+    const entities  =[UsuarioEntity, ContatoEntity, EmailEntity, TelefoneEntity, EnderecoEntity]
+    const utilRepo = await (new UtilRepository()).init(entities);
     // await utilRepo.manager.connection.dropDatabase()
     await utilRepo.manager.connection.synchronize(true)
 
-//     const email = new EmailEntity()
-//     const contato = new ContatoEntity()
-// const emailList:EmailEntity[] = []
-// emailList.push({ address: 'ricardo1@dias.com' })
-// emailList.push({ address: 'ricardo2@dias.com' })
-
-// contato._emailList = emailList
-
-    await utilRepo.manager.insert(UsuarioEntity, [{
-        fullname: 'Ricardo Dias',
-        cpf: 12345678901,
-        _contato: { _emailList: [{ address: 'ricardo1@dias.com' }, { address: 'ricardo2@dias.com' }] },
-        password: 'abcd1234',
-        isActive: true,
-    }, {
-        fullname: 'Haroldo Cruz',
-        cpf: 12345678902,
-        _contato: { _emailList: [{ address: 'haroldo2@cruz.com' }, { address: 'haroldo2@cruz.com' }] },
-        password: 'abcd1234',
-        isActive: true,
-    }])
+    await utilRepo.manager.save(UsuarioEntity, usuarios.usuario)
 
     console.log(await utilRepo.manager.find(UsuarioEntity))
-    console.log(await utilRepo.manager.find(ContatoEntity))
+    console.log((await utilRepo.manager.find(ContatoEntity))[0]._usuario)
     console.log(await utilRepo.manager.find(EmailEntity))
+    console.log(await utilRepo.manager.find(TelefoneEntity))
+    console.log(await utilRepo.manager.find(EnderecoEntity))
 
     app.close()
 }
