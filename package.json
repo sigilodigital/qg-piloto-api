@@ -13,6 +13,8 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug 0.0.0.0:9229 --watch",
     "start:prod": "node dist/main",
+    "fixture-NOT-WORK": "ts-node --project ./tsconfig.build.json ./src/fixture.ts",
+    "fixture": "ts-node -r tsconfig-paths/register ./src/fixture.ts",
     "deploy": "npm run deploy:recreate -- gestao-acesso-api",
     "deploy:recreate": "docker compose -f '../deploy/docker-compose-prod.yml' up -d --build --force-recreate",
     "docker:debug": "docker compose -f './.docker/qg-piloto-dev/docker-compose.debug.yml' up -d --build --force-recreate",
@@ -82,7 +84,7 @@
     "ts-jest": "29.1.1",
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
-    "tsconfig-paths": "4.2.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.6"
   },
   "jest": {

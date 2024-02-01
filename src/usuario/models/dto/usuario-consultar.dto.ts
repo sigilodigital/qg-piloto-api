@@ -3,6 +3,8 @@ import { Validate } from 'class-validator';
 
 import { IConstraintSchema } from "@libs/common/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@libs/common/validations/valida-schema";
+import { EmailEntity } from "../entities/email.entity";
+import { ContatoEntity } from "../entities/contato.entity";
 
 // TODO: adicionar validadores
 export class UsuarioConsultarInputDto {
@@ -40,9 +42,9 @@ export class UsuarioConsultarInputDto {
     // @ApiProperty({ name: 'dataAccess', type: DataAccessOutputDto, required: false })
     // dataAccess: DataAccessOutputDto;
 
-    @ApiProperty({ name: 'email', type: String, required: false })
+    @ApiProperty({ name: '_contato', type: ContatoEntity, required: false })
     // @Validate(ValidaSchema, [<IConstraintSchema>{}])
-    email?: string;
+    _contato?: ContatoEntity;
 
     @ApiProperty({ name: 'isActive', type: Boolean, required: false })
     // @Validate(ValidaSchema, [<IConstraintSchema>{}])
@@ -81,8 +83,9 @@ export class UsuarioConsultarOutputDto {
     // @ApiProperty({ name: 'dataAccess', type: DataAccessOutputDto })
     // dataAccess: DataAccessOutputDto;
 
-    @ApiProperty({ name: 'email', type: String })
-    email: string;
+    @ApiProperty({ name: 'emailList', type: ContatoEntity, nullable: false, maxLength: 100, required: true })
+    @Validate(ValidaSchema, [<IConstraintSchema>{ length: 100 }])
+    _contato: ContatoEntity;
 
     @ApiProperty({ name: 'isActive', type: Boolean })
     isActive: boolean;

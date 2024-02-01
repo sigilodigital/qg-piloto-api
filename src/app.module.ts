@@ -3,27 +3,28 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ExceptionHttpService } from './exception-http/exception-http.service';
+// import { ExceptionHttpService } from './exception-http/exception-http.service';
 import { UsuarioModule } from './usuario/usuario.module';
+import { UsuarioEntity } from './usuario/models/entities/usuario.entity';
 
 @Module({
     imports: [
         TypeOrmModule.forRoot({
             type: 'postgres',
-            host: 'piloto-db',
+            host: 'localhost',
             port: 5432,
             username: 'piloto',
             password: 'piloto123',
             database: 'piloto',
             synchronize: false,
+            logging: true,
             ssl: false,
-            entities: [
-            ]
+            entities: []
         }),
         UsuarioModule
         // AuditoriaModule,
         // CommonModule,
-        
+
         // CodigoVerificacaoModule,
         // AuthModule,
         // InteressadoModule,
@@ -34,6 +35,6 @@ import { UsuarioModule } from './usuario/usuario.module';
         // SistemaWsModule
     ],
     controllers: [AppController],
-    providers: [AppService, ExceptionHttpService]
+    providers: [AppService]
 })
 export class AppModule { }

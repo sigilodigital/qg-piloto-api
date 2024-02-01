@@ -37,8 +37,8 @@ export class AuditoriaEntity {
     @Column("timestamp", { name: "DT_ACAO", default: () => "sysdate" })
     dtAcao: Date;
 
-    @Column("number", { name: "COD_USUARIO", scale: 0 })
-    codUsuario: number;
+    @Column("text", { name: "usuarioId" })
+    usuarioId: string;
 
     @Column("number", { name: "COD_ORIGEM", nullable: true, scale: 0 })
     codOrigem: number | null;
@@ -50,9 +50,6 @@ export class AuditoriaEntity {
         default: () => "0",
     })
     codOrgao: number;
-
-    @Column("number", { name: "COD_INTERESSADO", nullable: true })
-    codInteressado: number | null;
 
     // TODO: remover config de PK desta propriedade
     @Column("number", { primary: true, name: "COD_CHAVE", scale: 0 })

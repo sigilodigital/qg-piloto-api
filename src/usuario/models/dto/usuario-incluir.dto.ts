@@ -3,6 +3,8 @@ import { Validate } from 'class-validator';
 
 import { IConstraintSchema } from "@libs/common/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@libs/common/validations/valida-schema";
+import { EmailEntity } from "../entities/email.entity";
+import { ContatoEntity } from "../entities/contato.entity";
 
 // TODO: concluir: add propriedades
 // TODO: adicionar validadores
@@ -20,9 +22,9 @@ export class UsuarioIncluirDto implements UsuarioIncluirInputDtoType {
     @Validate(ValidaSchema, [<IConstraintSchema>{}])
     fullname: string;
 
-    @ApiProperty({ name: 'email', type: String, nullable: false, maxLength: 100, required: true })
+    @ApiProperty({ name: 'contato', type: EmailEntity, nullable: false, maxLength: 100, required: true })
     @Validate(ValidaSchema, [<IConstraintSchema>{ length: 100 }])
-    email: string;
+    _contato: ContatoEntity;
 
     @ApiProperty({ name: 'password', type: String, nullable: false, maxLength: 20, required: true })
     @Validate(ValidaSchema, [<IConstraintSchema>{}])
@@ -39,7 +41,7 @@ export interface IUsuarioIncluirDto {
         id: string;
         cpf: number;
         fullname: string;
-        email: string;
+        _contato: ContatoEntity;
         password: string;
         isActive: boolean;
     },
@@ -47,7 +49,7 @@ export interface IUsuarioIncluirDto {
         id: string;
         cpf: number;
         fullname: string;
-        email: string;
+        _contato: ContatoEntity;
         isActive: boolean;
     };
 }

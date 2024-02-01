@@ -15,7 +15,7 @@ export class AuditoriaService implements IAuditoriaService {
         input = {
             ...input,
             dtAcao: new Date(),
-            codUsuario: await AuditoriaLocalService.getCodUsuario(request),
+            usuarioId: await AuditoriaLocalService.getCodUsuario(request),
         } as IAuditoriaIncluirDto['input'];
 
         const uc = new AuditoriaIncluirUseCase(new UtilRepository());

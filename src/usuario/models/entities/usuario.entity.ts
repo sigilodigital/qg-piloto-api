@@ -1,26 +1,30 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from "typeorm";
+import { EmailEntity } from "./email.entity";
+import { ContatoEntity } from "./contato.entity";
 
 @Entity({ name: 'USUARIO' })
 export class UsuarioEntity {
-    
-    @PrimaryGeneratedColumn()
+
+    @PrimaryGeneratedColumn('increment')
     usuarioId: number;
-    
-    @Column("varchar", { name: "id", primary: true, nullable: false, length: 24, })
+
+    @Column('uuid', { generated: 'uuid' })
     id: string;
 
-    @Column("varchar", { name: "fullname", nullable: false, length: 255, })
+    @Column("varchar", { name: "fullname", nullable: false, length: 255 })
     fullname: string;
 
-    @Column("integer", { name: "cpf", nullable: false, unique: true })
+    @Column("bigint", { name: "cpf", nullable: false, unique: true })
     cpf: number;
-
-    @Column("varchar", { name: "email", length: 100 })
-    email: string;
 
     @Column("varchar", { name: "password", length: 20, select: false })
     password: string;
 
-    @Column("boolean", { name: "isActive", default: () => true })
+    @Column("boolean", { name: "isActive", default: true })
     isActive: boolean;
+
+    @OneToOne(type => ContatoEntity, _usuario => UsuarioEntity, { eager: true, cascade: ['insert', 'update'] })
+    @JoinColumn()
+    _contato: ContatoEntity;
+
 }
