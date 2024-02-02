@@ -11,9 +11,9 @@ export default function dbPgPilotoConfig(entityList: EntityClassOrSchema[] = [])
         port: parseInt(env.DB_PORT),
         ssl: false,
         database: env.DB_NAME,
+        schema: env.DB_SCHEMA,
         username: env.DB_USERNAME,
         password: env.DB_PASSWORD,
-        schema: env.DB_SCHEMA,
         synchronize: false,
         subscribers: [HistoricoSubscriber],
         entities: [

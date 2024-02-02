@@ -14,10 +14,32 @@ const usuario: UsuarioEntity[] = [
             ],
             _telefoneList: [{ number: 'ricardo1@dias.com', description: 'Uma descrição aqui' }]
         },
-        // _contato: contato1,
-        password: 'abcd1234',
         isActive: true,
+    }, {
+        fullname: 'Ana Silva',
+        cpf: 98765432109,
+        _contato: {
+            _emailList: [{ address: 'ana.silva@example.com' }],
+            _enderecoList: [
+                { place: 'Alameda dos Anjos', number: '1000', description: 'Casa' }
+            ],
+            _telefoneList: [{ number: '11999887766', description: 'Celular pessoal' }]
+        },
+        isActive: true,
+    },
+    {
+        fullname: 'Carlos Pereira',
+        cpf: 11223344556,
+        _contato: {
+            _emailList: [{ address: 'carlos.p@example.com' }],
+            _enderecoList: [
+                { place: 'Praça da Árvore', number: '321', description: 'Escritório' }
+            ],
+            _telefoneList: [{ number: '21988776655', description: 'Telefone comercial' }]
+        },
+        isActive: false,
+
     }
 ];
 
-export default { usuario }
+export default { usuario };

@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, JoinColumn } from "typeorm";
 import { ContatoEntity } from "./contato.entity";
 
-@Entity({ name: 'ENDERECO' })
+@Entity({ name: 'CONTATO_ENDERECO' })
 export class EnderecoEntity {
 
     @Column('uuid', { generated: 'uuid', primary: true })

@@ -18,11 +18,7 @@ export class ProfileEntity {
     @Column("text")
     passwordHash: string;
 
-    @OneToOne(type => ProfileEntity, e => e._dataAccess, { cascade: ['insert', 'update', 'remove'] })
-    @JoinColumn()
-    _profileList: ProfileEntity;
-
-    @ManyToOne(type => DataAccessEntity, e => e._profileList, { cascade: ['insert', 'update', 'remove'] })
+    @ManyToOne(type => DataAccessEntity, e => e._profileList)
     @JoinColumn({name: 'DataAccessId'})
     _dataAccess: DataAccessEntity;
 

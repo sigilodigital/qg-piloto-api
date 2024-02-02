@@ -8,7 +8,7 @@ export class LoginInfoEntity {
     @Column('uuid', { generated: 'uuid', primary: true })
     id?: string;
 
-    @Column("number", { name: "accessCount" })
+    @Column("integer", { name: "accessCount" })
     accessCount: number;
 
     @Column("timestamp", { name: "lastDate" })
@@ -23,7 +23,7 @@ export class LoginInfoEntity {
     @Column("text")
     token: string;
 
-    @OneToOne(type => UsuarioEntity, e => e._loginInfo, { cascade: ['insert', 'update', 'remove'] })
+    @OneToOne(type => UsuarioEntity, e => e._loginInfo)
     _usuario: UsuarioEntity;
 
 }

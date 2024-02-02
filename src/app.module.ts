@@ -4,29 +4,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 // import { ExceptionHttpService } from './exception-http/exception-http.service';
+import dbPgPilotoConfig from '@libs/common/databases/db-pg-piloto.config';
 import { UsuarioModule } from './usuario/usuario.module';
-import { UsuarioEntity } from './usuario/models/entities/usuario.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot({
-            type: 'postgres',
-            host: 'localhost',
-            port: 5432,
-            username: 'piloto',
-            password: 'piloto123',
-            database: 'piloto',
-            synchronize: false,
-            logging: true,
-            ssl: false,
-            entities: []
-        }),
-        UsuarioModule
+        TypeOrmModule.forRoot(dbPgPilotoConfig()),
+        UsuarioModule,
+        AuthModule,
         // AuditoriaModule,
         // CommonModule,
 
         // CodigoVerificacaoModule,
-        // AuthModule,
         // InteressadoModule,
         // UsuarioExternoModule,
         // SistemaMensagemFilaModule,

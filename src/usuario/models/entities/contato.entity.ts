@@ -20,6 +20,6 @@ export class ContatoEntity {
     _enderecoList: EnderecoEntity[];
 
     @OneToOne(type => UsuarioEntity, e => e._contato)
-    @JoinColumn({referencedColumnName: 'Usuario'})
+    // @JoinColumn()
     _usuario?: UsuarioEntity;
 }
