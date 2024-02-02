@@ -1,24 +1,35 @@
 export enum MensagenEnum {
-    "Falha. Campo @campo não informado." = 1,
-    "Falha. Tamanho do campo @campo é inválido." = 2,
-    "Falha. Tipo do campo @campo é inválido." = 3,
-    "Falha. Valor do campo @campo é inválido." = 4,
-    "Falha. Acesso negado." = 5, //? Caso não exista usuário de sistema com o login_sistema_origem informado
-    "Falha. Sistema não autenticado." = 6,
-    "Falha. Acesso negado. " = 7, //? Caso o login_sistema_origem informado não esteja ativo
-    "Falha. Acesso negado.  " = 8, //? Caso o login_sistema_origem informado não possua acesso à função do método
-    "Usuário não existe." = 9,
-    "Usuário existe." = 10,
-    "Não existe registro para o cod_cpf_cnpj e cod_interessado informados." = 11,
-    "Não existe registro para o cod_cpf_cnpj informado." = 12,
-    "Não existe registro para o cod_interessado informado." = 13,
-    "Falha. Acesso público negado." = 14,
-    "Registro encontrado." = 15,
-    "Registro não encontrado." = 16,
+    // DEFAULT
+    "Sucesso." = 1,
+    // CREATE
     "Registro incluído." = 17,
+    // UPDATE
+    // DELETE
+    // FIND
+    "Registro encontrado." = 2,
+    "Registro não encontrado." = 16,
+    // ERROR - FIELD VALIDATION
+    "Campo inválido." = 1,
+    "Campo @campo não solicitado." = 1,
+    "Campo @campo não informado." = 1,
+    "Tipo do campo @campo é inválido." = 3,
+    "Tamanho do campo @campo é inválido." = 2,
+    "Valor do campo @campo é inválido." = 4,
+    // ERROR - AUTH
+    "Acesso público negado." = 14,
+    // ERROR - AUTH_SYS
+    "Sistema não autenticado." = 6,
+    "Sistema não encontrado." = 5,
+    "Sistema inativado." = 7,
+    "Sistema não tem acesso ao método solicitado." = 8,
+    // ERROR - AUTH_USR
+    "Perfil não tem acesso ao método solicitado." = 8,
+    // ERROR - FIND
+    "CEP não encontrado." = 20,
+    
+    // CONTINUAR CORREÇÃO DAQUI --------------------------------
     "Falha. Campo @campo não é compatível com o tipo da pessoa do cod_cpf_cnpj informado." = 18,
     "Falha. Usuário externo já cadastrado." = 19,
-    "Falha. CEP não cadastrado na base." = 20,
     "Falha. UF @valor não cadastrada na base." = 21,
     "Falha. UF @valor inativa." = 22,
     "Falha. Estado civil @valor não cadastrado na base." = 23,

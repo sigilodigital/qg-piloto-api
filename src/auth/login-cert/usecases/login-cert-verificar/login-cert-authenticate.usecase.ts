@@ -1,6 +1,6 @@
 
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { ILoginPessoa } from 'src/auth/dto/loginUser.dto';
+import { ILoginPessoa } from 'src/auth/dto/login-user.dto';
 import { IAuthRepository } from 'src/auth/repository/auth-repository';
 import { InteressadoEntity } from 'src/interessado/entities/interessado.entity';
 import { ApiResponse } from '@libs/common/services/response-handler';

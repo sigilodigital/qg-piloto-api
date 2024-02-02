@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { LoginUser } from 'src/auth/dto/loginUser.dto';
+import { LoginUser } from 'src/auth/dto/login-user.dto';
 import { ValidationPipe } from 'src/shared/validation/validation.pipe';
 
 @Injectable()

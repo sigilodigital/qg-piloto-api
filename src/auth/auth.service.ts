@@ -11,7 +11,7 @@ import { SistemaMetodoDto } from 'src/sistema-ws/dto/sistemaMetodoWs.dto';
 import { ISistemaMensagemFilaCreate, SistemaMensagemFilaService } from './../sistema-mensagem-fila/sistema-mensagem-fila.service';
 import { UsuarioExterno } from './../usuario-externo/entities/usuario-externo.entity';
 import { UsuarioExternoService } from './../usuario-externo/usuario-externo.service';
-import { ILoginPessoa } from './dto/loginUser.dto';
+import { ILoginPessoa } from './dto/login-user.dto';
 import { SegSistemaWs } from './entities/segSistemaWs';
 
 @Injectable()

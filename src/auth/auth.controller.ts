@@ -7,7 +7,7 @@ import { ValidationPipe } from 'src/shared/validation/validation.pipe';
 import { ApiResponse, IAPIResponse } from './../shared/response-handler';
 import { AuthService, ILoginSistema } from './auth.service';
 import { LoginSistema } from './dto/loginSistema.dto';
-import { ILoginPessoa, LoginUser } from './dto/loginUser.dto';
+import { LoginUser } from './dto/login-user.dto';
 import { JwtAuthSystemGuard } from './guards/jwt-auth-system.guard';
 import { ValidaAuthSystemGuard } from './guards/valida-auth-system.guard';
 import { ValidaAuthUserGuard } from './guards/valida-auth-user.guard';
@@ -21,10 +21,10 @@ export class AuthController {
     @UseGuards(JwtAuthSystemGuard)
     @UseGuards(ValidaAuthUserGuard)
     @UseFilters(HttpExceptionFilter)
-    @Post('usuario-externo-senha-validar')
-    async usuarioExternoSenhaValidar(@Request() req: any, @Response() res: IResponse): Promise<any> {
+    @Post('usuario-senha-validar')
+    async usuarioSenhaValidar(@Request() req: any, @Response() res: IResponse): Promise<any> {
 
-        const result = (<IAPIResponse<ILoginPessoa['output']>>req.user).data;
+        const result = (<IAPIResponse<LoginPessoa>>req.user).data;
         
         const token = await this.authservice.tokenUserGenerate(result);
         fnInserirTokenNoHeader()
@@ -33,11 +33,11 @@ export class AuthController {
         await fnSeExigirAlteracaoDeSenha(result);
         res.json(ApiResponse.handler({ codNumber: (result) ? 46 : 47, output: result }));
 
-        function fnSeExigirAlteracaoDeSenha(usuarioExterno) {
-            if (usuarioExterno.codSenhaAlterada === 1) {
+        function fnSeExigirAlteracaoDeSenha(usuario) {
+            if (usuario.codSenhaAlterada === 1) {
                 return ApiResponse.handler({
                     codNumber: 44,
-                    output: usuarioExterno
+                    output: usuario
                 });
             }
         }
