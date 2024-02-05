@@ -11,8 +11,8 @@ import { SistemaMetodoDto } from 'src/sistema-ws/dto/sistemaMetodoWs.dto';
 import { ISistemaMensagemFilaCreate, SistemaMensagemFilaService } from './../sistema-mensagem-fila/sistema-mensagem-fila.service';
 import { UsuarioExterno } from './../usuario-externo/entities/usuario-externo.entity';
 import { UsuarioExternoService } from './../usuario-externo/usuario-externo.service';
-import { ILoginPessoa } from './dto/login-user.dto';
-import { SegSistemaWs } from './entities/segSistemaWs';
+import { ILoginPessoa } from './models/dto/login-user.dto';
+import { SistemaEntity } from './models/entities/sistema.entity';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -28,7 +28,7 @@ export class AuthService implements IAuthService {
         private usuarioExternoService: UsuarioExternoService,
         private sistemaMensagemFilaService: SistemaMensagemFilaService
     ) {
-        this.entityList = [SegSistemaWs, SistemaMetodoDto, UsuarioExterno]
+        this.entityList = [SistemaEntity, SistemaMetodoDto, UsuarioExterno]
         this.utilRepository = new UtilRepository()
     }
     sistema: ISistema;
@@ -41,15 +41,15 @@ export class AuthService implements IAuthService {
         await this.utilRepository.init(this.entityList);
         const methodName = "AuthService.validarSistema";
 
-        const sistema = await this.utilRepository.findOne(SegSistemaWs, { txtLogin: input.txtLogin });
+        const sistema = await this.utilRepository.findOne(SistemaEntity, { username: input.txtLogin });
         await fnSeSistemaAusenteException(sistema);
         fnSeSistemaInativoException(sistema);
 
-        const seSenhaConfere = (await decrypt(input.txtSenha, sistema.txtSenha));
+        const seSenhaConfere = (await decrypt(input.txtSenha, sistema.password));
         await fnSeSenhaNaoConfereException(seSenhaConfere);
-        delete sistema.txtSenha;
+        delete sistema.password;
 
-        const sistemaMetodoList = await this.utilRepository.findBy(SistemaMetodoDto, { codSegSistemaWs: sistema.codSegSistemaWs });
+        const sistemaMetodoList = await this.utilRepository.findBy(SistemaMetodoDto, { codSegSistemaWs: sistema.id });
 
         return ApiResponse.handler({ codNumber: 15, output: { sistema, sistemaMetodoList } });
 

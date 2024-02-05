@@ -1,6 +1,6 @@
-import { LoginSistemaSchema } from "src/auth/schemas/loginSistemaWS.schema";
-import { LoginUserSchema } from "src/auth/schemas/loginUser.schema";
-import { PerguntaSecretaSchema } from "src/auth/schemas/perguntaSecreta.schema";
+import { LoginSistemaSchema } from "src/auth/models/schemas/loginSistemaWS.schema";
+import { LoginUserSchema } from "src/auth/models/schemas/loginUser.schema";
+import { PerguntaSecretaSchema } from "src/auth/models/schemas/perguntaSecreta.schema";
 import { InteressadoSchema } from "src/interessado/schema/interessado.schema";
 import { UsuarioExternoSchema } from "src/usuario-externo/schema/usuario-externo.schema";
 import { EntitySchema } from "typeorm";

@@ -2,7 +2,7 @@ import { ValidationPipe } from '@libs/common/validations/validation.pipe';
 import { Body, Controller, HttpException, HttpStatus, Post, Request, Response, UseGuards } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { Response as IResponse } from 'express';
-import { PerguntaSecretaDto } from 'src/auth/dto/perguntaSecreta.dto';
+import { PerguntaSecretaDto } from 'src/auth/models/dto/perguntaSecreta.dto';
 import { JwtAuthSystemGuard } from 'src/auth/guards/jwt-auth-system.guard';
 import { IUsuarioExternoLembracaSenhaConsultar, UsuarioExternoLembracaSenhaConsultar } from './dto/usuario-externo-lembranca-senha-consultar.dto';
 import { IUsuarioExternoSenhaEmailRecuperar, UsuarioExternoSenhaEmailRecuperar } from './dto/usuario-externo-senha-email-recuperar.dto';

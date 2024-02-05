@@ -1,16 +1,17 @@
 import { Body, Controller, Post, Request, Response, UseFilters, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBody } from '@nestjs/swagger';
-import { Response as IResponse } from 'express';
+import { Response as IResponse, Request as RequestExpress } from 'express';
 import { HttpExceptionFilter } from 'src/shared/http-exception-filter';
 import { ValidationPipe } from 'src/shared/validation/validation.pipe';
 import { ApiResponse, IAPIResponse } from './../shared/response-handler';
 import { AuthService, ILoginSistema } from './auth.service';
-import { LoginSistema } from './dto/loginSistema.dto';
-import { LoginUser } from './dto/login-user.dto';
+import { LoginSistema } from './models/dto/loginSistema.dto';
+import { LoginUser } from './models/dto/login-user.dto';
 import { JwtAuthSystemGuard } from './guards/jwt-auth-system.guard';
-import { ValidaAuthSystemGuard } from './guards/valida-auth-system.guard';
-import { ValidaAuthUserGuard } from './guards/valida-auth-user.guard';
+import { ValidateAuthSystemGuard } from './validates/validate-auth-system.guard';
+import { ValidateAuthUserGuard } from './validates/validate-auth-user.guard';
+import { UserDto } from './models/dto/user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -19,12 +20,12 @@ export class AuthController {
     @ApiBody({ type: LoginUser })
     @UseGuards(AuthGuard('login-user-strategy'))
     @UseGuards(JwtAuthSystemGuard)
-    @UseGuards(ValidaAuthUserGuard)
+    @UseGuards(ValidateAuthUserGuard)
     @UseFilters(HttpExceptionFilter)
     @Post('usuario-senha-validar')
-    async usuarioSenhaValidar(@Request() req: any, @Response() res: IResponse): Promise<any> {
+    async usuarioSenhaValidar(@Request() req: RequestExpress & {user: IAPIResponse<UserDto>}, @Response() res: IResponse): Promise<any> {
 
-        const result = (<IAPIResponse<LoginPessoa>>req.user).data;
+        const result = req.user.data;
         
         const token = await this.authservice.tokenUserGenerate(result);
         fnInserirTokenNoHeader()
@@ -52,13 +53,13 @@ export class AuthController {
     }
 
     @ApiBody({ type: LoginSistema })
-    @UseGuards(AuthGuard('login-sistema-strategy'))
-    @UseGuards(ValidaAuthSystemGuard)
+    @UseGuards(AuthGuard('login-system-strategy'))
+    @UseGuards(ValidateAuthSystemGuard)
     @UseFilters(HttpExceptionFilter)
     @Post('sistema-senha-validar')
-    async sistemaSenhaValidar(@Request() req: any, @Response() res: IResponse) {
+    async sistemaSenhaValidar(@Request() req: RequestExpress & {user: IAPIResponse<UserDto>}, @Response() res: IResponse) {
         
-        const result = (<IAPIResponse<ILoginPessoa['output']>>req.user).data;
+        const result = req.user.data;
 
         const token = await this.authservice.tokenSystemGenerate(result);
         fnInserirTokenNoHeader()

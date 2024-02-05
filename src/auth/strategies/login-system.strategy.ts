@@ -6,9 +6,9 @@ import { GlobalService } from 'src/shared/services/global.service';
 import { AuthService } from '../auth.service';
 
 @Injectable()
-export class LoginSistemaStrategy extends PassportStrategy(Strategy, "login-sistema-strategy") {
+export class LoginSistemaStrategy extends PassportStrategy(Strategy, "login-system-strategy") {
     constructor(private moduleRef: ModuleRef, private readonly authService: AuthService) {
-        super({ passReqToCallback: true, usernameField: 'txtLogin', passwordField: 'txtSenha' });
+        super({ passReqToCallback: true, usernameField: 'username', passwordField: 'password' });
     }
 
     async validate(request: Request, username: string, password: string): Promise<any> {

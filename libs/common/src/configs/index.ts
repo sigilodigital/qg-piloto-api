@@ -1,27 +1,23 @@
-
-require('dotenv/config');
+import { env } from "../databases/envSchema";
 
 export default () => ({
+    auth: {
+        secretKey: env.AUTH_SECRET_KEY,
+        expiresIn: {
+            bearer: env.AUTH_EXP_BEARER,
+            replace: env.AUTH_EXP_REPLACE
+        }
+    },
     server: {
-        port: process.env.SRV_PORT
+        port: env.SRV_PORT,
+        filePath: env.SRV_FILE_PATH,
     },
-    api: {
-        apiConfig: process.env.API_CONFIG,
-        apiDadosGerais: process.env.API_DADOS_GERAIS,
-        apiTomadorServicos: process.env.API_TOMADOR_SERVICOS,
-        apiGestaoAcesso: process.env.API_GESTAO_ACESSO
-    },
-    globalVars: {
-        separador: process.env.SRV_SEPARADOR,
-        enableDebugMode: JSON.parse(process.env.SRV_DEBUG_MODE),
-        formatDataInput: process.env.FORMAT_DATA_INPUT,
-        formatDataOutPut: process.env.FORMAT_DATA_OUTPUT,
-        formatDataDB: process.env.FORMAT_DATA_DB,
-        separadorData: process.env.SRV_SEPARADOR_DATA
+    apis: {
+        apiConfigGerais: env.API_CONFIG_GERAIS,
+        apiDadosGerais: env.API_DADOS_GERAIS,
+        apiGestaoAcesso: env.API_GESTAO_ACESSO
     },
     enviroment: {
-        name: process.env.ENVIRONMENT,
-        filePath: process.env.FILE_PATH,
-        findDirectoryFiles: process.env.FIND_DIRECTORY_FILES
+        isDebugMode: JSON.parse(env.SRV_DEBUG_MODE),
     }
 });  

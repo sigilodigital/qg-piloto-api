@@ -1,9 +1,9 @@
 import { ValidationPipe } from '@libs/common/validations/validation.pipe';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { LoginSistema } from '../dto/loginSistema.dto';
+import { LoginSistema } from '../models/dto/loginSistema.dto';
 
 @Injectable()
-export class ValidaAuthSystemGuard implements CanActivate {
+export class ValidateAuthSystemGuard implements CanActivate {
     async canActivate(context: ExecutionContext,): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
 

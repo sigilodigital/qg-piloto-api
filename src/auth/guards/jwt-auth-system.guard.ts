@@ -1,12 +1,15 @@
-import { UtilRepository } from '@libs/common/repository/util.repository';
 import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
+
+import { UtilRepository } from '@libs/common/repository/util.repository';
 import { SegMetodoWsDto } from 'src/sistema-ws/dto/segMetodoWs';
 import { SistemaMetodoDto } from 'src/sistema-ws/dto/sistemaMetodoWs.dto';
 import { ApiResponse } from '../../shared/response-handler';
-import { SegSistemaWs } from '../entities/segSistemaWs';
+import { SistemaEntity } from '../models/entities/sistema.entity';
 import { RotasInternasConfig } from '../utils/rotarInternas-map';
+import { MetodoEntity } from '../models/entities/metodo.entity';
+import { SistemaMetodoEntity } from '../models/entities/sistema-metodo.entity';
 
 export interface IHandleRequest {
     erro?: any;
@@ -24,7 +27,7 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
 
     constructor() {
         super();
-        this.entityList = [SegSistemaWs, SegMetodoWsDto, SistemaMetodoDto];
+        this.entityList = [SistemaEntity, MetodoEntity, SistemaMetodoEntity];
         this.utilRepository = new UtilRepository();
 
     }
@@ -47,7 +50,7 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
 
                 if (metodosWs) {
                     fnSeMetodoInativoException(metodosWs);
-                    const sistemaMetodoWs = await this.getSistemaMetodo(metodosWs.codSegMetodoWs, sistema.codSegSistemaWs);
+                    const sistemaMetodoWs = await this.getSistemaMetodo(metodosWs.codSegMetodoWs, sistema.id);
                     if (!sistemaMetodoWs)
                         fnSeMetodoNaoEncontradoException(metodosWs, sistema);
 
@@ -58,7 +61,7 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
     }
 
     async getSistema() {
-        return await this.utilRepository.findOne(SegSistemaWs, { txtLogin: this.handle.user['systemDataLogin']['txtLogin'] });
+        return await this.utilRepository.findOne(SistemaEntity, { username: this.handle.user['systemDataLogin']['username'] });
     }
 
     async getMetodosWS(context: ExecutionContext) {
@@ -76,8 +79,8 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
         }
     }
 
-    async getSistemaMetodo(codSegMetodo: number, codSegSistema: number) {
-        return await this.utilRepository.findOne(SistemaMetodoDto, { codSegMetodoWs: codSegMetodo, codSegSistemaWs: codSegSistema });
+    async getSistemaMetodo(MetodoId: string, sistemaId: string) {
+        return await this.utilRepository.findOne(SistemaMetodoDto, { MetodoId, SistemaId });
     }
 
     handleRequest(err: any, user: any, info: any, context: any) {
@@ -116,16 +119,16 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
     }
 }
 
-function fnSeSistemaInativoException(thiss: any, sistema: SegSistemaWs) {
-    if (sistema.codAtivo == 0) {
+function fnSeSistemaInativoException(thiss: any, sistema: SistemaEntity) {
+    if (sistema.seAtivo == 0) {
         throw new UnauthorizedException(ApiResponse.handler({
             codNumber: 7,
             outputError: {
                 message: 'Sistema inativo.',
                 context: {
                     input: {
-                        codAtivo: sistema.codAtivo,
-                        txtDescricao: sistema.txtDescricao,
+                        codAtivo: sistema.seAtivo,
+                        txtDescricao: sistema.descricao,
 
                     },
                     output: {
@@ -155,7 +158,7 @@ function fnSeMetodoInativoException(metodosWs: SegMetodoWsDto) {
     }
 }
 
-function fnSeMetodoNaoEncontradoException(metodosWs: SegMetodoWsDto, sistema: SegSistemaWs) {
+function fnSeMetodoNaoEncontradoException(metodosWs: SegMetodoWsDto, sistema: SistemaEntity) {
     throw new UnauthorizedException(ApiResponse.handler({
         codNumber: 8,
         outputError: {
@@ -163,9 +166,9 @@ function fnSeMetodoNaoEncontradoException(metodosWs: SegMetodoWsDto, sistema: Se
             context: {
                 input: {
                     sistema: {
-                        txtSegSistemaWs: sistema.txtSegSistemaWs,
-                        txtLogin: sistema.txtLogin,
-                        txtDescricao: sistema.txtDescricao
+                        txtSegSistemaWs: sistema.nome,
+                        txtLogin: sistema.username,
+                        txtDescricao: sistema.descricao
                     },
                     metodo: {
                         nome: metodosWs.txtMetodo,

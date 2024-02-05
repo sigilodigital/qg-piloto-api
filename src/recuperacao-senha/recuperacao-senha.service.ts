@@ -6,7 +6,7 @@ import { UtilRepository } from '@libs/common/repository/util.repository';
 import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 import { Request } from 'express';
-import { IPerguntaSecreta } from 'src/auth/dto/perguntaSecreta.dto';
+import { IPerguntaSecreta } from 'src/auth/models/dto/perguntaSecreta.dto';
 import { ApiResponse, IAPIResponse } from '@libs/common/services/response-handler';
 import { SegConfiguracao } from 'src/sistema-mensagem-fila/dto/configuracao.dto';
 import { SistemaMensagem } from 'src/sistema-mensagem-fila/dto/sistema-mensagem.dto';

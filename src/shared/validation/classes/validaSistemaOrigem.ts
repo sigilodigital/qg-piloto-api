@@ -1,5 +1,5 @@
 import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
-import { SegSistemaWs } from 'src/auth/entities/segSistemaWs';
+import { SistemaEntity } from 'src/auth/models/entities/segSistemaWs';
 import { AppDataSource } from 'src/database';
 
 
@@ -10,7 +10,7 @@ export class ValidaSistemaOrigem implements ValidatorConstraintInterface {
     if(text == undefined){
         return true
     }else{
-        const sistemasWs = await AppDataSource.manager.findOne(SegSistemaWs, {where: {txtLogin: args.object['loginSistemaOrigem']}})
+        const sistemasWs = await AppDataSource.manager.findOne(SistemaEntity, {where: {username: args.object['loginSistemaOrigem']}})
         if(sistemasWs){
           return true
         }else return false

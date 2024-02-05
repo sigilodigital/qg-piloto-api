@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException, ValidationPipe } from '@nestjs/commo
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { AuthService } from '../auth.service';
-import { LoginUser } from '../dto/login-user.dto';
+import { LoginUser } from '../models/dto/login-user.dto';
 import { ApiResponse } from '@libs/common/services/response-handler';
 
 @Injectable()
