@@ -1,6 +1,6 @@
 
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { ILoginPessoa } from 'src/auth/models/dto/login-user.dto';
+import { LoginUserInputDto } from 'src/auth/models/dto/login-user.dto';
 import { IAuthRepository } from 'src/auth/repository/auth-repository';
 import { InteressadoEntity } from 'src/interessado/entities/interessado.entity';
 import { ApiResponse } from '@libs/common/services/response-handler';
@@ -28,7 +28,7 @@ export class AuthCertLoginUseCase {
     }
 
     private extrairSomenteDadosDeLogin(pessoa: PessoaType) {
-        const usuarioExternoLogado: ILoginPessoa['output'] = {
+        const usuarioExternoLogado: any = { //!ALTERADO
             codUsuarioExterno: pessoa.codUsuarioExterno,
             codInteressado: pessoa.codInteressado,
             txtInteressado: pessoa.txtInteressado,

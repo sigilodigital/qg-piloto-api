@@ -1,10 +1,11 @@
-import { Column, Entity, OneToOne, OneToMany, JoinColumn } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne } from "typeorm";
+
 import { EmailEntity } from "./email.entity";
-import { UsuarioEntity } from "./usuario.entity";
 import { EnderecoEntity } from "./endereco.entity";
 import { TelefoneEntity } from "./telefone.entity";
+import { UsuarioEntity } from "./usuario.entity";
 
-@Entity({ name: 'CONTATO' })
+@Entity({ name: 'TBL_CONTATO' })
 export class ContatoEntity {
 
     @Column('uuid', { generated: 'uuid', primary: true })

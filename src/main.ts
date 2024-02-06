@@ -1,10 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import fs = require('fs');
-import pack from 'src/../package.json'
 
+import pack from 'src/../package.json'
 import { AppModule } from './app.module';
 import configurations from './config/configurations';
+import configs from '@libs/common/configs';
 
 async function bootstrap() {
     //   const httpsOptions = {
@@ -25,7 +26,7 @@ async function bootstrap() {
 
     SwaggerModule.setup('api', app, document);
 
-    await app.listen(configurations().server.port, "0.0.0.0");
+    await app.listen(configs().server.port, "0.0.0.0");
     console.log(`Nome: ${pack.name}`);
     console.log(`Descrição: ${pack.description}`);
     console.log(`Versão: ${pack.version}`);

@@ -1,10 +1,10 @@
-import { Column, Entity, JoinColumn, OneToOne, OneToMany } from "typeorm";
-import { ContatoEntity } from "./contato.entity";
-import { LoginInfoEntity } from "./login-info.entity";
-import { DataAccessEntity } from "./data-access.entity";
-import { MetadataEntity } from "@libs/common/models/entities/metadata.entity";
+import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 
-@Entity({ name: 'USUARIO' })
+import { ContatoEntity } from "./contato.entity";
+import { DataAccessEntity } from "./data-access.entity";
+import { LoginInfoEntity } from "./login-info.entity";
+
+@Entity({ name: 'TBL_USUARIO' })
 export class UsuarioEntity {
 
     @Column('uuid', { generated: 'uuid', primary: true })
@@ -27,8 +27,8 @@ export class UsuarioEntity {
     @JoinColumn({name: 'LoginInfoId'})
     _loginInfo?: LoginInfoEntity;
 
-    @OneToOne(type => DataAccessEntity, e => e._usuario, { lazy: true, cascade: ['insert', 'update', 'remove'] })
-    @JoinColumn({name: 'DataAccessId'})
+    @OneToOne(type => DataAccessEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
+    @JoinColumn()
     _dataAccess?: DataAccessEntity;
 
 }

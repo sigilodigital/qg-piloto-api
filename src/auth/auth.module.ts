@@ -17,9 +17,14 @@ import { LoginModule } from './login/login.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LoginSistemaStrategy } from './strategies/login-system.strategy';
 import { LoginUserStrategy } from './strategies/login-user.strategy';
+import { UsuarioModule } from 'src/usuario/usuario.module';
+import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
     imports: [
+        UsuarioModule,
+        
+        //TODO: conferir estas dependências abaixo
         InteressadoEntity,
         UserDto,
         PassportModule,
@@ -32,8 +37,12 @@ import { LoginUserStrategy } from './strategies/login-user.strategy';
 
         CommonModule
     ],
+    controllers: [AuthController],
     providers: [
         AuthService,
+        LocalStrategy,
+
+        //TODO: conferir estas dependências abaixo
         LoginSistemaStrategy,
         LoginUserStrategy,
         InteressadoService,
@@ -41,7 +50,6 @@ import { LoginUserStrategy } from './strategies/login-user.strategy';
         SistemaMensagemFila,
         SistemaMensagemFilaService,
         JwtStrategy
-    ],
-    controllers: [AuthController]
+    ]
 })
 export class AuthModule { }

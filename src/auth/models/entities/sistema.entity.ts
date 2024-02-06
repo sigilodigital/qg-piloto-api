@@ -1,5 +1,7 @@
-import { Column, Entity, Index, ManyToMany, JoinTable } from "typeorm";
+import { Column, Entity, Index, JoinTable, ManyToMany, OneToMany } from "typeorm";
+
 import { MetodoEntity } from "./metodo.entity";
+import { SistemaMetodoEntity } from "./sistema-metodo.entity";
 
 @Index("PK_TBL_SISTEMA", ["id"], { unique: true })
 @Entity("TBL_SISTEMA")
@@ -25,4 +27,7 @@ export class SistemaEntity {
     @ManyToMany(type => MetodoEntity, e => e._sistemaList, { lazy: true })
     @JoinTable()
     _metodoList: MetodoEntity;
+
+    @OneToMany(type => SistemaMetodoEntity, e => e._sistema, { lazy: true })
+    _sistemaMetodoList: SistemaMetodoEntity;
 }

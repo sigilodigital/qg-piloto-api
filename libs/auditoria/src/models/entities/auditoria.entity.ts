@@ -1,5 +1,6 @@
 import { Column, Entity } from "typeorm";
 import { isDate } from "util/types";
+
 import { formatDate } from "@libs/common/utils";
 
 // TODO: Solicitar que acrescentem uma PK para esta entity no BD

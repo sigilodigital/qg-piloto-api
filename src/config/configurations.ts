@@ -14,9 +14,12 @@ export default () => ({
     server: {
         port: process.env.SRV_PORT
     },
-    // globalVars: {
-    //     enableDebugMode: JSON.parse(process.env.DEBUG_MODE)
-    // },
+    globalVars: {
+        enableDebugMode: JSON.parse(process.env.DEBUG_MODE),
+        formatDataInput: '',
+        formatDataOutPut: '',
+        formatDataDB: '',
+    },
     // mensagens: [
     //     { ordem: 1, message: "Falha. Campo @campo não informado.", code: 1, priority: 1 },
     //     { ordem: 2, message: "Falha. Tamanho do campo @campo é inválido.", code: 2, priority: 1 },

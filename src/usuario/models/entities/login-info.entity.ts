@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 import { ContatoEntity } from "./contato.entity";
 import { UsuarioEntity } from "./usuario.entity";
 
-@Entity({ name: 'LOGIN_INFO' })
+@Entity({ name: 'TBL_LOGIN_INFO' })
 export class LoginInfoEntity {
 
     @Column('uuid', { generated: 'uuid', primary: true })

@@ -11,45 +11,50 @@ import { SistemaMetodoDto } from 'src/sistema-ws/dto/sistemaMetodoWs.dto';
 import { ISistemaMensagemFilaCreate, SistemaMensagemFilaService } from './../sistema-mensagem-fila/sistema-mensagem-fila.service';
 import { UsuarioExterno } from './../usuario-externo/entities/usuario-externo.entity';
 import { UsuarioExternoService } from './../usuario-externo/usuario-externo.service';
-import { ILoginPessoa } from './models/dto/login-user.dto';
+import { LoginUserInputDto } from './models/dto/login-user.dto';
 import { SistemaEntity } from './models/entities/sistema.entity';
+import { SistemaMetodoEntity } from './models/entities/sistema-metodo.entity';
+import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
+import { UsuarioService } from 'src/usuario/usuario.service';
+import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
 
 @Injectable()
 export class AuthService implements IAuthService {
 
     className = "AuthService";
 
-    private utilRepository:UtilRepository
+    private utilRepository: UtilRepository;
     private entityList: EntityClassOrSchema[];
 
     constructor(
         private jwtService: JwtService,
+        private readonly usuarioRepo: UsuarioRepository,
         private interessadoService: InteressadoService,
         private usuarioExternoService: UsuarioExternoService,
         private sistemaMensagemFilaService: SistemaMensagemFilaService
     ) {
-        this.entityList = [SistemaEntity, SistemaMetodoDto, UsuarioExterno]
-        this.utilRepository = new UtilRepository()
+        this.entityList = [SistemaEntity, SistemaMetodoDto, UsuarioExterno];
+        this.utilRepository = new UtilRepository();
     }
-    sistema: ISistema;
+    sistema: SistemaEntity;
     pessoa: any;
-    sistemaMetodo: ISistemaMetodo[];
+    sistemaMetodo: SistemaMetodoEntity[];
     codInteressado: number;
     txtInteressado: string;
 
-    async validarSistema(input: ILoginSistema['input']): Promise<IAPIResponse<ILoginSistema['output']>> {
+    async validarSistema(input: LoginSistemaInputDto): Promise<IAPIResponse<LoginSistemaOutputDto>> {
         await this.utilRepository.init(this.entityList);
         const methodName = "AuthService.validarSistema";
 
-        const sistema = await this.utilRepository.findOne(SistemaEntity, { username: input.txtLogin });
+        const sistema = await this.utilRepository.findOne(SistemaEntity, { username: input.username });
         await fnSeSistemaAusenteException(sistema);
         fnSeSistemaInativoException(sistema);
 
-        const seSenhaConfere = (await decrypt(input.txtSenha, sistema.password));
+        const seSenhaConfere = (await decrypt(input.password, sistema.password));
         await fnSeSenhaNaoConfereException(seSenhaConfere);
         delete sistema.password;
 
-        const sistemaMetodoList = await this.utilRepository.findBy(SistemaMetodoDto, { codSegSistemaWs: sistema.id });
+        const sistemaMetodoList = await this.utilRepository.findBy(SistemaMetodoEntity, { id: sistema.id }); //MODIFICADO
 
         return ApiResponse.handler({ codNumber: 15, output: { sistema, sistemaMetodoList } });
 
@@ -67,7 +72,7 @@ export class AuthService implements IAuthService {
                 }));
         }
 
-        async function fnSeSistemaAusenteException(sistema: ISistema): Promise<void> {
+        async function fnSeSistemaAusenteException(sistema: SistemaEntity): Promise<void> {
             if (!sistema)
                 throw new ForbiddenException(ApiResponse.handler({
                     codNumber: 5,
@@ -82,8 +87,8 @@ export class AuthService implements IAuthService {
                 }));
         }
 
-        function fnSeSistemaInativoException(sistema: ISistema) {
-            if (sistema.codAtivo === 0) {
+        function fnSeSistemaInativoException(sistema: SistemaEntity) {
+            if (sistema.seAtivo === false) {
                 throw new ForbiddenException(ApiResponse.handler({
                     codNumber: 7,
                     input: input,
@@ -99,11 +104,14 @@ export class AuthService implements IAuthService {
         }
     }
 
-    async validarUsuario(input: ILoginPessoa['input']): Promise<IAPIResponse<ILoginPessoa['output']>> {
-        await this.utilRepository.init(this.entityList);
+    async usuarioValidar(input: LoginUserInputDto): Promise<IAPIResponse<LoginUserInputDto>> {
         const methodName = "AuthService.validarUsuario";
 
-        const interessado = await this.interessadoService.findOneByCnpjCpf(input.txtCnpjCpf);
+        await this.utilRepository.init(this.entityList);
+
+        const user = await this.usuarioRepo.find({ where: { _dataAccess: { username: input.username } }, relations: { _dataAccess: true } });
+
+        const interessado = await this.interessadoService.findOneByCnpjCpf(input.username);
         await fnSeInteressadoAusenteException(interessado, input);
 
         const usuarioExterno = await this.utilRepository.findOne(UsuarioExterno, { codInteressado: interessado.codInteressado });
@@ -112,7 +120,7 @@ export class AuthService implements IAuthService {
         await fnSeUsuarioTentativasExcedidasException(usuarioExterno);
         await fnSeUsuarioSenhaNaoCadastradaException(usuarioExterno);
 
-        const seSenhaOk = (await decrypt(input.txtSenha, usuarioExterno.txtSenha));
+        const seSenhaOk = (await decrypt(input.password, usuarioExterno.txtSenha));
         await fnSeSenhaNaoConfere(this, seSenhaOk, usuarioExterno, interessado);
 
         // * zerar campos de controle de quantidade de erros
@@ -121,10 +129,10 @@ export class AuthService implements IAuthService {
         const usuarioAutenticado = fnUsuarioAutenticadoDto(usuarioExterno, interessado);
 
         const result = await fnSeSenhaExigirAlteracao(usuarioExterno, usuarioAutenticado)
-        || ApiResponse.handler({ codNumber: 46, output: usuarioAutenticado });
+            || ApiResponse.handler({ codNumber: 46, output: usuarioAutenticado });
         return result;
 
-        function fnUsuarioAutenticadoDto(usuarioExterno: UsuarioExterno, interessado: InteressadoEntity): ILoginPessoa['output'] {
+        function fnUsuarioAutenticadoDto(usuarioExterno: UsuarioExterno, interessado: InteressadoEntity) {
             return {
                 codUsuarioExterno: usuarioExterno.codUsuarioExterno,
                 codInteressado: interessado.codInteressado,
@@ -133,7 +141,7 @@ export class AuthService implements IAuthService {
             };
         }
 
-        async function fnSeSenhaExigirAlteracao(usuarioExterno, usuarioAutenticado: ILoginPessoa['output']): Promise<IAPIResponse<ILoginPessoa['output']>> {
+        async function fnSeSenhaExigirAlteracao(usuarioExterno, usuarioAutenticado: any): Promise<IAPIResponse<any>> {
             if (usuarioExterno.codSenhaAlterada === 1) {
                 return ApiResponse.handler({
                     codNumber: 44,
@@ -172,7 +180,7 @@ export class AuthService implements IAuthService {
             }
         }
 
-        async function fnSeInteressadoAusenteException(interessado: InteressadoEntity, input: ILoginPessoa['input']) {
+        async function fnSeInteressadoAusenteException(interessado: InteressadoEntity, input: any) {
             if (!interessado)
                 throw new BadRequestException(ApiResponse.handler({
                     codNumber: 16,
@@ -255,13 +263,13 @@ export class AuthService implements IAuthService {
         }
     }
 
-    async tokenSystemGenerate(sistema: ILoginPessoa['output']): Promise<string> {
+    async tokenSystemGenerate(sistema: any): Promise<string> {
         const payload = { systemDataLogin: sistema };
         const token = this.jwtService.sign(payload);
         return token;
     }
 
-    async tokenUserGenerate(user: ILoginPessoa['output']): Promise<string> {
+    async tokenUserGenerate(user: any): Promise<string> {
         const payload = { userDataLogin: user };
         const token = this.jwtService.sign(payload);
         return token;
@@ -325,52 +333,6 @@ export class AuthService implements IAuthService {
 }
 
 interface IAuthService {
-    validarSistema(input: ILoginSistema['input']): Promise<IAPIResponse<ILoginSistema['output']>>;
-    validarUsuario(input: ILoginPessoa['input']): Promise<IAPIResponse<ILoginPessoa['output']>>;
+    validarSistema(input: LoginSistemaInputDto): Promise<IAPIResponse<LoginSistemaOutputDto>>;
+    usuarioValidar(input: LoginUserInputDto): Promise<IAPIResponse<any>>;
 }
-
-export interface ILoginSistema {
-    input: {
-        txtLogin: string,
-        txtSenha: string;
-    },
-    output: {
-        sistema: ISistema,
-        sistemaMetodoList: ISistemaMetodo[];
-    };
-}
-
-export interface ISistemaMetodo {
-    codSegSistemaWs: number,
-    codSegMetodoWs: number;
-}
-
-export interface ISistema {
-    codSegSistemaWs: number,
-    txtSegSistemaWs: string,
-    txtLogin: string,
-    txtDescricao: string,
-    codAtivo: number;
-}
-
-// export interface ILoginPessoaFisica {
-//     input: {
-//         txtCnpjCpf: string,
-//         txtSenha: string;
-//     },
-//     output: {
-//         codInteressado: number,
-//         txtInteressado: string,
-//     };
-// }
-
-// export interface ILoginPessoaJuridica {
-//     input: {
-//         txtCnpjCpf: string,
-//         txtSenha: string;
-//     },
-//     output: {
-//         codInteressado: number,
-//         txtNomeFantasia: string,
-//     };
-// }

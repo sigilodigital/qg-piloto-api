@@ -28,7 +28,7 @@ export async function formatDateTime(input: IDateFormat['input']): Promise<IDate
     fnSetDate();
     const dataFormatada = [];
     const dtAtual = new Date();
-    const separador = configurations().globalVars.separadorData;
+    const separador = '/';
     const dataArray = data.toString().split(separador);
     if(!!dataArray && dataArray.length == 1) return {dateTime: new Date(dataArray[0]), dateFormat: data.toString(), horaAtual: new Date(), date: new Date().toString()}
     const dataTranf = new Date(dataArray[2] + separador + dataArray[1] + separador + dataArray[0]);
@@ -49,9 +49,7 @@ export async function formatDateTime(input: IDateFormat['input']): Promise<IDate
 
     function fnSetFormat(typeFormat: TipoFormatoDataEnum){
         let format: string;
-        if(typeFormat == TipoFormatoDataEnum.INPUT) format = configurations().globalVars.formatDataInput;
-        if(typeFormat == TipoFormatoDataEnum.OUTPUT) format = configurations().globalVars.formatDataOutPut;
-        if(typeFormat == TipoFormatoDataEnum.DATABASE) format = configurations().globalVars.formatDataDB;
+        
         return format;
     }
 

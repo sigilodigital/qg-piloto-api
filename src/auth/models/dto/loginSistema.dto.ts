@@ -2,6 +2,8 @@ import { IConstraintSchema } from "@libs/common/interfaces/ConstraintsSchema";
 import { ApiProperty } from "@nestjs/swagger";
 import { Validate } from "class-validator";
 import { ValidaSchema } from "src/shared/validation/classes/valida-schema";
+import { SistemaEntity } from "../entities/sistema.entity";
+import { MetodoEntity } from "../entities/metodo.entity";
 
 export interface ISistemaWS {
     codSegSistemaWs: number;
@@ -16,25 +18,19 @@ export interface ISistemaMetodoWS {
     codSegMetodoWs: number;
 }
 
-export interface ILoginSystem {
-    input: {
-        txtLogin: string;
-        txtSenha: string;
-    },
-    output: {
-        sistema: ISistemaWS,
-        sistemaMetodo: ISistemaMetodoWS;
-    };
-
-}
-export class LoginSistema {
+export class LoginSistemaInputDto {
     
     @ApiProperty({ name: "txtLogin", type: String, required: true, description: "Nome do usuário do sistema." })
     @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', maxLength: 50 }])
-    txtLogin: string;
+    username: string;
 
     @ApiProperty({ name: "txtSenha", type: String, required: true, description: "Senha do usuário do sistema." })
     @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', maxLength: 50 }])
-    txtSenha: string;
+    password: string;
 
+}
+export class LoginSistemaOutputDto {
+    
+    sistema: SistemaEntity;
+    metodoList: MetodoEntity[];
 }

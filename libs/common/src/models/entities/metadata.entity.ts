@@ -1,7 +1,7 @@
 import { UsuarioEntity } from "src/usuario/models/entities/usuario.entity";
 import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 
-@Entity({ name: 'METADATA' })
+@Entity({ name: 'TBL_METADATA' })
 export class MetadataEntity {
 
     @Column('uuid', { generated: 'uuid', primary: true })

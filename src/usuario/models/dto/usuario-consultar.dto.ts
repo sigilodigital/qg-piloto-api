@@ -1,13 +1,15 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, PartialType } from "@nestjs/swagger";
 import { Validate } from 'class-validator';
 
 import { IConstraintSchema } from "@libs/common/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@libs/common/validations/valida-schema";
 import { EmailEntity } from "../entities/email.entity";
 import { ContatoEntity } from "../entities/contato.entity";
+import { UsuarioEntity } from "../entities/usuario.entity";
+import { DataAccessEntity } from "../entities/data-access.entity";
 
 // TODO: adicionar validadores
-export class UsuarioConsultarInputDto {
+export class UsuarioConsultarInputDto extends PartialType(UsuarioEntity){
     
     @ApiProperty({ name: 'id', type: String, required: false })
     // @Validate(ValidaSchema, [<IConstraintSchema>{}])
@@ -51,7 +53,7 @@ export class UsuarioConsultarInputDto {
     isActive?: boolean;
 }
 
-export class UsuarioConsultarOutputDto {
+export class UsuarioConsultarOutputDto extends PartialType(UsuarioEntity) {
     
     @ApiProperty({ name: 'id', type: String })
     id?: string;
@@ -83,9 +85,8 @@ export class UsuarioConsultarOutputDto {
     // @ApiProperty({ name: 'dataAccess', type: DataAccessOutputDto })
     // dataAccess: DataAccessOutputDto;
 
-    @ApiProperty({ name: 'emailList', type: ContatoEntity, nullable: false, maxLength: 100, required: true })
-    @Validate(ValidaSchema, [<IConstraintSchema>{ length: 100 }])
-    _contato: ContatoEntity;
+    @ApiProperty({ name: '_contato', type: ContatoEntity })
+    _contato?: ContatoEntity;
 
     @ApiProperty({ name: 'isActive', type: Boolean })
     isActive: boolean;

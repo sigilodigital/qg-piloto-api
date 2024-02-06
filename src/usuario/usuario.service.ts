@@ -12,6 +12,13 @@ import { UsuarioIncluirUseCase } from './usecases/usuario-incluir.usecase';
 import { UsuarioConsultarUseCase } from './usecases/usuario-consultar.usecase';
 import { UtilRepository } from '@libs/common/repository/util.repository';
 import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from './models/dto/usuario-incluir.dto';
+import { ContatoEntity } from './models/entities/contato.entity';
+import { EmailEntity } from './models/entities/email.entity';
+import { TelefoneEntity } from './models/entities/telefone.entity';
+import { EnderecoEntity } from './models/entities/endereco.entity';
+import { LoginInfoEntity } from './models/entities/login-info.entity';
+import { DataAccessEntity } from './models/entities/data-access.entity';
+import { ProfileEntity } from './models/entities/profile.entity';
 
 @Injectable()
 export class UsuarioService {

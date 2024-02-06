@@ -37,6 +37,11 @@ const usuario: UsuarioEntity[] = [
             ],
             _telefoneList: [{ number: '21988776655', description: 'Telefone comercial' }]
         },
+        _dataAccess: {
+            username: 'asdf',
+            password: '1234',
+            passwordHash: '123'
+        },
         isActive: false,
 
     }

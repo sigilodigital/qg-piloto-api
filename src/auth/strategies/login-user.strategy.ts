@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException, ValidationPipe } from '@nestjs/commo
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { AuthService } from '../auth.service';
-import { LoginUser } from '../models/dto/login-user.dto';
+import { LoginUserInputDto } from '../models/dto/login-user.dto';
 import { ApiResponse } from '@libs/common/services/response-handler';
 
 @Injectable()
@@ -13,9 +13,9 @@ export class LoginUserStrategy extends PassportStrategy(Strategy, "login-user-st
 
     async validate(username: string, password: string): Promise<any> {
 
-        const loginUser: LoginUser = { username: username, password: password };
+        const loginUser: LoginUserInputDto = { username: username, password: password };
 
-        const user = await this.authService.validarUsuario(loginUser);
+        const user = await this.authService.usuarioValidar(loginUser);
 
         return user;
     }

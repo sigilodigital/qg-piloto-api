@@ -3,7 +3,7 @@ import { ContatoEntity } from "./contato.entity";
 import { UsuarioEntity } from "./usuario.entity";
 import { DataAccessEntity } from "./data-access.entity";
 
-@Entity({ name: 'PROFILE' })
+@Entity({ name: 'TBL_PROFILE' })
 export class ProfileEntity {
 
     @Column('uuid', { generated: 'uuid', primary: true })
@@ -18,8 +18,8 @@ export class ProfileEntity {
     @Column("text")
     passwordHash: string;
 
+    // TODO: mudar relacionamento para ManyToMany
     @ManyToOne(type => DataAccessEntity, e => e._profileList)
-    @JoinColumn({name: 'DataAccessId'})
     _dataAccess: DataAccessEntity;
 
 }

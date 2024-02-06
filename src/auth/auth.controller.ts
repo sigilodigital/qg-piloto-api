@@ -1,28 +1,30 @@
-import { Body, Controller, Post, Request, Response, UseFilters, UseGuards } from '@nestjs/common';
+import { Controller, Post, Request, Response, UseFilters, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBody } from '@nestjs/swagger';
 import { Response as IResponse, Request as RequestExpress } from 'express';
+
 import { HttpExceptionFilter } from 'src/shared/http-exception-filter';
-import { ValidationPipe } from 'src/shared/validation/validation.pipe';
 import { ApiResponse, IAPIResponse } from './../shared/response-handler';
-import { AuthService, ILoginSistema } from './auth.service';
-import { LoginSistema } from './models/dto/loginSistema.dto';
-import { LoginUser } from './models/dto/login-user.dto';
+import { AuthService } from './auth.service';
 import { JwtAuthSystemGuard } from './guards/jwt-auth-system.guard';
-import { ValidateAuthSystemGuard } from './validates/validate-auth-system.guard';
-import { ValidateAuthUserGuard } from './validates/validate-auth-user.guard';
+import { LoginUserInputDto } from './models/dto/login-user.dto';
+import { LoginSistemaInputDto } from './models/dto/loginSistema.dto';
 import { UserDto } from './models/dto/user.dto';
+import { AuthUserValidate } from './validates/auth-user.validate';
+import { AuthSystemValidate } from './validates/auth-system.validate';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authservice: AuthService) { }
 
-    @ApiBody({ type: LoginUser })
-    @UseGuards(AuthGuard('login-user-strategy'))
-    @UseGuards(JwtAuthSystemGuard)
-    @UseGuards(ValidateAuthUserGuard)
+    @ApiBody({ type: LoginUserInputDto })
+    // @UseGuards(AuthGuard('login-user-strategy'))
+    // @UseGuards(JwtAuthSystemGuard)
+    @UseGuards(LocalAuthGuard)
+    @UseGuards(AuthUserValidate)
     @UseFilters(HttpExceptionFilter)
-    @Post('usuario-senha-validar')
+    @Post('usuario-validar')
     async usuarioSenhaValidar(@Request() req: RequestExpress & {user: IAPIResponse<UserDto>}, @Response() res: IResponse): Promise<any> {
 
         const result = req.user.data;
@@ -52,9 +54,9 @@ export class AuthController {
         }
     }
 
-    @ApiBody({ type: LoginSistema })
+    @ApiBody({ type: LoginSistemaInputDto })
     @UseGuards(AuthGuard('login-system-strategy'))
-    @UseGuards(ValidateAuthSystemGuard)
+    @UseGuards(AuthSystemValidate)
     @UseFilters(HttpExceptionFilter)
     @Post('sistema-senha-validar')
     async sistemaSenhaValidar(@Request() req: RequestExpress & {user: IAPIResponse<UserDto>}, @Response() res: IResponse) {

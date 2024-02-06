@@ -50,7 +50,7 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
 
                 if (metodosWs) {
                     fnSeMetodoInativoException(metodosWs);
-                    const sistemaMetodoWs = await this.getSistemaMetodo(metodosWs.codSegMetodoWs, sistema.id);
+                    const sistemaMetodoWs = await this.getSistemaMetodo('ALTERADO', sistema.id); //!ALTERADO
                     if (!sistemaMetodoWs)
                         fnSeMetodoNaoEncontradoException(metodosWs, sistema);
 
@@ -79,8 +79,8 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
         }
     }
 
-    async getSistemaMetodo(MetodoId: string, sistemaId: string) {
-        return await this.utilRepository.findOne(SistemaMetodoDto, { MetodoId, SistemaId });
+    async getSistemaMetodo(_metodo: string, _sistema: string) {
+        return await this.utilRepository.findOne(SistemaMetodoEntity, {  }); //!ALTERADO
     }
 
     handleRequest(err: any, user: any, info: any, context: any) {
@@ -120,7 +120,7 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
 }
 
 function fnSeSistemaInativoException(thiss: any, sistema: SistemaEntity) {
-    if (sistema.seAtivo == 0) {
+    if (sistema.seAtivo === false) {
         throw new UnauthorizedException(ApiResponse.handler({
             codNumber: 7,
             outputError: {
