@@ -59,10 +59,10 @@ export class UsuarioExternoEmailRecuperarUseCase {
         const methodName = "async function fnThrowSeEmailDiferente(email_1: string, email_2: string)";
         if (email_1 !== email_2) {
             throw new BadRequestException(ApiResponse.handler({
-                codNumber: 47,
+                codMessage: 47,
                 property: 'txtEmail',
                 valueArg: email_2,
-                outputError: {
+                error: {
                     message: 'Os valores de email estão diferentes.',
                     context: {
                         output: {
@@ -77,7 +77,7 @@ export class UsuarioExternoEmailRecuperarUseCase {
 
     private usuarioExternoNaoExisteException(interessado: InteressadoEntity) {
         return ApiResponse.handler({
-            codNumber: 9,
+            codMessage: 9,
             property: 'txtCnpjCpf',
             valueArg: interessado.txtCnpjCpf,
             input: interessado
@@ -86,7 +86,7 @@ export class UsuarioExternoEmailRecuperarUseCase {
 
     private fnGetMessage15(interessado: InteressadoEntity) {
         return ApiResponse.handler({
-            codNumber: 15,
+            codMessage: 15,
             property: 'txtCnpjCpf',
             valueArg: interessado.txtCnpjCpf,
             input: interessado,
@@ -96,9 +96,9 @@ export class UsuarioExternoEmailRecuperarUseCase {
 
     private erroAoGerarNovaSenha(usuarioExternoSenhaEmailRecuperar: { txtCnpjCpf: string; txtEmail: string; }) {
         throw new BadRequestException(ApiResponse.handler({
-            codNumber: 43,
+            codMessage: 43,
             input: { usuarioExternoSenhaEmailRecuperar },
-            outputError: {
+            error: {
                 message: "Atualização não realizada!",
                 context: {
                     output: {
@@ -119,7 +119,7 @@ export class UsuarioExternoEmailRecuperarUseCase {
         const email = await this.sistemaMensagemFilaService.create(input);
         if (email) {
             return ApiResponse.handler({
-                codNumber: 40,
+                codMessage: 40,
                 output: null
             });
         }
@@ -139,7 +139,7 @@ export class UsuarioExternoEmailRecuperarUseCase {
     seInteressadoAtivoException(interessado: InteressadoEntity) {
         if (interessado.codAtivo == 0)
             throw new BadRequestException(ApiResponse.handler({
-                codNumber: 45
+                codMessage: 45
             }));
     }
 
@@ -150,7 +150,7 @@ export class UsuarioExternoEmailRecuperarUseCase {
     private seInteressadoEncontrado(usuarioExternoSenhaEmailRecuperar: IUsuarioExternoSenhaEmailRecuperar['input'], interessado: InteressadoEntity) {
         if(!interessado)
             throw new BadRequestException(ApiResponse.handler({
-                codNumber: 16,
+                codMessage: 16,
                 output: interessado,
                 property: 'txtCnpjCpf',
                 valueArg: usuarioExternoSenhaEmailRecuperar.txtCnpjCpf
@@ -160,7 +160,7 @@ export class UsuarioExternoEmailRecuperarUseCase {
     private fnThrowSeInativo(obj: unknown & { codAtivo: number; }): void {
         if (!obj.codAtivo) {
             throw new BadRequestException(ApiResponse.handler({
-                codNumber: 45
+                codMessage: 45
             }));
         }
     }

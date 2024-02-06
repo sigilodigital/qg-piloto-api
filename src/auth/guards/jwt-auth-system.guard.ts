@@ -120,15 +120,15 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
 }
 
 function fnSeSistemaInativoException(thiss: any, sistema: SistemaEntity) {
-    if (sistema.seAtivo === false) {
+    if (sistema.isActive === false) {
         throw new UnauthorizedException(ApiResponse.handler({
             codNumber: 7,
             outputError: {
                 message: 'Sistema inativo.',
                 context: {
                     input: {
-                        codAtivo: sistema.seAtivo,
-                        txtDescricao: sistema.descricao,
+                        codAtivo: sistema.isActive,
+                        txtDescricao: sistema.description,
 
                     },
                     output: {
@@ -166,9 +166,9 @@ function fnSeMetodoNaoEncontradoException(metodosWs: SegMetodoWsDto, sistema: Si
             context: {
                 input: {
                     sistema: {
-                        txtSegSistemaWs: sistema.nome,
+                        txtSegSistemaWs: sistema.name,
                         txtLogin: sistema.username,
-                        txtDescricao: sistema.descricao
+                        txtDescricao: sistema.description
                     },
                     metodo: {
                         nome: metodosWs.txtMetodo,

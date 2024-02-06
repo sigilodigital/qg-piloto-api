@@ -48,13 +48,13 @@ export class UsuarioExternoSenhaPerguntaSecretaRecuperarUseCase {
 
     fnInteressadoInexistenteThrowException() {
         throw new BadRequestException(ApiResponse.handler({
-            codNumber: 16
+            codMessage: 16
         }));
     }
 
     fnUsuarioExternoInexistenteThrowException(usuarioExternoSenhaPerguntaSecretaRecuperar: UsuarioExternoSenhaPerguntaSecretaRecuperar) {
         throw new BadRequestException(ApiResponse.handler({
-            codNumber: 9,
+            codMessage: 9,
             input: usuarioExternoSenhaPerguntaSecretaRecuperar,
             property: 'txtCnpjCpf',
             valueArg: usuarioExternoSenhaPerguntaSecretaRecuperar.txtCnpjCpf
@@ -100,7 +100,7 @@ export class UsuarioExternoSenhaPerguntaSecretaRecuperarUseCase {
 
     private fnMensagemOperacaoRealizada() {
         return ApiResponse.handler({
-            codNumber: 40
+            codMessage: 40
         });
     }
 
@@ -111,9 +111,9 @@ export class UsuarioExternoSenhaPerguntaSecretaRecuperarUseCase {
 
     private async fnDadosNaoConferemException(ue: UsuarioExterno, usuarioExternoSenhaPerguntaSecretaRecuperar: UsuarioExternoSenhaPerguntaSecretaRecuperar){
         throw new BadRequestException(ApiResponse.handler({
-            codNumber: 47,
+            codMessage: 47,
             input: usuarioExternoSenhaPerguntaSecretaRecuperar,
-            outputError: {
+            error: {
                 message: "Pergunta secreta bloqueada.",
                 context: {
                     input: {
@@ -162,8 +162,8 @@ export class UsuarioExternoSenhaPerguntaSecretaRecuperarUseCase {
             }
         } catch (error) {
             throw new BadRequestException(ApiResponse.handler({
-                codNumber: 60,
-                outputError: error
+                codMessage: 60,
+                error: error
             }))
         }
     }
@@ -176,8 +176,8 @@ export class UsuarioExternoSenhaPerguntaSecretaRecuperarUseCase {
     private fnSePergSecrBloqueada(usuarioExterno: UsuarioExterno) {
         if (usuarioExterno.codPerSctBloqueada === 1) {
             throw new BadRequestException(ApiResponse.handler({
-                codNumber: 48,
-                outputError: {
+                codMessage: 48,
+                error: {
                     message: 'Bloqueio por quantidade de tentativas de validação de pergunta secreta incorretas superior a 6.'
                 }
             }));
@@ -187,7 +187,7 @@ export class UsuarioExternoSenhaPerguntaSecretaRecuperarUseCase {
     private fnThrowSeCodAtivo(obj: unknown & { codAtivo: number; }): void {
         if (!obj.codAtivo) {
             throw new BadRequestException(ApiResponse.handler({
-                codNumber: 45,
+                codMessage: 45,
             }));
         }
     }

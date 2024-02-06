@@ -34,7 +34,7 @@ export class RecuperacaoSenhaController {
 
         function campoNaoInformadoException(property: string) {
             throw new HttpException(ApiResponse.handler({
-                codNumber: 1,
+                codMessage: 1,
                 property,
                 output: undefined
             }), HttpStatus.BAD_REQUEST);

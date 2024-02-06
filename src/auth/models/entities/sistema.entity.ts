@@ -9,8 +9,8 @@ export class SistemaEntity {
     @Column("uuid", { primary: true, generated: 'uuid' })
     id: string;
 
-    @Column("varchar2", { name: "nome", length: 100 })
-    nome: string;
+    @Column("varchar2", { name: "name", length: 100 })
+    name: string;
 
     @Column("varchar2", { name: "username", length: 50 })
     username: string;
@@ -18,16 +18,16 @@ export class SistemaEntity {
     @Column("varchar2", { name: "password", length: 30 })
     password: string;
 
-    @Column("varchar2", { name: "descricao", length: 500 })
-    descricao: string;
+    @Column("varchar2", { name: "description", length: 500 })
+    description: string;
 
-    @Column("boolean", { name: "seAtivo", default: false })
-    seAtivo?: boolean;
+    @Column("boolean", { name: "isActive", default: false })
+    isActive?: boolean;
 
-    @ManyToMany(type => MetodoEntity, e => e._sistemaList, { lazy: true })
+    @ManyToMany(type => MetodoEntity, e => e._sistemaList, { })
     @JoinTable()
-    _metodoList: MetodoEntity;
+    _metodoList: MetodoEntity[];
 
-    @OneToMany(type => SistemaMetodoEntity, e => e._sistema, { lazy: true })
+    @OneToMany(type => SistemaMetodoEntity, e => e._sistema, { })
     _sistemaMetodoList: SistemaMetodoEntity;
 }

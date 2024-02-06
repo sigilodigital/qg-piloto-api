@@ -30,17 +30,17 @@ export class ExceptionHttpService {
     static createException(input: IExceptionHttpService['input']) {
 
         throw new HttpException(ApiResponse.handler({
-            codNumber: input.errorCode,
+            codMessage: input.errorCode,
             property: input.property,
             valueArg: input.value,
-            outputError: {
+            error: {
                 message: input.objError.message,
                 context: {
                     input: input,
                     output: {
                         className: "className",
                         methodName: "throw new HttpException(ApiResponse.handler)",
-                        objectErro: input.objError.context.output.objError
+                        objectError: input.objError.context.output.objError
                     }
                 }
             }

@@ -113,7 +113,7 @@ export class HistoricoSubscriber implements EntitySubscriberInterface {
         const entityOld = await event.queryRunner.manager.findOne(entityName, { where: { [pKey.key]: pKey.value } });
 
         if (!entityNew || !entityOld)
-            throw new BadGatewayException(ApiResponse.handler({ codNumber: 60 }));
+            throw new BadGatewayException(ApiResponse.handler({ codMessage: 60 }));
 
         let texto = `Alteração de registro:\n`;
         const c = new Comparador();

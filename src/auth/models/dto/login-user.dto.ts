@@ -24,5 +24,8 @@ export class LoginUserOutputDto {
     fullname: string;
     socialName: string;
     cpf: number;
+    __params: {
+        isPasswordRequireChange: boolean;
+    }
 
 }

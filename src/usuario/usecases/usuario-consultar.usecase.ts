@@ -28,15 +28,15 @@ function dto(result: UsuarioEntity): UsuarioConsultarOutputDto {
 
 function fnCatchError(error, input) {
     return ApiResponse.handler({
-        codNumber: 60,
-        outputError: {
+        codMessage: 60,
+        error: {
             message: error.message,
             context: {
                 input: input,
                 output: {
                     className: 'UsuarioConsultarDto',
                     methodName: 'fnConsultarUsuario',
-                    objectErro: error
+                    objectError: error
                 }
             }
         }

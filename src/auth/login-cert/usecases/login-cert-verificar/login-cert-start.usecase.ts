@@ -21,6 +21,6 @@ export class LoginCertStartUseCase {
 
 function fnCatchError(error) {
     throw new HttpException(ApiResponse.handler({
-        codNumber: 60,
+        codMessage: 60,
     }), HttpStatus.UNAUTHORIZED);
 }

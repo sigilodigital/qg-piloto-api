@@ -12,7 +12,7 @@ import { GlobalService } from "./global.service";
 
 export class ApiResponse {
     static handler(input: IMensagem): IAPIResponse<any> {
-        let mensagem = MensagenEnum[input.codNumber];
+        let mensagem = MensagenEnum[input.codMessage];
         if (input.property)
             mensagem = mensagem?.replace("@campo", input.property);
         if (input.valueArg)
@@ -21,17 +21,17 @@ export class ApiResponse {
         return {
             data: input.output,
             status: {
-                statusCode: input.codNumber,
+                statusCode: input.codMessage,
                 message: mensagem,
-                ...(!(GlobalService.debugModeVerify() && input?.outputError?.message)) ? undefined : {
+                ...(!(GlobalService.debugModeVerify() && input?.error?.message)) ? undefined : {
                     error: {
-                        message: input?.outputError?.message,
+                        message: input?.error?.message,
                         context: {
-                            input: input?.outputError?.context?.input,
+                            input: input?.error?.context?.input,
                             output: {
-                                className: input?.outputError?.context?.output?.className,
-                                methodName: input?.outputError?.context?.output?.methodName,
-                                objectErro: input?.outputError?.context?.output?.objectErro
+                                className: input?.error?.context?.output?.className,
+                                methodName: input?.error?.context?.output?.methodName,
+                                objectErro: input?.error?.context?.output?.objectError
                             }
                         }
                     }
@@ -44,22 +44,25 @@ export class ApiResponse {
 interface IObjError {
     message: string;
     context?: {
+        className?: string;
+        methodName?: string;
         input?: IMensagem['input'],
-        output?: {
-            className?: string;
-            methodName?: string;
-            objectErro?: object;
-        };
+        output?: IMensagem['input']
+        // output?: {
+        //     className?: string;
+        //     methodName?: string;
+        //     objectError?: object;
+        // };
     };
 }
 
 interface IMensagem {
-    codNumber: number,
+    codMessage: number,
     valueArg?: string,
     property?: string,
     input?: object | Array<any>,
     output?: object | Array<any>,
-    outputError?: IObjError;
+    error?: IObjError;
 }
 
 interface IStatusMessage {

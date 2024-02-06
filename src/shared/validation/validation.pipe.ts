@@ -20,17 +20,17 @@ export class ValidationPipe implements PipeTransform<ApiResponse> {
         Object.keys(object).forEach((value, i, obj) => {
             if (!schema.options.columns[obj[i]]) {
                 throw new HttpException(ApiResponse.handler({
-                    codNumber: 42,
+                    codMessage: 42,
                     input: object,
                     property: obj[i],
-                    outputError: {
+                    error: {
                         message: 'Campo informado não existe como parâmetro de pesquisa.',
                         context: {
                             input: object,
                             output: {
                                 className: "ValidationPipe",
                                 methodName: "transform",
-                                objectErro: {
+                                objectError: {
                                     message: `Verifique o nome do campo ou adicione o campo ${obj[i]} ao ${schema.options.name}Schema`
                                 }
                             }
@@ -46,12 +46,12 @@ export class ValidationPipe implements PipeTransform<ApiResponse> {
             for (let index = 0; index < errors.length; index++) {
                 const element = errors[index];
                 const validacao = ApiResponse.handler({
-                    codNumber: <number><unknown>Object.values(element.constraints)[index],
+                    codMessage: <number><unknown>Object.values(element.constraints)[index],
                     valueArg: element.value,
                     property: element.property,
                     input: element.constraints,
                     output: undefined,
-                    outputError: {
+                    error: {
                         message: "validationPipe",
                         context: {
                             input: element,

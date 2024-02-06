@@ -40,7 +40,7 @@ export class AuthCertLoginUseCase {
     private seNaoUsuarioException(pessoa: PessoaType) {
         if (!pessoa) {
             throw new HttpException(ApiResponse.handler({
-                codNumber: 16
+                codMessage: 16
             }), HttpStatus.UNAUTHORIZED);
         }
     }
@@ -48,7 +48,7 @@ export class AuthCertLoginUseCase {
     private seInativoException(usuarioExterno: PessoaType) {
         if (usuarioExterno.codAtivo === 0) {
             throw new HttpException(ApiResponse.handler({
-                codNumber: 45
+                codMessage: 45
             }), HttpStatus.UNAUTHORIZED);
         }
     }
@@ -56,7 +56,7 @@ export class AuthCertLoginUseCase {
     private seSenhaBloqueadaException(usuarioExterno: PessoaType) {
         if (usuarioExterno.codSenhaBloqueada === 1) {
             throw new HttpException(ApiResponse.handler({
-                codNumber: 42
+                codMessage: 42
             }), HttpStatus.UNAUTHORIZED);
         }
     }
@@ -65,6 +65,6 @@ export class AuthCertLoginUseCase {
 
 function fnCatchError(error) {
     throw new HttpException(ApiResponse.handler({
-        codNumber: 60,
+        codMessage: 60,
     }), HttpStatus.UNAUTHORIZED);
 }

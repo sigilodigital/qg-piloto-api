@@ -14,8 +14,17 @@ export class DataAccessEntity {
     @Column("text", { select: false })
     password: string;
 
-    @Column("text", { select: false })
+    @Column("text", { name: 'passwordHash', select: false })
     passwordHash?: string;
+
+    @Column("number", { name: 'passCountErrors' })
+    passCountErrors?: number;
+
+    @Column("boolean", { name: 'isPasswordLocked' })
+    isPasswordLocked?: boolean;
+
+    @Column("boolean", { name: 'isPasswordRequireChange' })
+    isPasswordRequireChange?: boolean;
 
     @OneToOne(type => ProfileEntity, e => e._dataAccess)
     @JoinColumn()

@@ -15,7 +15,7 @@ export class LoginSistemaStrategy extends PassportStrategy(Strategy, "login-syst
 
         GlobalService.enableDebugModeHeader = JSON.parse(request.headers['debug-mode'] || 'false');
 
-        const user = await this.authService.validarSistema({ username, password });
+        const user = await this.authService.sistemaValidar({ username, password });
 
         return user;
     }

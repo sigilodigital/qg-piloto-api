@@ -37,10 +37,16 @@ export class UtilRepository implements IUtilRepository {
         return this.queryDataSource.manager.find(entityClass, { where: partialEntity });
     }
 
-    async findOne<T>(entityClass: EntityTarget<T>, queryPartialEntity: FindOptionsWhere<T>): Promise<T | null> {
+    async findOne<T>(entityClass: EntityTarget<T>, queryPartialEntity: FindManyOptions<T>): Promise<T | null> {
         await this.init(this.config);
         // this.queryDataSource.manager.connection.entityMetadatas.push(<EntityMetadata><unknown>entityClass)
-        return this.queryDataSource.manager.findOne(entityClass, { where: queryPartialEntity });
+        return this.queryDataSource.manager.findOne(entityClass, queryPartialEntity);
+    }
+
+    async findOneBy<T>(entityClass: EntityTarget<T>, partialEntity: FindOptionsWhere<T>): Promise<T | null> {
+        await this.init(this.config);
+        // this.queryDataSource.manager.connection.entityMetadatas.push(<EntityMetadata><unknown>entityClass)
+        return this.queryDataSource.manager.findOne(entityClass, { where: partialEntity });
     }
 
     async save<T>(entity: T, pkProperty: string, sequenceName: string): Promise<T> {

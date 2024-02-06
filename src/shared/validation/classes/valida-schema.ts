@@ -64,10 +64,10 @@ export class ValidaSchema implements ValidatorConstraintInterface {
 
     message(codMessage: number, args: ValidationArguments) {
         const objError = ApiResponse.handler({
-            codNumber: codMessage,
+            codMessage: codMessage,
             property: args.property,
             valueArg: args.value,
-            outputError: {
+            error: {
                 message: `Validação do objeto ${args.targetName} campo ${args.property} valor ${args.value}.`,
                 context: {
                     input: args,

@@ -43,22 +43,22 @@ export class UsuarioExternoSenhaAlterarUseCase {
     }
 
     usuarioNaoEncontradoException(usuarioExternoSenhaAlterar: { txtEmail: string; codInteressado: number; txtSenhaAtual: string; txtSenhaNova: string; }) {
-        throw new BadRequestException(ApiResponse.handler({ codNumber: 16, input: usuarioExternoSenhaAlterar, output: null }))
+        throw new BadRequestException(ApiResponse.handler({ codMessage: 16, input: usuarioExternoSenhaAlterar, output: null }))
     }
 
     private seSenhaBloqueada(usuarioExternoSenhaAlterar: IUsuarioExternoSenhaAlterar['input'], usuarioExterno: UsuarioExterno) {
         if (usuarioExterno.codSenhaBloqueada == 1) {
             throw new BadRequestException(
                 ApiResponse.handler({
-                    codNumber: 42,
-                    outputError: {
+                    codMessage: 42,
+                    error: {
                         message: "Senha bloqueada por ultrapassar 6 tentativas incorretas de alterar a senha.",
                         context: {
                             input: usuarioExternoSenhaAlterar,
                             output: {
                                 className: this.className,
                                 methodName: 'seSenhaBloqueada',
-                                objectErro: usuarioExterno
+                                objectError: usuarioExterno
                             }
                         }
                     }
@@ -82,9 +82,9 @@ export class UsuarioExternoSenhaAlterarUseCase {
         const ueSalvo = await this.utilRepository.update(UsuarioExterno, {codUsuarioExterno: usuarioExterno.codUsuarioExterno}, usuarioExterno);
     
         if (ueSalvo)
-            return ApiResponse.handler({ codNumber: 40 });
+            return ApiResponse.handler({ codMessage: 40 });
         else
-            return ApiResponse.handler({ codNumber: 43, outputError: { message: 'Erro ao tentar salvar após bloqueio.' } });
+            return ApiResponse.handler({ codMessage: 43, error: { message: 'Erro ao tentar salvar após bloqueio.' } });
     }
     
     private async seSenhaConfere(usuarioExternoSenhaAlterar: IUsuarioExternoSenhaAlterar['input'], usuarioExterno: UsuarioExterno): Promise<boolean> {
@@ -137,14 +137,14 @@ export class UsuarioExternoSenhaAlterarUseCase {
 
     fnSenhaBloqueadaException(usuarioExterno: UsuarioExterno) {
         throw new BadRequestException(ApiResponse.handler({
-                codNumber: 42,
-                outputError: {
+                codMessage: 42,
+                error: {
                     message: "Senha bloqueada por ultrapassar 6 tentativas incorretas de alterar a senha.",
                     context: {
                         output: {
                             className: this.className,
                             methodName: 'fnBloqueiaSenha',
-                            objectErro: usuarioExterno
+                            objectError: usuarioExterno
                         }
                     }
                 }
@@ -161,15 +161,15 @@ export class UsuarioExternoSenhaAlterarUseCase {
         const emailSalvo = await this.sistemaMensagemFilaService.create(input);
 
         if (emailSalvo)
-            return ApiResponse.handler({ codNumber: 40});
+            return ApiResponse.handler({ codMessage: 40});
         else
-            return ApiResponse.handler({ codNumber: 43, outputError: { message: 'Erro ao tentar registrar envio de e-mail após bloqueio.' } });
+            return ApiResponse.handler({ codMessage: 43, error: { message: 'Erro ao tentar registrar envio de e-mail após bloqueio.' } });
     }
 
     private async fnIncrementaQuantidadeDeTentativasErradas(ue: UsuarioExterno, usuarioExterno: UsuarioExterno) {
         ue.codSenhaIncorreta = usuarioExterno.codSenhaIncorreta + 1;
         await this.fnSalvarUsuarioExterno(ue);
-        throw new BadRequestException(ApiResponse.handler({codNumber: 41}))
+        throw new BadRequestException(ApiResponse.handler({codMessage: 41}))
     }
 
     private seQuantidadeTentativasMaiorque6(usuarioExterno: UsuarioExterno){

@@ -22,7 +22,7 @@ export class UsuarioController {
     @Post('incluir')
     async usuarioIncluir(@Body(new ValidationPipe()) input: UsuarioIncluirInputDto, @Req() request: Request) {
         const result: UsuarioIncluirOutputDto = await this.usuarioService.usuarioIncluir(input, request);
-        return ApiResponse.handler({ codNumber: CodigoAcaoEnum.USUARIO_INCLUIR, output: result });
+        return ApiResponse.handler({ codMessage: CodigoAcaoEnum.USUARIO_INCLUIR, output: result });
     }
 
     @ApiOperation(UsuarioDoc.consultar())
@@ -31,7 +31,7 @@ export class UsuarioController {
     @Post('consultar')
     async usuarioConsultar(@Body(new ValidationPipe()) input: UsuarioConsultarInputDto) {
         const result: UsuarioConsultarOutputDto[] = await this.usuarioService.usuarioConsultar(input);
-        return ApiResponse.handler({ codNumber: CodigoAcaoEnum.USUARIO_ALTERAR, output: result });
+        return ApiResponse.handler({ codMessage: CodigoAcaoEnum.USUARIO_ALTERAR, output: result });
     }
 
 }

@@ -1,5 +1,6 @@
 export enum MensagenEnum {
     // DEFAULT
+    "Falha." = 0,
     "Sucesso." = 1,
     // CREATE
     "Registro incluído." = 17,

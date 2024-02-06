@@ -36,7 +36,13 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
         return result;
     }
 
-    async findOne(object: FindOptionsWhere<E>): Promise<any> {
+    async findOne(object: FindManyOptions<E>): Promise<any> {
+        await this.init(this.config);
+        const result = await this.queryDataSource.manager.findOne(this.entityClass, object);
+        return result;
+    }
+
+    async findOneBy(object: FindOptionsWhere<E>): Promise<any> {
         await this.init(this.config);
         const result = await this.queryDataSource.manager.findOne(this.entityClass, { where: object });
         return result;
@@ -52,7 +58,7 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
             (this.queryDataSource instanceof DataSource)
                 ? undefined
                 : RunnerTransaction.rollbackTransaction(this.queryDataSource);
-            throw new BadGatewayException(ApiResponse.handler({ codNumber: 60 }));
+            throw new BadGatewayException(ApiResponse.handler({ codMessage: 60 }));
         }
     }
 

@@ -50,10 +50,10 @@ export class SistemaMensagemFilaService {
             return await this.salvarMensagem(sistemaMensagemFilaEmail);
         } else {
             return ApiResponse.handler({
-                codNumber: 16,
+                codMessage: 16,
                 input: sistemaMensagemFilaEmail,
                 output: null,
-                outputError: {
+                error: {
                     message: `Configuração de modelo de email não encontrado! ${{ txtConfiguracao: sistemaMensagemFilaEmail.txtConfig }}`,
                     context: {
                         input: input,

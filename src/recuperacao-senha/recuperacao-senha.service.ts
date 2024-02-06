@@ -61,7 +61,7 @@ export class RecuperacaoSenhaService {
             const usuarioExterno = await this.utilRepository.findOne(UsuarioExterno, {  codInteressado: interessado.codInteressado } );
             if (usuarioExterno) {
                 return ApiResponse.handler({
-                    codNumber: 15,
+                    codMessage: 15,
                     input: usuarioExternoLembracaSenhaConsultar,
                     output: {
                         codTipoLembrancaSenha: usuarioExterno.codTipoLembranca,
@@ -71,9 +71,9 @@ export class RecuperacaoSenhaService {
                 });
             } else {
                 return ApiResponse.handler({
-                    codNumber: 9,
+                    codMessage: 9,
                     input: usuarioExternoLembracaSenhaConsultar,
-                    outputError: {
+                    error: {
                         message: 'Usuário externo não existe',
                         context: {
                             output: {
@@ -87,7 +87,7 @@ export class RecuperacaoSenhaService {
 
         } else {
             return ApiResponse.handler({
-                codNumber: 16,
+                codMessage: 16,
                 input: usuarioExternoLembracaSenhaConsultar
             });
         }
@@ -150,7 +150,7 @@ export class RecuperacaoSenhaService {
     seInteressadoEncontrado(usuarioExternoSenhaEmailRecuperar: { txtCnpjCpf: string; txtEmail: string; }, interessado: InteressadoEntity) {
         if(!interessado)
             throw new BadRequestException(ApiResponse.handler({
-                codNumber: 16,
+                codMessage: 16,
                 output: interessado,
                 property: 'txtCnpjCpf',
                 valueArg: usuarioExternoSenhaEmailRecuperar.txtCnpjCpf
@@ -206,14 +206,14 @@ export class RecuperacaoSenhaService {
             
             if (usuarioExternoUpdate) {
                 return ApiResponse.handler({
-                    codNumber: 40
+                    codMessage: 40
                 });
             }
 
         } else {
             RunnerTransaction.rollbackTransaction(queryRunner); 
             return ApiResponse.handler({
-                codNumber: 16
+                codMessage: 16
             });
         }
 
@@ -244,7 +244,7 @@ export class RecuperacaoSenhaService {
 function fnTrhowSeCodAtivo_0(obj: unknown & { codAtivo: number; }): void {
     if (!obj.codAtivo) {
         throw new HttpException(ApiResponse.handler({
-            codNumber: 45,
+            codMessage: 45,
         }), HttpStatus.FORBIDDEN);
     }
 }

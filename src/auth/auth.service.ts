@@ -11,17 +11,23 @@ import { SistemaMetodoDto } from 'src/sistema-ws/dto/sistemaMetodoWs.dto';
 import { ISistemaMensagemFilaCreate, SistemaMensagemFilaService } from './../sistema-mensagem-fila/sistema-mensagem-fila.service';
 import { UsuarioExterno } from './../usuario-externo/entities/usuario-externo.entity';
 import { UsuarioExternoService } from './../usuario-externo/usuario-externo.service';
-import { LoginUserInputDto } from './models/dto/login-user.dto';
+import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
 import { SistemaEntity } from './models/entities/sistema.entity';
 import { SistemaMetodoEntity } from './models/entities/sistema-metodo.entity';
 import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
 import { UsuarioService } from 'src/usuario/usuario.service';
 import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
+import { UsuarioEntity } from 'src/usuario/models/entities/usuario.entity';
+import { MetodoEntity } from './models/entities/metodo.entity';
+
+interface IAuthService {
+    sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto>;
+    usuarioValidar(input: LoginUserInputDto): Promise<LoginUserOutputDto>;
+}
 
 @Injectable()
 export class AuthService implements IAuthService {
-
-    className = "AuthService";
+    readonly LOG_CLASS_NAME = "AuthService";
 
     private utilRepository: UtilRepository;
     private entityList: EntityClassOrSchema[];
@@ -29,237 +35,253 @@ export class AuthService implements IAuthService {
     constructor(
         private jwtService: JwtService,
         private readonly usuarioRepo: UsuarioRepository,
-        private interessadoService: InteressadoService,
-        private usuarioExternoService: UsuarioExternoService,
         private sistemaMensagemFilaService: SistemaMensagemFilaService
     ) {
-        this.entityList = [SistemaEntity, SistemaMetodoDto, UsuarioExterno];
+        this.entityList = [SistemaEntity, MetodoEntity, SistemaMetodoEntity];
         this.utilRepository = new UtilRepository();
     }
-    sistema: SistemaEntity;
-    pessoa: any;
-    sistemaMetodo: SistemaMetodoEntity[];
-    codInteressado: number;
-    txtInteressado: string;
 
-    async validarSistema(input: LoginSistemaInputDto): Promise<IAPIResponse<LoginSistemaOutputDto>> {
-        await this.utilRepository.init(this.entityList);
-        const methodName = "AuthService.validarSistema";
-
-        const sistema = await this.utilRepository.findOne(SistemaEntity, { username: input.username });
-        await fnSeSistemaAusenteException(sistema);
-        fnSeSistemaInativoException(sistema);
-
-        const seSenhaConfere = (await decrypt(input.password, sistema.password));
-        await fnSeSenhaNaoConfereException(seSenhaConfere);
-        delete sistema.password;
-
-        const sistemaMetodoList = await this.utilRepository.findBy(SistemaMetodoEntity, { id: sistema.id }); //MODIFICADO
-
-        return ApiResponse.handler({ codNumber: 15, output: { sistema, sistemaMetodoList } });
-
-        async function fnSeSenhaNaoConfereException(seSenha: boolean): Promise<void> {
-            if (!seSenha)
-                throw new ForbiddenException(ApiResponse.handler({
-                    codNumber: 6,
-                    outputError: {
-                        message: 'Senha não confere.',
-                        context: {
-                            input: input,
-                            output: { methodName, }
-                        }
-                    }
-                }));
-        }
-
-        async function fnSeSistemaAusenteException(sistema: SistemaEntity): Promise<void> {
-            if (!sistema)
-                throw new ForbiddenException(ApiResponse.handler({
-                    codNumber: 5,
-                    input: input,
-                    outputError: {
-                        message: 'Sistema não encontrado',
-                        context: {
-                            input: input,
-                            output: { methodName, }
-                        }
-                    }
-                }));
-        }
-
-        function fnSeSistemaInativoException(sistema: SistemaEntity) {
-            if (sistema.seAtivo === false) {
-                throw new ForbiddenException(ApiResponse.handler({
-                    codNumber: 7,
-                    input: input,
-                    outputError: {
-                        message: 'Sistema está inativo.',
-                        context: {
-                            input: input,
-                            output: { methodName, }
-                        }
-                    }
-                }));
-            }
-        }
-    }
-
-    async usuarioValidar(input: LoginUserInputDto): Promise<IAPIResponse<LoginUserInputDto>> {
-        const methodName = "AuthService.validarUsuario";
+    async sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto> {
 
         await this.utilRepository.init(this.entityList);
 
-        const user = await this.usuarioRepo.find({ where: { _dataAccess: { username: input.username } }, relations: { _dataAccess: true } });
+        const system = await this.utilRepository.findOne(SistemaEntity, { where: { username: input.username }, relations: { _metodoList: true } });
+        // TODO: conferir a propriedade relationLoadStrategy: join|query
+        // const system = await this.utilRepository.findOne(SistemaEntity, { where: { username: input.username }, relationLoadStrategy: '' });
 
-        const interessado = await this.interessadoService.findOneByCnpjCpf(input.username);
-        await fnSeInteressadoAusenteException(interessado, input);
+        fnThrowSeSistemaAusente(system);
+        fnThrowSeSistemaInativo(system);
 
-        const usuarioExterno = await this.utilRepository.findOne(UsuarioExterno, { codInteressado: interessado.codInteressado });
-        await fnSeUsuarioAusenteException(usuarioExterno, interessado);
-        await fnSeUsuarioInativoException(usuarioExterno);
-        await fnSeUsuarioTentativasExcedidasException(usuarioExterno);
-        await fnSeUsuarioSenhaNaoCadastradaException(usuarioExterno);
+        await fnSeSistemaSenhaNaoConfere(system, input);
 
-        const seSenhaOk = (await decrypt(input.password, usuarioExterno.txtSenha));
-        await fnSeSenhaNaoConfere(this, seSenhaOk, usuarioExterno, interessado);
+        return systemDto(system);
 
-        // * zerar campos de controle de quantidade de erros
-        this.zerarContadores(usuarioExterno.codInteressado, usuarioExterno.codUsuarioExterno);
-        // this.codInteressado = usuarioExterno.codInteressado;
-        const usuarioAutenticado = fnUsuarioAutenticadoDto(usuarioExterno, interessado);
-
-        const result = await fnSeSenhaExigirAlteracao(usuarioExterno, usuarioAutenticado)
-            || ApiResponse.handler({ codNumber: 46, output: usuarioAutenticado });
-        return result;
-
-        function fnUsuarioAutenticadoDto(usuarioExterno: UsuarioExterno, interessado: InteressadoEntity) {
+        function systemDto(system: SistemaEntity): LoginSistemaOutputDto {
             return {
-                codUsuarioExterno: usuarioExterno.codUsuarioExterno,
-                codInteressado: interessado.codInteressado,
-                txtInteressado: interessado.txtInteressado,
-                txtCnpjCpf: interessado.txtCnpjCpf,
+                sistema: system,
+                metodoList: system._metodoList
             };
         }
 
-        async function fnSeSenhaExigirAlteracao(usuarioExterno, usuarioAutenticado: any): Promise<IAPIResponse<any>> {
-            if (usuarioExterno.codSenhaAlterada === 1) {
-                return ApiResponse.handler({
-                    codNumber: 44,
-                    output: usuarioAutenticado
-                });
-            }
-        }
-
-        async function fnSeSenhaNaoConfere(thiss: AuthService, seSenhaOk: boolean, usuarioExterno: UsuarioExterno, interessado: InteressadoEntity): Promise<void> {
-            if (!seSenhaOk)
-                if (usuarioExterno.codSenhaIncorreta <= 6)
-                    await thiss.incrementarContadores(interessado.codInteressado, usuarioExterno.codUsuarioExterno);
-
-            fnSeSenhaBloqueadaException();
-        }
-
-        function fnSeSenhaBloqueadaException() {
-            if (usuarioExterno.codSenhaBloqueada === 1) {
+        function fnThrowSeSistemaAusente<C extends AuthService>(system: SistemaEntity, C?: C): void {
+            if (!system)
                 throw new ForbiddenException(ApiResponse.handler({
-                    codNumber: 42,
-                    input: input,
-                    outputError: {
-                        message: 'Número de tentativas erradas superior a 6, senha bloqueada.',
+                    codMessage: 0,
+                    error: {
+                        message: 'Sistema não encontrado.',
                         context: {
-                            output: {
-                                methodName: methodName,
-                                objectErro: {
-                                    codUsuarioExterno: usuarioExterno.codUsuarioExterno,
-                                    codInteressado: usuarioExterno.codInteressado,
-                                    codSenhaBloqueada: usuarioExterno.codSenhaBloqueada
-                                }
-                            }
+                            className: C.LOG_CLASS_NAME,
+                            methodName: C.sistemaValidar.name,
+                            input: input,
+                            output: system
+                        }
+                    }
+                }));
+        }
+
+        function fnThrowSeSistemaInativo<C extends AuthService>(sistema: SistemaEntity, C?: C) {
+            if (sistema.isActive === false) {
+                throw new ForbiddenException(ApiResponse.handler({
+                    codMessage: 0,
+                    error: {
+                        message: 'Sistema está inativo.',
+                        context: {
+                            className: C.LOG_CLASS_NAME,
+                            methodName: C.sistemaValidar.name,
+                            input: input,
+                            output: system
                         }
                     }
                 }));
             }
         }
-
-        async function fnSeInteressadoAusenteException(interessado: InteressadoEntity, input: any) {
-            if (!interessado)
-                throw new BadRequestException(ApiResponse.handler({
-                    codNumber: 16,
-                    input: input,
-                    outputError: {
-                        message: 'Não foi encontrado dados do interessado'
-                    }
-                }));
-        }
-
-        async function fnSeUsuarioAusenteException(usuarioExterno: UsuarioExterno, interessado: InteressadoEntity) {
-            if (!usuarioExterno)
-                throw new BadRequestException(ApiResponse.handler({
-                    codNumber: 9,
-                    outputError: {
-                        message: 'Usuário externo inexistente!',
+        async function fnSeSistemaSenhaNaoConfere<C extends AuthService>(system: SistemaEntity, input: LoginSistemaInputDto, C?: C): Promise<void> {
+            if (!(await decrypt(input.password, system.password)))
+                throw new ForbiddenException(ApiResponse.handler({
+                    codMessage: 0,
+                    error: {
+                        message: 'Senha não confere.',
                         context: {
-                            input: {
-                                codInteressado: interessado.codInteressado,
-                                txtInteressado: interessado.txtInteressado
-                            }
+                            className: C.LOG_CLASS_NAME,
+                            methodName: C.sistemaValidar.name,
+                            input: input,
+                            output: system
                         }
                     }
                 }));
         }
 
-        async function fnSeUsuarioSenhaNaoCadastradaException(usuarioExterno: UsuarioExterno) {
-            if (!usuarioExterno.txtSenha) {
+    }
+
+    async usuarioValidar(input: LoginUserInputDto): Promise<LoginUserOutputDto> {
+
+        const user: UsuarioEntity = await this.usuarioRepo.findOne({ where: { _dataAccess: { username: input.username } }, relations: { _dataAccess: true } });
+
+        await throwSeUsuarioAusente(user, input);
+        await throwSeUsuarioInativo(user, input);
+        await throwSeUsuarioSenhaNaoCadastrada(user, input);
+        await throwSeUsuarioSenhaBloqueada(user, input);
+        // await fnSeUsuarioSenhaRequerAlteracao(user, input);
+        await fnUsuarioSenhaConferir(user, input);
+        await throwSeUsuarioSenhaExcedeuTentativas(user, input);
+
+        fnUsuarioAtualizar_zerarContadorTentativas(user);
+        const result = fnUsuarioDto(user);
+        return result;
+
+        function fnUsuarioDto(user: UsuarioEntity): LoginUserOutputDto {
+            return {
+                cpf: user.cpf,
+                fullname: user.fullname,
+                id: user.id,
+                socialName: user.socialName,
+                __params: {
+                    isPasswordRequireChange: user._dataAccess.isPasswordRequireChange
+                }
+            };
+        }
+
+        async function throwSeUsuarioAusente<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
+            if (!user)
                 throw new BadRequestException(ApiResponse.handler({
-                    codNumber: 47,
-                    input: input,
-                    outputError: {
-                        message: 'Dados não conferem, usuário externo com senha em branco!',
+                    codMessage: 0,
+                    error: {
+                        message: 'Usuário não existe!',
                         context: {
-                            input: {
-                                codUsuarioExterno: usuarioExterno.codUsuarioExterno,
-                                codInteressado: usuarioExterno.codInteressado,
-                                codSenhaIncorreta: usuarioExterno.codSenhaIncorreta + 1
-                            }
+                            className: C.LOG_CLASS_NAME,
+                            methodName: C.usuarioValidar.name,
+                            input: input,
+                            output: user
                         }
                     }
                 }));
-            }
         }
 
-        async function fnSeUsuarioTentativasExcedidasException(usuarioExterno: UsuarioExterno) {
-            if (usuarioExterno.codSenhaBloqueada == 1) {
+        async function throwSeUsuarioInativo<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
+            if (user.isActive === false) {
                 throw new BadRequestException(ApiResponse.handler({
-                    codNumber: 42,
-                    outputError: {
-                        message: "Número de tentativas erradas superior a 6, senha bloqueada.",
-                        context: {
-                            input: {
-                                codUsuarioExterno: usuarioExterno.codUsuarioExterno,
-                                codInteressado: usuarioExterno.codInteressado,
-                                codSenhaIncorreta: usuarioExterno.codSenhaIncorreta + 1
-                            }
-                        }
-                    }
-                }));
-            }
-        }
-
-        async function fnSeUsuarioInativoException(usuarioExterno: UsuarioExterno) {
-            if (usuarioExterno.codAtivo == 0) {
-                throw new BadRequestException(ApiResponse.handler({
-                    codNumber: 45,
-                    outputError: {
+                    codMessage: 0,
+                    error: {
                         message: "Usuário externo está inativo.",
                         context: {
-                            input: {
-                                codUsuarioExterno: usuarioExterno.codUsuarioExterno,
-                                codInteressado: usuarioExterno.codInteressado,
-                                codAtivo: usuarioExterno.codAtivo
-                            }
+                            className: C.LOG_CLASS_NAME,
+                            methodName: C.usuarioValidar.name,
+                            input: input,
+                            output: user
                         }
                     }
                 }));
             }
+        }
+
+        async function throwSeUsuarioSenhaNaoCadastrada<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
+            if (!user._dataAccess.passwordHash) {
+                throw new BadRequestException(ApiResponse.handler({
+                    codMessage: 0,
+                    error: {
+                        message: 'Dados não conferem, usuário externo com senha em branco!',
+                        context: {
+                            className: C.LOG_CLASS_NAME,
+                            methodName: C.usuarioValidar.name,
+                            input: input,
+                            output: user
+                        }
+                    }
+                }));
+            }
+        }
+
+        function throwSeUsuarioSenhaBloqueada<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
+            if (user._dataAccess.isPasswordLocked === true) {
+                throw new ForbiddenException(ApiResponse.handler({
+                    codMessage: 0,
+                    error: {
+                        // message: 'Número de tentativas erradas superior a 6, senha bloqueada.',
+                        message: 'Senha bloqueada.',
+                        context: {
+                            className: C.LOG_CLASS_NAME,
+                            methodName: C.usuarioValidar.name,
+                            input: input,
+                            output: user
+                        }
+                    }
+                }));
+            }
+        }
+
+        async function fnSeUsuarioSenhaRequerAlteracao<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C): Promise<void> {
+            if (user._dataAccess.isPasswordRequireChange === true) {
+                throw new BadRequestException(ApiResponse.handler({
+                    codMessage: 0,
+                    error: {
+                        message: 'A conta requer alteração de senha.',
+                        context: {
+                            className: C.LOG_CLASS_NAME,
+                            methodName: C.usuarioValidar.name,
+                            input: input,
+                            output: user
+                        }
+                    }
+                }));
+            }
+        }
+
+        async function fnUsuarioSenhaConferir<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C): Promise<void> {
+            if (!(await decrypt(input.password, user._dataAccess.passwordHash)))
+                await throwUsuarioSenhaIncrementaContadorErroSenha(user, input);
+        }
+
+        async function throwUsuarioSenhaIncrementaContadorErroSenha<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C): Promise<void> {
+            // TODO: incrementar quantidade maxima de erros configurada por parâmetro
+            if (++user._dataAccess.passCountErrors >= 5) {
+                user._dataAccess.isPasswordLocked = true;
+
+                this.usuarioRepo.update(user);
+                // TODO: Enviar e-mail quando a senha for bloqueada
+                this.enviarEmailSenhaBloqueada(user);
+                throwSeUsuarioSenhaBloqueada(user, input);
+            }
+
+            this.usuarioRepo.update(user);
+
+            throwUsuarioSenhaIncorreta(user);
+        }
+
+        async function throwUsuarioSenhaIncorreta<C extends AuthService>(user: UsuarioEntity, C?: C): Promise<UsuarioEntity> {
+            throw new BadRequestException(ApiResponse.handler({
+                codMessage: 0,
+                error: {
+                    message: "Senha incorreta.",
+                    context: {
+                        input: input,
+                        output: {
+                            className: C.LOG_CLASS_NAME,
+                            methodName: C.usuarioValidar.name
+                        }
+                    }
+                }
+            }));
+        }
+
+        function throwSeUsuarioSenhaExcedeuTentativas<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
+            if (user._dataAccess.passCountErrors >= 5)
+                throw new BadRequestException(ApiResponse.handler({
+                    codMessage: 0,
+                    error: {
+                        message: "Número de tentativas erradas superior ao permitido. Senha bloqueada.",
+                        context: {
+                            className: C.LOG_CLASS_NAME,
+                            methodName: C.usuarioValidar.name,
+                            input: input,
+                            output: user
+                        }
+                    }
+                }));
+        }
+
+        async function fnUsuarioAtualizar_zerarContadorTentativas<C extends AuthService>(user: UsuarioEntity, C?: C) {
+            user._dataAccess.passCountErrors = 0;
+            C.usuarioRepo.update(user);
         }
     }
 
@@ -275,51 +297,7 @@ export class AuthService implements IAuthService {
         return token;
     }
 
-    async zerarContadores(codInteressado: number, codUsuarioExterno: number) {
-        const ue = new UsuarioExterno();
-        ue.codInteressado = codInteressado;
-        ue.codUsuarioExterno = codUsuarioExterno;
-        ue.codSenhaBloqueada = 0;
-        ue.codPerSctBloqueada = 0;
-        ue.codSenhaIncorreta = 0;
-        ue.codTentativaPergunta = 0;
-        return this.usuarioExternoService.update(ue);
-    }
 
-    async incrementarContadores(codInteressado: number, codUsuarioExterno: number): Promise<UsuarioExterno> {
-        const usuarioExternoPesquisa = await this.utilRepository.findOne(UsuarioExterno, { codInteressado: codInteressado });
-        const usuarioExternoUpdate = new UsuarioExterno();
-        usuarioExternoUpdate.codInteressado = codInteressado;
-        usuarioExternoUpdate.codUsuarioExterno = codUsuarioExterno;
-        usuarioExternoUpdate.codSenhaIncorreta = usuarioExternoPesquisa.codSenhaIncorreta + 1;
-
-        if (usuarioExternoUpdate.codSenhaIncorreta > 6) {
-            usuarioExternoUpdate.codSenhaBloqueada = 1;
-            this.enviarEmailSenhaBloqueada(usuarioExternoPesquisa);
-        }
-
-        this.usuarioExternoService.update(usuarioExternoUpdate);
-
-        throw new BadRequestException(ApiResponse.handler({
-            codNumber: 47,
-            input: { codInteressado: codInteressado, codUsuarioExterno: codUsuarioExterno },
-            outputError: {
-                message: "Senha incorreta.",
-                context: {
-                    input: {
-                        codUsuarioExterno: usuarioExternoPesquisa.codUsuarioExterno,
-                        codInteressado: usuarioExternoPesquisa.codInteressado,
-                        codSenhaIncorreta: usuarioExternoPesquisa.codSenhaIncorreta
-                    },
-                    output: {
-                        className: this.className,
-                        methodName: "async incrementarContadores(codInteressado: number, codUsuarioExterno: number): Promise<UsuarioExterno>"
-                    }
-                }
-            }
-        }));
-
-    }
 
     async enviarEmailSenhaBloqueada(usuarioExterno) {
 
@@ -330,9 +308,4 @@ export class AuthService implements IAuthService {
 
         this.sistemaMensagemFilaService.create(input);
     }
-}
-
-interface IAuthService {
-    validarSistema(input: LoginSistemaInputDto): Promise<IAPIResponse<LoginSistemaOutputDto>>;
-    usuarioValidar(input: LoginUserInputDto): Promise<IAPIResponse<any>>;
 }

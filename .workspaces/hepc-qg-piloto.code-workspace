@@ -12,9 +12,9 @@
             "path": "../libs",
             "name": "LIBRARY"
         },
-        {
-            "path": "../node_modules"
-        },
+        // {
+        //     "path": "../node_modules"
+        // },
         {
             "path": "../dist"
         },

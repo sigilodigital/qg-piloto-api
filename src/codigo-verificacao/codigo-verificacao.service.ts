@@ -24,21 +24,21 @@ export class CodigoVerificacaoService {
                 .execute();
 
             return ApiResponse.handler({
-                codNumber: 17,
+                codMessage: 17,
                 valueArg: 'Registro salvo!',
                 property: 'Código verificação',
                 input: createCodigoVerificacaoDto,
                 output: data,
-                outputError: undefined
+                error: undefined
             });
         } catch (error) {
             return ApiResponse.handler({
-                codNumber: 43,
+                codMessage: 43,
                 valueArg: 'Erro!',
                 property: 'Código verificação',
                 input: createCodigoVerificacaoDto,
                 output: null,
-                outputError: {
+                error: {
                     message: error.message,
                     context: {
                         input: createCodigoVerificacaoDto,
@@ -55,12 +55,12 @@ export class CodigoVerificacaoService {
     async validar(codigoVerificacaoDto: ICreateCodigoVerificacaoDto['input']) {
         if (!codigoVerificacaoDto)
             return ApiResponse.handler({
-                codNumber: 16,
+                codMessage: 16,
                 valueArg: 'Dados incompletos',
                 property: 'Código verificação',
                 input: codigoVerificacaoDto,
                 output: null,
-                outputError: undefined
+                error: undefined
             });
 
         const data = await AppDataSource.getRepository(CodigoVerificacaoEntity)
@@ -70,20 +70,20 @@ export class CodigoVerificacaoService {
 
         if (data)
             return ApiResponse.handler({
-                codNumber: 15,
+                codMessage: 15,
                 valueArg: 'Registro encontrado',
                 property: 'Código verificação',
                 input: codigoVerificacaoDto,
                 output: data,
-                outputError: undefined
+                error: undefined
             });
         return ApiResponse.handler({
-            codNumber: 16,
+            codMessage: 16,
             valueArg: 'Registro não encontrado',
             property: 'Código verificação',
             input: codigoVerificacaoDto,
             output: data,
-            outputError: undefined
+            error: undefined
         });
     }
 
