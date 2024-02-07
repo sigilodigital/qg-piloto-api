@@ -3,22 +3,15 @@ import { JwtService } from '@nestjs/jwt';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 
 import { UtilRepository } from '@libs/common/repository/util.repository';
-import { ApiResponse, IAPIResponse } from '@libs/common/services/response-handler';
-import { InteressadoEntity } from 'src/interessado/entities/interessado.entity';
-import { InteressadoService } from 'src/interessado/interessado.service';
-import { decrypt } from 'src/shared/utils';
-import { SistemaMetodoDto } from 'src/sistema-ws/dto/sistemaMetodoWs.dto';
-import { ISistemaMensagemFilaCreate, SistemaMensagemFilaService } from './../sistema-mensagem-fila/sistema-mensagem-fila.service';
-import { UsuarioExterno } from './../usuario-externo/entities/usuario-externo.entity';
-import { UsuarioExternoService } from './../usuario-externo/usuario-externo.service';
-import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
-import { SistemaEntity } from './models/entities/sistema.entity';
-import { SistemaMetodoEntity } from './models/entities/sistema-metodo.entity';
-import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
-import { UsuarioService } from 'src/usuario/usuario.service';
-import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
+import { ApiResponse } from '@libs/common/services/response-handler-v2';
+import { UtilService } from '@libs/common/services/util.service';
 import { UsuarioEntity } from 'src/usuario/models/entities/usuario.entity';
+import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
+import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
 import { MetodoEntity } from './models/entities/metodo.entity';
+import { SistemaMetodoEntity } from './models/entities/sistema-metodo.entity';
+import { SistemaEntity } from './models/entities/sistema.entity';
+import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
 
 interface IAuthService {
     sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto>;
@@ -29,16 +22,19 @@ interface IAuthService {
 export class AuthService implements IAuthService {
     readonly LOG_CLASS_NAME = "AuthService";
 
+    private apiResponse: ApiResponse<LoginSistemaInputDto, any>;
     private utilRepository: UtilRepository;
+    private usuarioRepo: UsuarioRepository;
     private entityList: EntityClassOrSchema[];
 
     constructor(
         private jwtService: JwtService,
-        private readonly usuarioRepo: UsuarioRepository,
-        private sistemaMensagemFilaService: SistemaMensagemFilaService
+        private utilService: UtilService
     ) {
         this.entityList = [SistemaEntity, MetodoEntity, SistemaMetodoEntity];
+        this.usuarioRepo = new UsuarioRepository();
         this.utilRepository = new UtilRepository();
+        this.apiResponse = new ApiResponse<LoginSistemaInputDto, any>();
     }
 
     async sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto> {
@@ -65,7 +61,7 @@ export class AuthService implements IAuthService {
 
         function fnThrowSeSistemaAusente<C extends AuthService>(system: SistemaEntity, C?: C): void {
             if (!system)
-                throw new ForbiddenException(ApiResponse.handler({
+                throw new ForbiddenException(C.apiResponse.handler({
                     codMessage: 0,
                     error: {
                         message: 'Sistema não encontrado.',
@@ -81,7 +77,7 @@ export class AuthService implements IAuthService {
 
         function fnThrowSeSistemaInativo<C extends AuthService>(sistema: SistemaEntity, C?: C) {
             if (sistema.isActive === false) {
-                throw new ForbiddenException(ApiResponse.handler({
+                throw new ForbiddenException(C.apiResponse.handler({
                     codMessage: 0,
                     error: {
                         message: 'Sistema está inativo.',
@@ -96,8 +92,8 @@ export class AuthService implements IAuthService {
             }
         }
         async function fnSeSistemaSenhaNaoConfere<C extends AuthService>(system: SistemaEntity, input: LoginSistemaInputDto, C?: C): Promise<void> {
-            if (!(await decrypt(input.password, system.password)))
-                throw new ForbiddenException(ApiResponse.handler({
+            if (!(await C.utilService.decrypt(input.password, system.password)))
+                throw new ForbiddenException(C.apiResponse.handler({
                     codMessage: 0,
                     error: {
                         message: 'Senha não confere.',
@@ -143,7 +139,7 @@ export class AuthService implements IAuthService {
 
         async function throwSeUsuarioAusente<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
             if (!user)
-                throw new BadRequestException(ApiResponse.handler({
+                throw new BadRequestException(C.apiResponse.handler({
                     codMessage: 0,
                     error: {
                         message: 'Usuário não existe!',
@@ -159,7 +155,7 @@ export class AuthService implements IAuthService {
 
         async function throwSeUsuarioInativo<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
             if (user.isActive === false) {
-                throw new BadRequestException(ApiResponse.handler({
+                throw new BadRequestException(C.apiResponse.handler({
                     codMessage: 0,
                     error: {
                         message: "Usuário externo está inativo.",
@@ -176,7 +172,7 @@ export class AuthService implements IAuthService {
 
         async function throwSeUsuarioSenhaNaoCadastrada<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
             if (!user._dataAccess.passwordHash) {
-                throw new BadRequestException(ApiResponse.handler({
+                throw new BadRequestException(C.apiResponse.handler({
                     codMessage: 0,
                     error: {
                         message: 'Dados não conferem, usuário externo com senha em branco!',
@@ -193,7 +189,7 @@ export class AuthService implements IAuthService {
 
         function throwSeUsuarioSenhaBloqueada<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
             if (user._dataAccess.isPasswordLocked === true) {
-                throw new ForbiddenException(ApiResponse.handler({
+                throw new ForbiddenException(C.apiResponse.handler({
                     codMessage: 0,
                     error: {
                         // message: 'Número de tentativas erradas superior a 6, senha bloqueada.',
@@ -211,7 +207,7 @@ export class AuthService implements IAuthService {
 
         async function fnSeUsuarioSenhaRequerAlteracao<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C): Promise<void> {
             if (user._dataAccess.isPasswordRequireChange === true) {
-                throw new BadRequestException(ApiResponse.handler({
+                throw new BadRequestException(C.apiResponse.handler({
                     codMessage: 0,
                     error: {
                         message: 'A conta requer alteração de senha.',
@@ -227,7 +223,7 @@ export class AuthService implements IAuthService {
         }
 
         async function fnUsuarioSenhaConferir<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C): Promise<void> {
-            if (!(await decrypt(input.password, user._dataAccess.passwordHash)))
+            if (!(await C.utilService.decrypt(input.password, user._dataAccess.passwordHash)))
                 await throwUsuarioSenhaIncrementaContadorErroSenha(user, input);
         }
 
@@ -248,7 +244,7 @@ export class AuthService implements IAuthService {
         }
 
         async function throwUsuarioSenhaIncorreta<C extends AuthService>(user: UsuarioEntity, C?: C): Promise<UsuarioEntity> {
-            throw new BadRequestException(ApiResponse.handler({
+            throw new BadRequestException(C.apiResponse.handler({
                 codMessage: 0,
                 error: {
                     message: "Senha incorreta.",
@@ -265,7 +261,7 @@ export class AuthService implements IAuthService {
 
         function throwSeUsuarioSenhaExcedeuTentativas<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
             if (user._dataAccess.passCountErrors >= 5)
-                throw new BadRequestException(ApiResponse.handler({
+                throw new BadRequestException(C.apiResponse.handler({
                     codMessage: 0,
                     error: {
                         message: "Número de tentativas erradas superior ao permitido. Senha bloqueada.",
@@ -281,7 +277,7 @@ export class AuthService implements IAuthService {
 
         async function fnUsuarioAtualizar_zerarContadorTentativas<C extends AuthService>(user: UsuarioEntity, C?: C) {
             user._dataAccess.passCountErrors = 0;
-            C.usuarioRepo.update(user);
+            // C.usuarioRepo.update(user);
         }
     }
 
@@ -301,11 +297,11 @@ export class AuthService implements IAuthService {
 
     async enviarEmailSenhaBloqueada(usuarioExterno) {
 
-        const input: ISistemaMensagemFilaCreate['input'] = {
-            usuarioExterno: usuarioExterno,
-            codModeloEmail: 'cod_modelo_email_senha_bloqueada'
-        };
+        // const input: ISistemaMensagemFilaCreate['input'] = {
+        //     usuarioExterno: usuarioExterno,
+        //     codModeloEmail: 'cod_modelo_email_senha_bloqueada'
+        // };
 
-        this.sistemaMensagemFilaService.create(input);
+        // this.sistemaMensagemFilaService.create(input);
     }
 }

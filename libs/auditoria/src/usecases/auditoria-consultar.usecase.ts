@@ -16,8 +16,8 @@ export class AuditoriaConsultarUseCase {
         if (input.dtInicial && input.dtFinal)
             where.dtAcao = Between(input.dtInicial, input.dtFinal);
 
-        if (input.codInteressado)
-            where.codInteressado = Equal(input.codInteressado);
+        if (input.usuarioId)
+            where.usuarioId = Equal(input.usuarioId);
 
         if (input.operacaoTipo)
             where.txtAlteracao = Like(input.operacaoTipo);

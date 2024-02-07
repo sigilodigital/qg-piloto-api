@@ -22,6 +22,10 @@ export class UsuarioIncluirInputDto {
     @Validate(ValidaSchema, [<IConstraintSchema>{}])
     fullname: string;
 
+    @ApiProperty({ name: 'socialName', type: String, nullable: true, required: false, maxLength: 255 })
+    @Validate(ValidaSchema, [<IConstraintSchema>{}])
+    socialName?: string | null;
+
     @ApiProperty({ name: 'contato', type: EmailEntity, nullable: false, maxLength: 100, required: true })
     @Validate(ValidaSchema, [<IConstraintSchema>{ length: 100 }])
     _contato: ContatoEntity;
@@ -38,22 +42,20 @@ export class UsuarioIncluirInputDto {
 export class UsuarioIncluirOutputDto {
 
     @ApiProperty({ name: 'id', type: String, nullable: false, required: true, maxLength: 11 })
-    @Validate(ValidaSchema, [<IConstraintSchema>{}])
     id?: string;
 
     @ApiProperty({ name: 'cpf', type: Number, nullable: false, required: true, maxLength: 11 })
-    @Validate(ValidaSchema, [<IConstraintSchema>{}])
     cpf: number;
 
     @ApiProperty({ name: 'fullname', type: String, nullable: false, required: true, maxLength: 255 })
-    @Validate(ValidaSchema, [<IConstraintSchema>{}])
     fullname: string;
 
+    @ApiProperty({ name: 'socialName', type: String, nullable: true, required: false, maxLength: 255 })
+    socialName?: string | null;
+
     @ApiProperty({ name: 'contato', type: EmailEntity, nullable: false, maxLength: 100, required: true })
-    @Validate(ValidaSchema, [<IConstraintSchema>{ length: 100 }])
     _contato: ContatoEntity;
 
     @ApiProperty({ name: 'isActive', type: Boolean, nullable: true, required: false, default: true })
-    @Validate(ValidaSchema, [<IConstraintSchema>{}])
     isActive: boolean;
 }

@@ -73,7 +73,8 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
 export interface IGenericRepository<E> {
     find(object: FindManyOptions<E>): Promise<E[]>;
     findBy(object: FindOptionsWhere<E>): Promise<E[]>;
-    findOne(object: FindOptionsWhere<E>): Promise<E>;
+    findOne(object: FindManyOptions<E>): Promise<E>;
+    findOneBy(object: FindOptionsWhere<E>): Promise<E>;
     save(object: E): Promise<E>;
     update(object: E): Promise<E>;
 }

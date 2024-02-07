@@ -1,22 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import { AppDataSource } from 'src/database';
 import { ICreateCodigoVerificacaoDto, } from './dto/create-codigo-verificacao.dto';
 import { UpdateCodigoVerificacaoDto } from './dto/update-codigo-verificacao.dto';
 import { ApiResponse } from '@libs/common/services/response-handler';
 import { CodigoVerificacaoEntity } from './entities/codigo-verificacao.entity';
+import { IUtilRepository, UtilRepository } from '@libs/common/repository/util.repository';
 
 @Injectable()
 export class CodigoVerificacaoService {
     private className = "CodigoVerificacaoService";
+    private utilRepo: IUtilRepository;
+    constructor() {
+        this.utilRepo = new UtilRepository();
+    }
 
     async create(createCodigoVerificacaoDto: ICreateCodigoVerificacaoDto['input']) {
         const methodName = "async create(createCodigoVerificacaoDto: ICreateCodigoVerificacaoDto['input'])";
 
+        const u = await this.utilRepo.init([]);
         try {
-            createCodigoVerificacaoDto.codCodigoVerificacaoPessoa = (await AppDataSource.manager
+            createCodigoVerificacaoDto.codCodigoVerificacaoPessoa = (await u.manager
                 .query('SELECT S_TBL_CODIGO_VERIFICACAO_PESSOA.NEXTVAL FROM DUAL'))[0].NEXTVAL;
 
-            const data = await AppDataSource.getRepository(CodigoVerificacaoEntity)
+            const data = await u.manager.getRepository(CodigoVerificacaoEntity)
                 .createQueryBuilder('TBL_CODIGO_VERIFICACAO_PESSOA')
                 .insert()
                 .into(CodigoVerificacaoEntity)
@@ -53,6 +58,9 @@ export class CodigoVerificacaoService {
     }
 
     async validar(codigoVerificacaoDto: ICreateCodigoVerificacaoDto['input']) {
+
+        const u = await this.utilRepo.init([]);
+
         if (!codigoVerificacaoDto)
             return ApiResponse.handler({
                 codMessage: 16,
@@ -63,7 +71,7 @@ export class CodigoVerificacaoService {
                 error: undefined
             });
 
-        const data = await AppDataSource.getRepository(CodigoVerificacaoEntity)
+        const data = await u.manager.getRepository(CodigoVerificacaoEntity)
             .createQueryBuilder('TBL_CODIGO_VERIFICACAO_PESSOA')
             .where(codigoVerificacaoDto)
             .getOne();
@@ -87,19 +95,4 @@ export class CodigoVerificacaoService {
         });
     }
 
-    findAll() {
-        return `This action returns all codigoVerificacao`;
-    }
-
-    findOne(id: number) {
-        return `This action returns a #${id} codigoVerificacao`;
-    }
-
-    update(id: number, updateCodigoVerificacaoDto: UpdateCodigoVerificacaoDto) {
-        return `This action updates a #${id} codigoVerificacao`;
-    }
-
-    remove(id: number) {
-        return `This action removes a #${id} codigoVerificacao`;
-    }
 }

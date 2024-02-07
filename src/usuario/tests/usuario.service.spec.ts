@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsuarioService } from '../usuario.service';
+
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from '../models/dto/usuario-consultar.dto';
 import { UsuarioRepository } from '../repositories/usuario-repository';
-import { LoginUserInputDto } from 'src/auth/models/dto/login-user.dto';
+import { UsuarioService } from '../usuario.service';
 
 describe('UsuarioService', () => {
     let service: UsuarioService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [UsuarioService, UsuarioRepository],
+            providers: [UsuarioService],
         }).compile();
 
         service = module.get<UsuarioService>(UsuarioService);

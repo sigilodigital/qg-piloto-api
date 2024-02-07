@@ -3,8 +3,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 
 import { UtilRepository } from '@libs/common/repository/util.repository';
-import { SegMetodoWsDto } from 'src/sistema-ws/dto/segMetodoWs';
-import { SistemaMetodoDto } from 'src/sistema-ws/dto/sistemaMetodoWs.dto';
 import { ApiResponse } from '../../shared/response-handler';
 import { SistemaEntity } from '../models/entities/sistema.entity';
 import { RotasInternasConfig } from '../utils/rotarInternas-map';
@@ -61,7 +59,7 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
     }
 
     async getSistema() {
-        return await this.utilRepository.findOne(SistemaEntity, { username: this.handle.user['systemDataLogin']['username'] });
+        return await this.utilRepository.findOneBy(SistemaEntity, { username: this.handle.user['systemDataLogin']['username'] });
     }
 
     async getMetodosWS(context: ExecutionContext) {
@@ -69,7 +67,7 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
         let methodName = fnNormalizarUrlParaMetodo(pathMethod.methodName)
         // if (methodName) methodName = await this.fnGetMethodInterno(context);
         if (methodName) {
-            return await this.utilRepository.findOne(SegMetodoWsDto, { txtMetodo: methodName });
+            return await this.utilRepository.findOneBy(MetodoEntity, { nome: methodName });
         } else fnFalhaTokenInexistente();
 
         function fnNormalizarUrlParaMetodo(url: string){
@@ -141,8 +139,8 @@ function fnSeSistemaInativoException(thiss: any, sistema: SistemaEntity) {
     }
 }
 
-function fnSeMetodoInativoException(metodosWs: SegMetodoWsDto) {
-    if (metodosWs.codAtivo == 0) {
+function fnSeMetodoInativoException(metodosWs: MetodoEntity) {
+    if (metodosWs.seAtivo == false) {
         throw new UnauthorizedException(ApiResponse.handler({
             codNumber: 7,
             outputError: {
@@ -158,7 +156,7 @@ function fnSeMetodoInativoException(metodosWs: SegMetodoWsDto) {
     }
 }
 
-function fnSeMetodoNaoEncontradoException(metodosWs: SegMetodoWsDto, sistema: SistemaEntity) {
+function fnSeMetodoNaoEncontradoException(metodosWs: MetodoEntity, sistema: SistemaEntity) {
     throw new UnauthorizedException(ApiResponse.handler({
         codNumber: 8,
         outputError: {
@@ -171,8 +169,8 @@ function fnSeMetodoNaoEncontradoException(metodosWs: SegMetodoWsDto, sistema: Si
                         txtDescricao: sistema.description
                     },
                     metodo: {
-                        nome: metodosWs.txtMetodo,
-                        descricao: metodosWs.txtDescricao
+                        nome: metodosWs.nome,
+                        descricao: metodosWs.descricao
                     }
                 },
                 output: {

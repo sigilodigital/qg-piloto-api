@@ -47,12 +47,11 @@ interface IObjError {
         className?: string;
         methodName?: string;
         input?: IMensagem['input'],
-        output?: IMensagem['input']
-        // output?: {
-        //     className?: string;
-        //     methodName?: string;
-        //     objectError?: object;
-        // };
+        output?: {
+            className?: string;
+            methodName?: string;
+            objectError?: object;
+        };
     };
 }
 

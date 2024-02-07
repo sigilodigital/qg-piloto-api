@@ -1,4 +1,4 @@
-
+import { Injectable } from '@nestjs/common';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 import { FindOptionsWhere, QueryRunner } from 'typeorm';
 
@@ -12,6 +12,7 @@ import { ProfileEntity } from '../models/entities/profile.entity';
 import { TelefoneEntity } from '../models/entities/telefone.entity';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
 
+@Injectable()
 export class UsuarioRepository extends GenericRepository<UsuarioEntity> implements IUsuarioRepository {
 
     constructor(config?: EntityClassOrSchema[] | QueryRunner) {
@@ -27,5 +28,5 @@ export class UsuarioRepository extends GenericRepository<UsuarioEntity> implemen
 }
 
 export interface IUsuarioRepository extends IGenericRepository<UsuarioEntity> {
-    usuarioFind(usuario: UsuarioEntity): Promise<UsuarioEntity[]>;
+    usuarioFind(usuario: FindOptionsWhere<UsuarioEntity>): Promise<UsuarioEntity[]>;
 }

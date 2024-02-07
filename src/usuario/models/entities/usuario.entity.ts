@@ -13,8 +13,8 @@ export class UsuarioEntity {
     @Column("varchar", { name: "fullname", length: 255 })
     fullname: string;
 
-    @Column("varchar", { name: "socialName", length: 255 })
-    socialName: string;
+    @Column("varchar", { name: "socialName", length: 255, nullable: true })
+    socialName?: string | null;
 
     @Column("bigint", { name: "cpf", unique: true })
     cpf: number;

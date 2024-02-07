@@ -1,24 +1,23 @@
 
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { LoginUserInputDto } from 'src/auth/models/dto/login-user.dto';
-import { IAuthRepository } from 'src/auth/repository/auth-repository';
-import { InteressadoEntity } from 'src/interessado/entities/interessado.entity';
 import { ApiResponse } from '@libs/common/services/response-handler';
-import { UsuarioExterno } from 'src/usuario-externo/entities/usuario-externo.entity';
+import { IUtilRepository } from '@libs/common/repository/util.repository';
+import { UsuarioEntity } from 'src/usuario/models/entities/usuario.entity';
 
-type PessoaType = UsuarioExterno & InteressadoEntity;
+type PessoaType = UsuarioEntity;
 
 export class CertificadoUsuarioExternoVerificarUseCase {
 
-    constructor(private authRepository: IAuthRepository) { }
+    constructor(private authRepository: IUtilRepository) { }
 
     public async handle(txtCnpjCpf: string) {
         let pessoa: PessoaType;
-        try {
-            pessoa = await this.authRepository.findByCnpjCpf(txtCnpjCpf);
-        } catch (error) {
-            fnCatchError(error);
-        }
+        // try {
+        //     pessoa = await this.authRepository.findByCnpjCpf(txtCnpjCpf);
+        // } catch (error) {
+        //     fnCatchError(error);
+        // }
 
         // this.seNaoUsuarioException(pessoa);
         // this.seInativoException(pessoa);
@@ -29,10 +28,10 @@ export class CertificadoUsuarioExternoVerificarUseCase {
 
     private extrairSomenteDadosDeLogin(pessoa: PessoaType) {
         const usuarioExternoLogado: any = { //!ALTERADO
-            codUsuarioExterno: pessoa.codUsuarioExterno,
-            codInteressado: pessoa.codInteressado,
-            txtInteressado: pessoa.txtInteressado,
-            txtCnpjCpf: pessoa.txtCnpjCpf,
+            // codUsuarioExterno: pessoa.codUsuarioExterno,
+            // codInteressado: pessoa.codInteressado,
+            // txtInteressado: pessoa.txtInteressado,
+            // txtCnpjCpf: pessoa.txtCnpjCpf,
         };
         return usuarioExternoLogado;
     }
