@@ -4,14 +4,14 @@ import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-clas
 
 import { UtilRepository } from '@libs/common/repository/util.repository';
 import { ApiResponse } from '@libs/common/services/response-handler-v2';
-import { UtilService } from '@libs/common/services/util.service';
 import { UsuarioEntity } from 'src/usuario/models/entities/usuario.entity';
+import { IUsuarioRepository, UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
 import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
 import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
 import { MetodoEntity } from './models/entities/metodo.entity';
 import { SistemaMetodoEntity } from './models/entities/sistema-metodo.entity';
 import { SistemaEntity } from './models/entities/sistema.entity';
-import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
+import { IUtilService, UtilService } from '@libs/common/services/util.service';
 
 interface IAuthService {
     sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto>;
@@ -22,19 +22,17 @@ interface IAuthService {
 export class AuthService implements IAuthService {
     readonly LOG_CLASS_NAME = "AuthService";
 
-    private apiResponse: ApiResponse<LoginSistemaInputDto, any>;
     private utilRepository: UtilRepository;
-    private usuarioRepo: UsuarioRepository;
     private entityList: EntityClassOrSchema[];
 
     constructor(
+        private apiResponse: ApiResponse<LoginSistemaInputDto, any>,
         private jwtService: JwtService,
-        private utilService: UtilService
+        private utilService: UtilService,
+        private usuarioRepo: UsuarioRepository
     ) {
         this.entityList = [SistemaEntity, MetodoEntity, SistemaMetodoEntity];
-        this.usuarioRepo = new UsuarioRepository();
         this.utilRepository = new UtilRepository();
-        this.apiResponse = new ApiResponse<LoginSistemaInputDto, any>();
     }
 
     async sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto> {
@@ -277,7 +275,7 @@ export class AuthService implements IAuthService {
 
         async function fnUsuarioAtualizar_zerarContadorTentativas<C extends AuthService>(user: UsuarioEntity, C?: C) {
             user._dataAccess.passCountErrors = 0;
-            // C.usuarioRepo.update(user);
+            C.usuarioRepo.update(user);
         }
     }
 

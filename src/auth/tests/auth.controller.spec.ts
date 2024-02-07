@@ -6,6 +6,9 @@ import { AuthService } from '../auth.service';
 import { LoginUserOutputDto } from '../models/dto/login-user.dto';
 import { UsuarioModule } from 'src/usuario/usuario.module';
 import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
+import { ApiResponse } from '@libs/common/services/response-handler-v2';
+import { JwtService } from '@nestjs/jwt';
+import { UtilService } from '@libs/common/services/util.service';
 
 describe('AuthController', () => {
     let controller: AuthController;
@@ -14,7 +17,7 @@ describe('AuthController', () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [],
             controllers: [AuthController],
-            providers: [AuthService]
+            providers: [AuthService, ApiResponse, JwtService, UtilService, UsuarioRepository]
         }).compile();
 
         controller = module.get<AuthController>(AuthController);
@@ -44,7 +47,7 @@ describe('AuthController - usuarioSenhaValidar', () => {
                     useValue: {
                         tokenUserGenerate: jest.fn().mockResolvedValue('mockToken'),
                     },
-                },
+                }, ApiResponse, JwtService, UtilService, UsuarioRepository
             ],
         }).compile();
 

@@ -110,7 +110,7 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^src/(.*)$": "<rootDir>/$1",
+      "^src/(.*)$": "<rootDir>/src/$1",
       "^@libs/common(|/.*)$": "<rootDir>/libs/common/src/$1",
       "^@libs/auditoria(|/.*)$": "<rootDir>/libs/auditoria/src/$1"
     }

@@ -12,7 +12,7 @@ import { ProfileEntity } from '../models/entities/profile.entity';
 import { TelefoneEntity } from '../models/entities/telefone.entity';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
 
-@Injectable()
+// @Injectable()
 export class UsuarioRepository extends GenericRepository<UsuarioEntity> implements IUsuarioRepository {
 
     constructor(config?: EntityClassOrSchema[] | QueryRunner) {

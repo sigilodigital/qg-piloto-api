@@ -4,14 +4,14 @@ import { JwtService } from '@nestjs/jwt';
 import { UtilService } from '@libs/common/services/util.service';
 import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
 import { UsuarioModule } from 'src/usuario/usuario.module';
+import { ApiResponse } from '@libs/common/services/response-handler-v2';
 
 describe('AuthService', () => {
     let service: AuthService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            imports: [UsuarioModule],
-            providers: [AuthService, JwtService, UtilService, UsuarioRepository],
+            providers: [AuthService, ApiResponse, JwtService, UtilService, UsuarioRepository],
         }).compile();
 
         service = module.get<AuthService>(AuthService);
@@ -75,4 +75,37 @@ describe('AuthService', () => {
 //     });
 
 //     // Additional tests for other AuthService methods can go here
+//   });
+
+// describe('AuthService', () => {
+//     let authService: AuthService;
+    
+//     beforeEach(async () => {
+//       const module: TestingModule = await Test.createTestingModule({
+//         providers: [AuthService],
+//       }).compile();
+
+//       authService = module.get<AuthService>(AuthService);
+//     });
+
+//     describe('usuarioValidar', () => {
+//       it('should return a LoginUserOutputDto when valid input is provided', async () => {
+//         const input: LoginUserInputDto = {
+//           username: 'testUser',
+//           password: 'testPass'
+//         };
+//         const user: UsuarioEntity = new UsuarioEntity();
+//         user._dataAccess = { username: 'testUser', password: 'hashedPassword' };
+
+//         jest.spyOn(authService, 'usuarioRepo.findOne').mockResolvedValue(user);
+//         jest.spyOn(authService, 'throwSeUsuarioAusente').mockResolvedValue(undefined);
+//         jest.spyOn(authService, 'throwSeUsuarioInativo').mockResolvedValue(undefined);
+//         jest.spyOn(authService, 'throwSeUsuarioSenhaNaoCadastrada').mockResolvedValue(undefined);
+//         jest.spyOn(authService, 'throwSeUsuarioSenhaBloqueada').mockResolvedValue(undefined);
+//         jest.spyOn(authService, 'fnUsuarioSenhaConferir').mockResolvedValue(undefined);
+
+//         const result = await authService.usuarioValidar(input);
+//         expect(result).toBeInstanceOf(LoginUserOutputDto);
+//       });
+//     });
 //   });
