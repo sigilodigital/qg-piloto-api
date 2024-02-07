@@ -22,13 +22,13 @@ export class UsuarioIncluirInputDto {
     @Validate(ValidaSchema, [<IConstraintSchema>{}])
     fullname: string;
 
-    @ApiProperty({ name: 'socialName', type: String, nullable: true, required: false, maxLength: 255 })
+    @ApiProperty({ name: 'socialname', type: String, nullable: true, required: false, maxLength: 255 })
     @Validate(ValidaSchema, [<IConstraintSchema>{}])
-    socialName?: string | null;
+    socialname?: string | null;
 
     @ApiProperty({ name: 'contato', type: EmailEntity, nullable: false, maxLength: 100, required: true })
     @Validate(ValidaSchema, [<IConstraintSchema>{ length: 100 }])
-    _contato: ContatoEntity;
+    _contato?: ContatoEntity;
 
     @ApiProperty({ name: 'password', type: String, nullable: false, maxLength: 20, required: true })
     @Validate(ValidaSchema, [<IConstraintSchema>{}])
@@ -50,11 +50,11 @@ export class UsuarioIncluirOutputDto {
     @ApiProperty({ name: 'fullname', type: String, nullable: false, required: true, maxLength: 255 })
     fullname: string;
 
-    @ApiProperty({ name: 'socialName', type: String, nullable: true, required: false, maxLength: 255 })
-    socialName?: string | null;
+    @ApiProperty({ name: 'socialname', type: String, nullable: true, required: false, maxLength: 255 })
+    socialname?: string | null;
 
     @ApiProperty({ name: 'contato', type: EmailEntity, nullable: false, maxLength: 100, required: true })
-    _contato: ContatoEntity;
+    _contato?: ContatoEntity;
 
     @ApiProperty({ name: 'isActive', type: Boolean, nullable: true, required: false, default: true })
     isActive: boolean;

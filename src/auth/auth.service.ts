@@ -104,22 +104,21 @@ export class AuthService implements IAuthService {
                     }
                 }));
         }
-
     }
 
     async usuarioValidar(input: LoginUserInputDto): Promise<LoginUserOutputDto> {
 
         const user: UsuarioEntity = await this.usuarioRepo.findOne({ where: { _dataAccess: { username: input.username } }, relations: { _dataAccess: true } });
 
-        await throwSeUsuarioAusente(user, input);
-        await throwSeUsuarioInativo(user, input);
-        await throwSeUsuarioSenhaNaoCadastrada(user, input);
-        await throwSeUsuarioSenhaBloqueada(user, input);
-        // await fnSeUsuarioSenhaRequerAlteracao(user, input);
-        await fnUsuarioSenhaConferir(user, input);
-        await throwSeUsuarioSenhaExcedeuTentativas(user, input);
+        await throwSeUsuarioAusente(user, input, this);
+        await throwSeUsuarioInativo(user, input, this);
+        await throwSeUsuarioSenhaNaoCadastrada(user, input, this);
+        await throwSeUsuarioSenhaBloqueada(user, input, this);
+        // await fnSeUsuarioSenhaRequerAlteracao(user, input, this);
+        await fnUsuarioSenhaConferir(user, input, this);
+        await throwSeUsuarioSenhaExcedeuTentativas(user, input, this);
 
-        fnUsuarioAtualizar_zerarContadorTentativas(user);
+        fnUsuarioAtualizar_zerarContadorTentativas(user, this);
         const result = fnUsuarioDto(user);
         return result;
 
@@ -128,7 +127,7 @@ export class AuthService implements IAuthService {
                 cpf: user.cpf,
                 fullname: user.fullname,
                 id: user.id,
-                socialName: user.socialName,
+                socialname: user.socialname,
                 __params: {
                     isPasswordRequireChange: user._dataAccess.isPasswordRequireChange
                 }
@@ -222,7 +221,7 @@ export class AuthService implements IAuthService {
 
         async function fnUsuarioSenhaConferir<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C): Promise<void> {
             if (!(await C.utilService.decrypt(input.password, user._dataAccess.passwordHash)))
-                await throwUsuarioSenhaIncrementaContadorErroSenha(user, input);
+                await throwUsuarioSenhaIncrementaContadorErroSenha(user, input, C);
         }
 
         async function throwUsuarioSenhaIncrementaContadorErroSenha<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C): Promise<void> {
@@ -230,15 +229,15 @@ export class AuthService implements IAuthService {
             if (++user._dataAccess.passCountErrors >= 5) {
                 user._dataAccess.isPasswordLocked = true;
 
-                this.usuarioRepo.update(user);
+                await C.usuarioRepo.update(user);
                 // TODO: Enviar e-mail quando a senha for bloqueada
-                this.enviarEmailSenhaBloqueada(user);
-                throwSeUsuarioSenhaBloqueada(user, input);
+                // C.enviarEmailSenhaBloqueada(user);
+                await throwSeUsuarioSenhaBloqueada(user, input, C);
             }
 
-            this.usuarioRepo.update(user);
+            C.usuarioRepo.update(user);
 
-            throwUsuarioSenhaIncorreta(user);
+            await throwUsuarioSenhaIncorreta(user, C);
         }
 
         async function throwUsuarioSenhaIncorreta<C extends AuthService>(user: UsuarioEntity, C?: C): Promise<UsuarioEntity> {
@@ -279,19 +278,11 @@ export class AuthService implements IAuthService {
         }
     }
 
-    async tokenSystemGenerate(sistema: any): Promise<string> {
-        const payload = { systemDataLogin: sistema };
-        const token = this.jwtService.sign(payload);
+    async tokenGenerate(loginData: LoginSistemaOutputDto | LoginUserOutputDto | unknown, options?: { expiresIn?: string; }): Promise<string> {
+        const payload = { loginData };
+        const token = this.jwtService.sign(payload, options);
         return token;
     }
-
-    async tokenUserGenerate(user: any): Promise<string> {
-        const payload = { userDataLogin: user };
-        const token = this.jwtService.sign(payload);
-        return token;
-    }
-
-
 
     async enviarEmailSenhaBloqueada(usuarioExterno) {
 

@@ -22,10 +22,14 @@ export class LoginUserOutputDto {
 
     id: string;
     fullname: string;
-    socialName: string;
+    socialname: string;
     cpf: number;
     __params: {
         isPasswordRequireChange: boolean;
+    }
+    token?: {
+        bearer: string;
+        replace: string;
     }
 
 }

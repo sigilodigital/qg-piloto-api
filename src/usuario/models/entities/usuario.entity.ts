@@ -13,8 +13,8 @@ export class UsuarioEntity {
     @Column("varchar", { name: "fullname", length: 255 })
     fullname: string;
 
-    @Column("varchar", { name: "socialName", length: 255, nullable: true })
-    socialName?: string | null;
+    @Column("varchar", { name: "socialname", length: 255, nullable: true })
+    socialname?: string | null;
 
     @Column("bigint", { name: "cpf", unique: true })
     cpf: number;
@@ -24,7 +24,7 @@ export class UsuarioEntity {
 
     @OneToOne(type => ContatoEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
     @JoinColumn()
-    _contato: ContatoEntity;
+    _contato?: ContatoEntity;
 
     @OneToOne(type => LoginInfoEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
     @JoinColumn({name: 'LoginInfoId'})

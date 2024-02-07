@@ -4,8 +4,8 @@ import { MensagenEnum } from "../enumerations/mensagens.enum";
 import { GlobalService } from "./global.service";
 
 @Injectable()
-export class ApiResponse<Tin,Tout> {
-    handler(input: IMensagem<Tin,Tout>): IAPIResponse<Tin, Tout> {
+export class ApiResponse<Tin, Tout> {
+    handler(input: IMensagem<Tin, Tout>): IAPIResponse<Tin, Tout> {
         let mensagem = MensagenEnum[input.codMessage];
         if (input.property)
             mensagem = mensagem?.replace("@campo", input.property);
@@ -17,8 +17,8 @@ export class ApiResponse<Tin,Tout> {
             status: {
                 statusCode: input.codMessage,
                 message: mensagem,
-                ...(!(GlobalService.debugModeVerify() && input?.error?.message)) ? undefined : {
-                    error: <IError<Tin, Tout>>{
+                ...(!(GlobalService.debugModeVerify() && (input?.error?.message || input?.warning?.message))) ? undefined : {
+                    [(input.error) ? 'error' : 'warning']: <IError<Tin, Tout>>{
                         message: input?.error?.message,
                         context: {
                             className: input?.error?.context?.className,
@@ -42,15 +42,16 @@ interface IStatusMessage<Tin, Tout> {
     statusCode: number;
     message: string;
     error?: IError<Tin, Tout>;
+    warning?: IError<Tin, Tout>;
 }
 
-interface IError<Tin,Tout> {
+interface IError<Tin, Tout> {
     message: string;
     context?: {
         className?: string;
         methodName?: string;
         input?: Tin,
-        output?: Tout
+        output?: Tout;
     };
 }
 
@@ -61,5 +62,6 @@ interface IMensagem<Tin, Tout> {
     input?: Tin,
     output?: Tout,
     error?: IError<Tin, Tout>;
+    warning?: IError<Tin, Tout>;
 }
 

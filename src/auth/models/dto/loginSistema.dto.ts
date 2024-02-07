@@ -33,4 +33,5 @@ export class LoginSistemaOutputDto {
     
     sistema: SistemaEntity;
     metodoList: MetodoEntity[];
+    token?: string;
 }

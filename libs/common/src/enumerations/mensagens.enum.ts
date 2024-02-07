@@ -3,30 +3,34 @@ export enum MensagenEnum {
     "Falha." = 0,
     "Sucesso." = 1,
     // CREATE
-    "Registro incluído." = 17,
+    "Registro incluído." = 10,
     // UPDATE
+    "Registro atualizado." = 11,
     // DELETE
+    "Registro removido." = 12,
     // FIND
     "Registro encontrado." = 2,
     "Registro não encontrado." = 16,
     // ERROR - FIELD VALIDATION
-    "Campo inválido." = 1,
-    "Campo @campo não solicitado." = 1,
-    "Campo @campo não informado." = 1,
-    "Tipo do campo @campo é inválido." = 3,
-    "Tamanho do campo @campo é inválido." = 2,
-    "Valor do campo @campo é inválido." = 4,
+    "Campo inválido." = 20,
+    "Campo @campo não solicitado." = 21,
+    "Campo @campo não informado." = 22,
+    "Tipo do campo @campo é inválido." = 23,
+    "Tamanho do campo @campo é inválido." = 24,
+    "Valor do campo @campo é inválido." = 25,
     // ERROR - AUTH
     "Acesso público negado." = 14,
     // ERROR - AUTH_SYS
-    "Sistema não autenticado." = 6,
-    "Sistema não encontrado." = 5,
-    "Sistema inativado." = 7,
-    "Sistema não tem acesso ao método solicitado." = 8,
+    "Sistema não encontrado." = 90,
+    "Sistema inativado." = 91,
+    "Sistema não autenticado." = 92,
+    "Sistema não tem acesso ao método solicitado." = 93,
     // ERROR - AUTH_USR
     "Perfil não tem acesso ao método solicitado." = 8,
     // ERROR - FIND
-    "CEP não encontrado." = 20,
+    "Consulta externa não encontrada." = 30,
+    "URL inválida." = 31,
+    "CEP não encontrado." = 32,
     
     // CONTINUAR CORREÇÃO DAQUI --------------------------------
     "Falha. Campo @campo não é compatível com o tipo da pessoa do cod_cpf_cnpj informado." = 18,
