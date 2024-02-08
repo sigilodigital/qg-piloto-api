@@ -14,7 +14,6 @@ describe('AuthController', () => {
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            imports: [],
             controllers: [AuthController],
             providers: [AuthService, ApiResponse, JwtService, UtilService, UsuarioRepository]
         }).compile();
