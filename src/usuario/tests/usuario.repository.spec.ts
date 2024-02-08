@@ -19,6 +19,35 @@ describe('UsuarioRepository', () => {
     it('should be defined', () => {
         expect(repo).toBeDefined();
     });
+});
+
+describe('UsuarioRepository: Testando conexão com DB', () => {
+    let repo: UsuarioRepository;
+
+    beforeEach(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+            providers: [UsuarioRepository],
+        }).compile();
+
+        repo = module.get<UsuarioRepository>(UsuarioRepository);
+    });
+
+    it('should be defined', () => {
+        expect(repo).toBeDefined();
+    });
+
+});
+
+describe('UsuarioRepository: testando os métodos do repository', () => {
+    let repo: UsuarioRepository;
+
+    beforeEach(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+            providers: [UsuarioRepository],
+        }).compile();
+
+        repo = module.get<UsuarioRepository>(UsuarioRepository);
+    });
 
     it('usuarioRepository:usuarioFind: deve retornar uma lista de usuários ativos', async () => {
         const input: UsuarioConsultarInputDto = { isActive: true };
