@@ -2,38 +2,49 @@ import { Injectable } from "@nestjs/common";
 
 import { MensagenEnum } from "../enumerations/mensagens.enum";
 import { GlobalService } from "./global.service";
+import { IMessage } from "./code-messages";
 
 @Injectable()
 export class ApiResponse<Tin, Tout> {
-    handler(input: IMensagem<Tin, Tout>): IAPIResponse<Tin, Tout> {
-        let mensagem = MensagenEnum[input.codMessage];
-        if (input.property)
-            mensagem = mensagem?.replace("@campo", input.property);
-        if (input.valueArg)
-            mensagem = mensagem?.replace("@valor", input.valueArg);
+    handler(input: IApiResponseMessage<Tin, Tout>): IAPIResponseHandler<Tin, Tout> {
+        let message = fnReplaceText(input);
+        const msgType = (input.error) ? 'error' : 'warning';
 
-        return {
-            data: input.output,
-            status: {
-                statusCode: input.codMessage,
-                message: mensagem,
-                ...(!(GlobalService.debugModeVerify() && (input?.error?.message || input?.warning?.message))) ? undefined : {
-                    [(input.error) ? 'error' : 'warning']: <IError<Tin, Tout>>{
-                        message: input?.error?.message,
-                        context: {
-                            className: input?.error?.context?.className,
-                            methodName: input?.error?.context?.methodName,
-                            input: input?.input,
-                            output: input.output
-                        }
-                    }
-                }
-            }
+        const data: Tout = input.output;
+        const status: IStatusMessage<Tin, Tout> = {
+            statusCode: input.objMessage.code,
+            message: message,
+            [msgType]: precaution(input)
         };
+
+        return { data, status };
+
+        function precaution(input: IApiResponseMessage<Tin, Tout>): IError<Tin, Tout> {
+            return (!(GlobalService.debugModeVerify() && (input?.error?.message || input?.warning?.message)))
+                ? undefined
+                : {
+                    message: input[msgType]?.message,
+                    context: {
+                        className: input[msgType]?.context?.className,
+                        methodName: input[msgType]?.context?.methodName,
+                        input: input?.input,
+                        output: input.output
+                    }
+                };
+        }
+
+        function fnReplaceText(input: IApiResponseMessage<Tin, Tout>) {
+            let message = input.objMessage.text;
+            if (input.property)
+                message = message?.replace("@campo", input.property);
+            if (input.valueArg)
+                message = message?.replace("@valor", input.valueArg);
+            return message;
+        }
     }
 }
 
-export interface IAPIResponse<Tin, Tout> {
+export interface IAPIResponseHandler<Tin, Tout> {
     data: Tout;
     status: IStatusMessage<Tin, Tout>;
 }
@@ -55,8 +66,8 @@ interface IError<Tin, Tout> {
     };
 }
 
-interface IMensagem<Tin, Tout> {
-    codMessage: number,
+interface IApiResponseMessage<Tin, Tout> {
+    objMessage: IMessage,
     valueArg?: string,
     property?: string,
     input?: Tin,

@@ -33,12 +33,12 @@ export class AuthController {
 
         if ((await fnSeExigirAlteracaoDeSenha(user, this))) return;
 
-        return res.json(this.apiResponse.handler({ codMessage: 1, output: user, warning: { message: 'Conferir o codMessage correto' } }));
+        return res.json(this.apiResponse.handler({ objMessage: 1, output: user, warning: { message: 'Conferir o codMessage correto' } }));
 
         async function fnSeExigirAlteracaoDeSenha<C extends AuthController>(user: LoginUserOutputDto, C: C) {
             if (user.__params.isPasswordRequireChange === true) {
                 // TODO: inserir codigo referente
-                res.json(C.apiResponse.handler({ codMessage: 0, output: user }));
+                res.json(C.apiResponse.handler({ objMessage: 0, output: user }));
                 return true;
             }
             return false;
@@ -71,7 +71,7 @@ export class AuthController {
         const token = await this.authservice.tokenGenerate(result, { expiresIn: '24h' });
         result = fnInserirTokenNaResposta(req.user, token);
 
-        return res.json(this.apiResponse.handler({ codMessage: 1, output: result }));
+        return res.json(this.apiResponse.handler({ objMessage: 1, output: result }));
 
         function fnInserirTokenNaResposta(user: LoginSistemaOutputDto, token: string): LoginSistemaOutputDto {
             res.header('tokenSystem', token);
