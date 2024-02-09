@@ -2,7 +2,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Request as RequestExpress, Response as ResponseExpress } from 'express';
 
-import { ApiResponse } from '@libs/common/services/response-handler-v2';
+import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
 import { UtilService } from '@libs/common/services/util.service';
 import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
 import { AuthController } from '../auth.controller';

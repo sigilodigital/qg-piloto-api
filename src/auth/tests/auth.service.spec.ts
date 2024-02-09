@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UtilService } from '@libs/common/services/util.service';
 import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
 import { UsuarioModule } from 'src/usuario/usuario.module';
-import { ApiResponse } from '@libs/common/services/response-handler-v2';
+import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
 import { LoginUserInputDto, LoginUserOutputDto } from '../models/dto/login-user.dto';
 import { UsuarioEntity } from 'src/usuario/models/entities/usuario.entity';
 import { BadRequestException, HttpException } from '@nestjs/common/exceptions';

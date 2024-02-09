@@ -13,7 +13,7 @@ import { AuthUserValidate } from './validates/auth-user.validate';
 import { AuthSystemValidate } from './validates/auth-system.validate';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { HttpExceptionFilter } from '@libs/common/services/http-exception-filter';
-import { ApiResponse } from '@libs/common/services/response-handler-v2';
+import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
 import { MSG } from '@libs/common/services/code-messages';
 
 @Controller('auth')

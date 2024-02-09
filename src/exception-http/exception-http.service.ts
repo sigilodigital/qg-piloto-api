@@ -1,5 +1,5 @@
 import { Injectable, HttpException } from '@nestjs/common';
-import { ApiResponse, IApiResponseMessage } from '@libs/common/services/response-handler-v2';
+import { ApiResponse, IApiResponseMessage } from '@sd-root/libs/common/src/services/response-handler';
 import { IMessage } from '@sd-root/libs/common/src/services/code-messages';
 
 export interface IExceptionHttpService {

@@ -1,7 +1,7 @@
 
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { LoginUserInputDto } from 'src/auth/models/dto/login-user.dto';
-import { ApiResponse } from '@libs/common/services/response-handler';
+import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler-v1';
 import { IUtilRepository } from '@libs/common/repository/util.repository';
 import { UsuarioEntity } from 'src/usuario/models/entities/usuario.entity';
 

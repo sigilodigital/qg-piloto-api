@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Next, Post, Response } from '@nestjs/common';
 import { AuthCertService } from './login-cert.service';
-import { ApiResponse } from '@libs/common/services/response-handler';
+import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler-v1';
 
 @Controller('auth-cert')
 export class LoginCertController {

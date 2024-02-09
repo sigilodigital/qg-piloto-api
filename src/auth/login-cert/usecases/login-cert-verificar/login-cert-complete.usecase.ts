@@ -1,6 +1,6 @@
 
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { ApiResponse } from '@libs/common/services/response-handler';
+import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler-v1';
 import { IPkiService } from '../../services/pki.service';
 
 export class LoginCertCompleteUseCase {

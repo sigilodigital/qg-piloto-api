@@ -2,7 +2,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
 
 import { IConstraintSchema } from '@libs/common/interfaces/ConstraintsSchema';
-import { ApiResponse } from '@libs/common/services/response-handler-v2';
+import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
 import { IMessage, MSG } from '@sd-root/libs/common/src/services/code-messages';
 
 @ValidatorConstraint({ name: 'ValidaSchema', async: true })

@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 
 import { UtilRepository } from '@libs/common/repository/util.repository';
-import { ApiResponse } from '@libs/common/services/response-handler-v2';
+import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
 import { UtilService } from '@libs/common/services/util.service';
 import { UsuarioEntity } from 'src/usuario/models/entities/usuario.entity';
 import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';

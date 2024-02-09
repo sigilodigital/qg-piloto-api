@@ -4,7 +4,7 @@ import { DataSource, EntityTarget, FindManyOptions, FindOptionsWhere, QueryRunne
 
 import { AppDataSourceAsync } from "@libs/common/databases";
 import { RunnerTransaction } from "@libs/common/databases/runner-transaction/runner-transaction";
-import { ApiResponse } from "@libs/common/services/response-handler";
+import { ApiResponse } from "@sd-root/libs/common/src/services/response-handler-v1";
 
 export abstract class GenericRepository<E> implements IGenericRepository<E> {
 

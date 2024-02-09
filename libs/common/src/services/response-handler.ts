@@ -1,76 +1,78 @@
-/**
- * codNumber (number) representa o codigo da mensagem
- * valueArg (string) é o valor passado na propriedade analisada
- * property (string) é o nome da proriedade analisada
- * input?: object|Array<any>, Objeto usado para especificar objeto de entrada para comparar resultado de saída
- * output?: object|Array<any>,Caso a consulta seja retorne dados retornar o objeto de pesquisa
- * outputError?: object criar objeto com {acao: "ação necessária para mitigar resolução do erro"}
- */
+import { Injectable } from "@nestjs/common";
 
 import { MensagenEnum } from "../enumerations/mensagens.enum";
 import { GlobalService } from "./global.service";
+import { IMessage } from "./code-messages";
 
-export class ApiResponse {
-    static handler(input: IMensagem): IAPIResponse<any> {
-        let mensagem = MensagenEnum[input.codMessage];
-        if (input.property)
-            mensagem = mensagem?.replace("@campo", input.property);
-        if (input.valueArg)
-            mensagem = mensagem?.replace("@valor", input.valueArg);
+@Injectable()
+export class ApiResponse<Tin, Tout> {
+    handler(input: IApiResponseMessage<Tin, Tout>): IAPIResponseHandler<Tin, Tout> {
+        let message = fnReplaceText(input);
+        const msgType = (input.error) ? 'error' : 'warning';
 
-        return {
-            data: input.output,
-            status: {
-                statusCode: input.codMessage,
-                message: mensagem,
-                ...(!(GlobalService.debugModeVerify() && input?.error?.message)) ? undefined : {
-                    error: {
-                        message: input?.error?.message,
-                        context: {
-                            input: input?.error?.context?.input,
-                            output: {
-                                className: input?.error?.context?.output?.className,
-                                methodName: input?.error?.context?.output?.methodName,
-                                objectErro: input?.error?.context?.output?.objectError
-                            }
-                        }
-                    }
-                }
-            }
+        const data: Tout = input.output;
+        const status: IStatusMessage<Tin, Tout> = {
+            statusCode: input.objMessage.code,
+            message: message,
+            [msgType]: precaution(input)
         };
+
+        return { data, status };
+
+        function precaution(input: IApiResponseMessage<Tin, Tout>): IError<Tin, Tout> {
+            return (!(GlobalService.debugModeVerify() && (input?.error?.message || input?.warning?.message)))
+                ? undefined
+                : {
+                    message: input[msgType]?.message,
+                    context: {
+                        className: input[msgType]?.context?.className,
+                        methodName: input[msgType]?.context?.methodName,
+                        input: input?.input,
+                        output: input.output
+                    }
+                };
+        }
+
+        function fnReplaceText(input: IApiResponseMessage<Tin, Tout>) {
+            let message = input.objMessage?.text;
+            if (input.property)
+                message = message?.replace("@campo", input.property);
+            if (input.valueArg)
+                message = message?.replace("@valor", input.valueArg);
+            return message;
+        }
     }
 }
 
-interface IObjError {
+export interface IAPIResponseHandler<Tin, Tout> {
+    data: Tout;
+    status: IStatusMessage<Tin, Tout>;
+}
+
+interface IStatusMessage<Tin, Tout> {
+    statusCode: number;
+    message: string;
+    error?: IError<Tin, Tout>;
+    warning?: IError<Tin, Tout>;
+}
+
+interface IError<Tin, Tout> {
     message: string;
     context?: {
         className?: string;
         methodName?: string;
-        input?: IMensagem['input'],
-        output?: {
-            className?: string;
-            methodName?: string;
-            objectError?: object;
-        };
+        input?: Tin,
+        output?: Tout;
     };
 }
 
-interface IMensagem {
-    codMessage: number,
+export interface IApiResponseMessage<Tin, Tout> {
+    objMessage: IMessage,
     valueArg?: string,
     property?: string,
-    input?: object | Array<any>,
-    output?: object | Array<any>,
-    error?: IObjError;
+    input?: Tin,
+    output?: Tout,
+    error?: IError<Tin, Tout>;
+    warning?: IError<Tin, Tout>;
 }
 
-interface IStatusMessage {
-    statusCode: number;
-    message: string;
-    error?: any;
-}
-
-export interface IAPIResponse<T> {
-    data: T;
-    status: IStatusMessage;
-}

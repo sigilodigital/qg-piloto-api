@@ -1,7 +1,7 @@
 
 import { ApiProperty } from '@nestjs/swagger';
 import { Validate, ValidateIf } from 'class-validator';
-import { IAPIResponse } from '@libs/common/services/response-handler';
+import { IAPIResponse } from '@sd-root/libs/common/src/services/response-handler-v1';
 import { ValidaCampoPorSchema } from 'src/shared/validation/classes/validaCampoPorSchema';
 // import { ValidaPerguntaSecretaExistente } from 'src/shared/validation/classes/validaPerguntaSecretaExistente';
 type PerguntaSecretaType = IPerguntaSecreta['input'];

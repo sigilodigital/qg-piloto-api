@@ -8,7 +8,7 @@ import { AuditoriaIncluirEventListUseCase } from "../usecases/auditoria-incluir-
 import { BadGatewayException } from "@nestjs/common";
 import { UtilRepository } from "@libs/common/repository/util.repository";
 import { AuditoriaEntity } from "../models/entities/auditoria.entity";
-import { ApiResponse } from "@libs/common/services/response-handler";
+import { ApiResponse } from "@sd-root/libs/common/src/services/response-handler-v1";
 import { formatDateTime } from "@libs/common/utils";
 import { TipoFormatoDataEnum } from "@libs/common/enumerations/tipo-formato-data.enum";
 

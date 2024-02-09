@@ -2,7 +2,7 @@
 import { ArgumentMetadata, HttpStatus, HttpException, Injectable, PipeTransform } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { ApiResponse } from '@libs/common/services/response-handler';
+import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler-v1';
 import { Schemas } from 'src/shared/schemas/schemas';
 
 
