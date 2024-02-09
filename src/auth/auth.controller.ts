@@ -20,21 +20,22 @@ import { MSG } from '@libs/common/services/code-messages';
 export class AuthController {
     constructor(private readonly authservice: AuthService, private apiResponse: ApiResponse<LoginUserInputDto, unknown>) { }
 
-    @ApiBody({ type: LoginUserInputDto })
-    // @UseGuards(AuthGuard('login-user-strategy'))
+    @ApiBody({ type: LoginUserInputDto, examples: { usuario_teste: { value: { username: 'abcd', password: 'abcd1234' } } } })
     // @UseGuards(JwtAuthSystemGuard)
-    @UseGuards(LocalAuthGuard)
+    // @UseGuards(LocalAuthGuard)
+    @UseGuards(AuthGuard('login-user-strategy'))
+    // @UseGuards(AuthGuard('login-system-strategy'))
     @UseGuards(AuthUserValidate)
     @UseFilters(HttpExceptionFilter)
-    @Post('usuario-validar')
-    async usuarioSenhaValidar(@Request() req: RequestExpress & { user: LoginUserOutputDto; }, @Response() res: ResponseExpress): Promise<any> {
+    @Post('usuario-autenticar')
+    async usuarioAutenticar(@Request() req: RequestExpress & { user: LoginUserOutputDto; }, @Response() res: ResponseExpress): Promise<any> {
 
         const token = await fnGerarToken(req.user, this);
         let user = fnInserirTokenNaResposta(req.user, token);
 
         if ((await fnSeExigirAlteracaoDeSenha(user, this))) return;
 
-        return res.json(this.apiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: user, warning: { message: 'Conferir o codMessage correto' } }));
+        res.json(this.apiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: user, warning: { message: 'Conferir o codMessage correto' } }));
 
         async function fnSeExigirAlteracaoDeSenha<C extends AuthController>(user: LoginUserOutputDto, C: C) {
             if (user.__params.isPasswordRequireChange === true) {
@@ -52,9 +53,9 @@ export class AuthController {
         }
 
         function fnInserirTokenNaResposta(user: LoginUserOutputDto, token: LoginUserOutputDto['token']): LoginUserOutputDto {
+            user.token = token;
             res.header('tokenBearer', token.bearer);
             res.header('tokenReplace', token.replace);
-            user['token'] = token;
             return user;
         }
     }

@@ -11,7 +11,7 @@ import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from './models/dt
 import { UsuarioIncluirUseCase } from './usecases/usuario-incluir.usecase';
 import { UsuarioConsultarUseCase } from './usecases/usuario-consultar.usecase';
 import { UtilRepository } from '@libs/common/repository/util.repository';
-import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from './models/dto/usuario-incluir.dto';
+import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from './models/dto/usuario-incluir/usuario-incluir.dto';
 import { ContatoEntity } from './models/entities/contato.entity';
 import { EmailEntity } from './models/entities/email.entity';
 import { TelefoneEntity } from './models/entities/telefone.entity';

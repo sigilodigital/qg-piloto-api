@@ -22,6 +22,7 @@ export class UtilRepository implements IUtilRepository {
 
     async getSequence(name: string): Promise<number> {
         await this.init(this.config);
+        // TODO: pegar o schema dinamicamente pelo datasource
         const sequence = (await this.queryDataSource.manager.query(`SELECT PUBLIC.${name}.NEXTVAL FROM DUAL`))[0].NEXTVAL;
         return sequence;
     }

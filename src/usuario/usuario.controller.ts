@@ -6,7 +6,7 @@ import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler-
 import { ValidationPipe } from '@libs/common/validations/validation.pipe';
 import { UsuarioService } from './usuario.service';
 import { UsuarioDoc } from './docs/usuario.doc';
-import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from './models/dto/usuario-incluir.dto';
+import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from './models/dto/usuario-incluir/usuario-incluir.dto';
 import { UsuarioEntity } from './models/entities/usuario.entity';
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto} from './models/dto/usuario-consultar.dto';
 import { CodigoAcaoEnum } from '@libs/common/enumerations/codigo-acao.enum';

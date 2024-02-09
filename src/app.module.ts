@@ -9,7 +9,8 @@ import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot(dbPgPilotoConfig()),
+        TypeOrmModule,
+        // TypeOrmModule.forRoot(dbPgPilotoConfig()),
         UsuarioModule,
         AuthModule,
     ],

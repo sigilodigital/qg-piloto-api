@@ -12,7 +12,8 @@ export class UsuarioConsultarUseCase {
     public async handle(input: UsuarioConsultarInputDto): Promise<UsuarioConsultarOutputDto[]> {
 
         try {
-            const result = await this.uRepository.findBy(input);
+            const result = await this.uRepository.find({ where: input, loadRelationIds: true });
+            // const result = await this.uRepository.findBy(input);
             return result;
         } catch (error) {
             throw new BadRequestException((error.response?.status)

@@ -5,7 +5,7 @@ import { ApiResponse } from './response-handler-v1';
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
 
-    // Este filtro de exceção substitui o conteúdo de qualquer outra exceção que aconteça
+    // Este filtro de exceção substitui o conteúdo de 'qualquer' outra exceção que aconteça
     catch(exception: HttpException, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();

@@ -23,18 +23,18 @@ export class LocalAuthGuard extends AuthGuard('local') {
         return user;
 
         async function throwSeErro<C extends LocalAuthGuard>(error: any, context: ExecutionContext, C?: C) {
-            throw new UnauthorizedException(C.apiResponse.handler({
-                objMessage: MSG.ERR_AUTH_USR_INATIV,
-                error: {
-                    message: "Erro durante tentativa de login",
-                    context: {
-                        className: C.LOG_CLASS_NAME,
-                        methodName: C.handleRequest.name,
-                        input: context,
-                        output: error
-                    }
-                }
-            }));
+            // throw new UnauthorizedException(C.apiResponse.handler({
+            //     objMessage: MSG.ERR_AUTH_USR_INATIV,
+            //     error: {
+            //         message: "Erro durante tentativa de login",
+            //         context: {
+            //             className: C.LOG_CLASS_NAME,
+            //             methodName: C.handleRequest.name,
+            //             input: context,
+            //             output: error
+            //         }
+            //     }
+            // }));
         }
     }
 }

@@ -12,10 +12,7 @@ export class LoginUserStrategy extends PassportStrategy(Strategy, "login-user-st
 
     async validate(username: string, password: string): Promise<any> {
 
-        const loginUser: LoginUserInputDto = { username: username, password: password };
-
-        const user = await this.authService.usuarioValidar(loginUser);
-
+        const user = await this.authService.usuarioValidar({ username, password });
         return user;
     }
 }

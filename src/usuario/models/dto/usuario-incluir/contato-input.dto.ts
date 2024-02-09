@@ -3,12 +3,12 @@ import { Validate } from 'class-validator';
 
 import { IConstraintSchema } from "@libs/common/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@libs/common/validations/valida-schema";
-import { EmailEntity } from "../entities/email.entity";
-import { ContatoEntity } from "../entities/contato.entity";
+import { EmailEntity } from "../../entities/email.entity";
+import { ContatoEntity } from "../../entities/contato.entity";
 
 // TODO: concluir: add propriedades
 // TODO: adicionar validadores
-export class UsuarioIncluirInputDto {
+export class ContatoInputDto {
 
     @ApiProperty({ name: 'id', type: String, nullable: false, required: true, maxLength: 11 })
     @Validate(ValidaSchema, [<IConstraintSchema>{}])
@@ -26,7 +26,7 @@ export class UsuarioIncluirInputDto {
     @Validate(ValidaSchema, [<IConstraintSchema>{}])
     socialname?: string | null;
 
-    @ApiProperty({ name: 'contato', type: EmailEntity, nullable: false, maxLength: 100, required: true })
+    @ApiProperty({ name: 'contato', type: ContatoEntity, nullable: false, maxLength: 100, required: true })
     @Validate(ValidaSchema, [<IConstraintSchema>{ length: 100 }])
     _contato?: ContatoEntity;
 

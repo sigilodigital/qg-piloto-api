@@ -17,7 +17,7 @@ const envSchema = z.object({
     DB_HOST: z.string().trim().min(1),
     DB_PORT: z.string().trim().regex(/^\d*$/, '.ENV - INSERIR SOMENTE NUMEROS'),
     DB_NAME: z.string().trim().min(1),
-    DB_SCHEMA: z.string(),
+    DB_SCHEMA: z.string().trim().min(1),
     DB_USERNAME: z.string().trim().min(1),
     DB_PASSWORD: z.string().trim().min(1),
     DB_SERVICE_NAME: z.string(),

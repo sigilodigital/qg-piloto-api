@@ -12,6 +12,8 @@ import { LoginInfoEntity } from './usuario/models/entities/login-info.entity';
 import { DataAccessEntity } from './usuario/models/entities/data-access.entity';
 import { ProfileEntity } from './usuario/models/entities/profile.entity';
 import configs from '@libs/common/configs';
+import { DataSource } from 'typeorm';
+import { dbPgPilotoConfig_fixture } from '@sd-root/libs/common/src/databases/db-pg-piloto.config';
 
 async function bootstrap() {
 
@@ -22,29 +24,26 @@ async function bootstrap() {
     // const dataSouce = app.get<DataSource>(getDataSourceToken())
     // await dataSouce.synchronize(true)
 
-    const entities  =[
-        UsuarioEntity, 
-        ContatoEntity, 
-        EmailEntity, 
-        TelefoneEntity, 
-        EnderecoEntity,
-        LoginInfoEntity,
-        DataAccessEntity,
-        ProfileEntity
-    ]
-    const utilRepo = await (new UtilRepository()).init(entities);
-    await utilRepo.manager.connection.dropDatabase()
-    await utilRepo.manager.connection.synchronize(true)
+    const entities = [
+        UsuarioEntity, ContatoEntity, EmailEntity, TelefoneEntity,
+        EnderecoEntity, LoginInfoEntity, DataAccessEntity, ProfileEntity
+    ];
 
-    await utilRepo.manager.save(UsuarioEntity, usuarios.usuario)
+    const dataSource = await new DataSource(dbPgPilotoConfig_fixture(entities)).initialize();
+    const utilRepo = await (new UtilRepository()).init(dataSource.createQueryRunner());
 
-    console.log(await utilRepo.manager.find(UsuarioEntity))
-    console.log(await utilRepo.manager.find(ContatoEntity))
-    console.log(await utilRepo.manager.find(EmailEntity))
-    console.log(await utilRepo.manager.find(TelefoneEntity))
-    console.log(await utilRepo.manager.find(EnderecoEntity))
+    await utilRepo.manager.connection.dropDatabase();
+    await utilRepo.manager.connection.synchronize(true);
 
-    app.close()
+    await utilRepo.manager.save(UsuarioEntity, usuarios.usuario);
+
+    console.log(await utilRepo.manager.find(UsuarioEntity));
+    console.log(await utilRepo.manager.find(ContatoEntity));
+    console.log(await utilRepo.manager.find(EmailEntity));
+    console.log(await utilRepo.manager.find(TelefoneEntity));
+    console.log(await utilRepo.manager.find(EnderecoEntity));
+
+    app.close();
     // await app.listen(configs().server.port, "0.0.0.0");
 }
 

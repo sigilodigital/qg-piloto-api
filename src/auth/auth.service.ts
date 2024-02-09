@@ -13,6 +13,13 @@ import { MetodoEntity } from './models/entities/metodo.entity';
 import { SistemaMetodoEntity } from './models/entities/sistema-metodo.entity';
 import { SistemaEntity } from './models/entities/sistema.entity';
 import { MSG } from '@libs/common/services/code-messages';
+import { DataAccessEntity } from '../usuario/models/entities/data-access.entity';
+import { ProfileEntity } from '../usuario/models/entities/profile.entity';
+import { ContatoEntity } from '../usuario/models/entities/contato.entity';
+import { LoginInfoEntity } from '../usuario/models/entities/login-info.entity';
+import { EmailEntity } from '../usuario/models/entities/email.entity';
+import { TelefoneEntity } from '../usuario/models/entities/telefone.entity';
+import { EnderecoEntity } from '../usuario/models/entities/endereco.entity';
 
 interface IAuthService {
     sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto>;
@@ -30,7 +37,7 @@ export class AuthService implements IAuthService {
         private apiResponse: ApiResponse<LoginSistemaInputDto, any>,
         private jwtService: JwtService,
         private utilService: UtilService,
-        private usuarioRepo: UsuarioRepository
+        private usuarioRepository: UsuarioRepository
     ) {
         this.entityList = [SistemaEntity, MetodoEntity, SistemaMetodoEntity];
         this.utilRepository = new UtilRepository();
@@ -109,8 +116,10 @@ export class AuthService implements IAuthService {
     }
 
     async usuarioValidar(input: LoginUserInputDto): Promise<LoginUserOutputDto> {
+        await this.utilRepository.init([DataAccessEntity, ProfileEntity, UsuarioEntity, ContatoEntity, LoginInfoEntity, EmailEntity, TelefoneEntity, EnderecoEntity])
 
-        const user: UsuarioEntity = await this.usuarioRepo.findOne({ where: { _dataAccess: { username: input.username } }, relations: { _dataAccess: true } });
+        const user: UsuarioEntity = await this.usuarioRepository.findOne({ where: { _dataAccess: { username: input.username } }, relations: { _dataAccess: true } });
+        const data: DataAccessEntity = await this.utilRepository.findOne(DataAccessEntity, { where: { username: input.username }, relations: { _usuario: true } });
 
         await throwSeUsuarioAusente(user, input, this);
         await throwSeUsuarioInativo(user, input, this);
@@ -213,13 +222,13 @@ export class AuthService implements IAuthService {
             if (++user._dataAccess.passCountErrors >= 5) {
                 user._dataAccess.isPasswordLocked = true;
 
-                await C.usuarioRepo.update(user);
+                await C.usuarioRepository.update(user);
                 // TODO: Enviar e-mail quando a senha for bloqueada
                 // C.enviarEmailSenhaBloqueada(user);
                 await throwSeUsuarioSenhaBloqueada(user, input, C);
             }
 
-            C.usuarioRepo.update(user);
+            C.usuarioRepository.update(user);
 
             await throwUsuarioSenhaIncorreta(user, C);
         }
@@ -258,7 +267,7 @@ export class AuthService implements IAuthService {
 
         async function fnUsuarioAtualizar_zerarContadorTentativas<C extends AuthService>(user: UsuarioEntity, C?: C) {
             user._dataAccess.passCountErrors = 0;
-            C.usuarioRepo.update(user);
+            C.usuarioRepository.update(user);
         }
     }
 

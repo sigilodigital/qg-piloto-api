@@ -27,7 +27,7 @@ describe('AuthController', () => {
     });
 
     it('should be defined', () => {
-        controller.usuarioSenhaValidar;
+        controller.usuarioAutenticar;
     });
 });
 
@@ -61,7 +61,7 @@ describe('AuthController - usuarioSenhaValidar', () => {
     });
 
     it('should generate a token for the user and return the user data', async () => {
-        const result = await authController.usuarioSenhaValidar(mockRequest, mockResponse);
+        const result = await authController.usuarioAutenticar(mockRequest, mockResponse);
         const s = mockResponse.json();
         // expect(authService.tokenGenerate).toHaveBeenCalledWith(mockRequest.user);
         expect(authService.tokenGenerate).toHaveBeenCalledTimes(2);
@@ -109,7 +109,7 @@ describe('AuthController', () => {
         jest.spyOn(authService, 'tokenGenerate').mockResolvedValueOnce('bearer-token').mockResolvedValueOnce('replace-token');
         mockRequest.user = userOutputDto;
 
-        const result = await authController.usuarioSenhaValidar(mockRequest, mockResponse);
+        const result = await authController.usuarioAutenticar(mockRequest, mockResponse);
 
         expect(authService.tokenGenerate).toHaveBeenCalledTimes(2);
         expect(mockResponse.json).toHaveBeenCalledWith(expect.any(Object));
