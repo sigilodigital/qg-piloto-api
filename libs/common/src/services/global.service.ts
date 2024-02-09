@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
+import configs from "../configs";
 
 @Injectable()
 export class GlobalService {
-    static enableDebugModeHeader = false;
+    static enableDebugModeInHeader = false;
 
     static debugModeVerify(){
-        return GlobalService.enableDebugModeHeader && JSON.parse(process.env.SRV_DEBUG_MODE)
+        return GlobalService.enableDebugModeInHeader && configs().enviroment.isDebugMode
     }
 }

@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Validate, ValidateIf } from 'class-validator';
 import { IAPIResponse } from '@libs/common/services/response-handler';
 import { ValidaCampoPorSchema } from 'src/shared/validation/classes/validaCampoPorSchema';
-import { ValidaPerguntaSecretaExistente } from 'src/shared/validation/classes/validaPerguntaSecretaExistente';
+// import { ValidaPerguntaSecretaExistente } from 'src/shared/validation/classes/validaPerguntaSecretaExistente';
 type PerguntaSecretaType = IPerguntaSecreta['input'];
 export interface IPerguntaSecreta {
     input: {
@@ -31,7 +31,7 @@ export class PerguntaSecretaDto implements PerguntaSecretaType {
     codTipoLembrancaSenha: number;
 
     @ApiProperty({ name: 'codPerguntaSecreta', type: Number })
-    @Validate(ValidaPerguntaSecretaExistente)
+    // @Validate(ValidaPerguntaSecretaExistente)
     @Validate(ValidaCampoPorSchema)
     @ValidateIf((object: any, value: any) => {
         if (object['codTipoLembrancaSenha'] == 1) {

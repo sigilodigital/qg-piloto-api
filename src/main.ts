@@ -2,9 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import fs = require('fs');
 
-import pack from 'src/../package.json'
+import pack from '@sd-root/package.json'
 import { AppModule } from './app.module';
-import configurations from './config/configurations';
 import configs from '@libs/common/configs';
 
 async function bootstrap() {

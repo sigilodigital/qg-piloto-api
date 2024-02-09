@@ -2,19 +2,18 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Validate } from "class-validator";
 
 import { IConstraintSchema } from "@libs/common/interfaces/ConstraintsSchema";
-import { ValidaSchema } from "src/shared/validation/classes/valida-schema";
-import { ValidaCampoPorSchema } from 'src/shared/validation/classes/validaCampoPorSchema';
-import { ValidaCnpjCpf } from 'src/shared/validation/classes/validaCnpjCpf';
+import { ValidaSchema } from "@sd-root/libs/common/src/validations/valida-schema";
+import { ValidaCnpjCpf } from "@sd-root/src/shared/validation/classes/validaCnpjCpf";
 
 export class LoginUserInputDto {
 
     @ApiProperty({ name: 'username', type: String })
-    @Validate(ValidaCnpjCpf)
-    @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', orLength: [11, 14] }])
+    // @Validate(ValidaCnpjCpf)
+    // @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', orLength: [11, 14] }])
     username: string;
 
     @ApiProperty({ name: 'password', type: String })
-    @Validate(ValidaCampoPorSchema)
+    // @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', orLength: [11, 14] }])
     password: string;
 
 }

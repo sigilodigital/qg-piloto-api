@@ -34,7 +34,7 @@ export class ApiResponse<Tin, Tout> {
         }
 
         function fnReplaceText(input: IApiResponseMessage<Tin, Tout>) {
-            let message = input.objMessage.text;
+            let message = input.objMessage?.text;
             if (input.property)
                 message = message?.replace("@campo", input.property);
             if (input.valueArg)
@@ -66,7 +66,7 @@ interface IError<Tin, Tout> {
     };
 }
 
-interface IApiResponseMessage<Tin, Tout> {
+export interface IApiResponseMessage<Tin, Tout> {
     objMessage: IMessage,
     valueArg?: string,
     property?: string,

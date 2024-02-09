@@ -18,8 +18,9 @@ export interface IHandleRequest {
 
 @Injectable()
 export class JwtAuthSystemGuard extends AuthGuard('jwt') {
+    private LOG_CLASS_NAME = "JwtAuthGuard";
+    
     private handle: IHandleRequest;
-    private className = "JwtAuthGuard";
     private entityList : EntityClassOrSchema[];
     private utilRepository: UtilRepository;
 

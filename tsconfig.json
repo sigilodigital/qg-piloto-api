@@ -22,6 +22,12 @@
         "forceConsistentCasingInFileNames": false,
         "noFallthroughCasesInSwitch": false,
         "paths": {
+            "@sd-root": [
+                "./"
+            ],
+            "@sd-root/*": [
+                "./*"
+            ],
             "@libs/common": [
                 "libs/common/src"
             ],

@@ -1,4 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
+import { IMessage, MSG } from '@sd-root/libs/common/src/services/code-messages';
 import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
 import { ExceptionHttpService } from 'src/exception-http/exception-http.service';
 import { Schemas } from 'src/shared/schemas/schemas';
@@ -6,8 +7,9 @@ import { Schemas } from 'src/shared/schemas/schemas';
 
 @ValidatorConstraint({ name: 'ValidaCampoPorSchema', async: true })
 export class ValidaCampoPorSchema implements ValidatorConstraintInterface {
-    private codMessage: number;
-    className = "ValidaCampoPorSchema";
+    private LOG_CLASS_NAME = "ValidaCampoPorSchema";
+
+    private objMessage: IMessage;
 
     async validate(value: string, args: ValidationArguments) {
         return this.validaCampoSchema(value, args);
@@ -26,7 +28,7 @@ export class ValidaCampoPorSchema implements ValidatorConstraintInterface {
 
         // nulo
         if (!value && !property.nullable) {
-            this.codMessage = 1;
+            this.objMessage = MSG.ERR_FIELD_N_INFO;
             return false;
         }
 
@@ -37,7 +39,7 @@ export class ValidaCampoPorSchema implements ValidatorConstraintInterface {
 
         // tipo
         if (property.type != typeof value) {
-            this.codMessage = 3;
+            this.objMessage = MSG.ERR_FIELD_TIPO;
             return false;
         }
 
@@ -46,13 +48,13 @@ export class ValidaCampoPorSchema implements ValidatorConstraintInterface {
             value = value.toString();
         }
         if (value.length > <number>property.length) {
-            this.codMessage = 2;
+            this.objMessage = MSG.ERR_FIELD_TAM;
             return false;
         }
 
         // valor padrao
         if (property.default && !(property.default)?.includes(+value)) {
-            this.codMessage = 4;
+            this.objMessage = MSG.ERR_FIELD_VALOR;
             return false;
         }
 
@@ -61,20 +63,19 @@ export class ValidaCampoPorSchema implements ValidatorConstraintInterface {
     }
 
     defaultMessage(args: ValidationArguments) {
-        const methodName = "defaultMessage(args: ValidationArguments)";
         ExceptionHttpService.createException({
             property: args.property,
-            value: args.value,
-            statusCode: HttpStatus.BAD_REQUEST,
-            errorCode: this.codMessage,
-            objError: {
-                message: "Validação de campos",
+            valueArg: args.value,
+            httpStatusCode: HttpStatus.BAD_REQUEST,
+            objMessage: this.objMessage,
+            errMessage: '',
+            error: {
+                message: "Erro na validação básica dos campos",
                 context: {
+                    className: this.LOG_CLASS_NAME,
+                    methodName: this.defaultMessage.name,
                     input: args,
-                    output: {
-                        className: this.className,
-                        methodName: methodName
-                    }
+                    output: null
                 }
             }
         });

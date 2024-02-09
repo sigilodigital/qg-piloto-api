@@ -1,49 +1,30 @@
-import { Injectable, HttpException } from '@nestjs/common';
-import { ApiResponse } from './response-handler';
+import { ApiResponse, IApiResponseMessage } from '@libs/common/services/response-handler-v2';
+import { HttpException, Injectable } from '@nestjs/common';
 
-export interface IExceptionHttpService {
-    input: {
-        property: string;
-        value: any;
-        statusCode: number;
-        errorCode: number,
-        objError?: {
-            message: string,
-            context?: {
-                input?: object,
-                output?: {
-                    className?: string;
-                    methodName?: string;
-                    objError?: object
-                }
-            }
-        };
-    },
-    output: {
-        message: string;
-    };
+export interface IExceptionHttpService extends IApiResponseMessage<any, any> { 
+    httpStatusCode: number, 
+    errMessage: string; 
 }
+
 @Injectable()
 export class ExceptionHttpService {
-    className = "ExceptionHttpService";
 
     static createException(input: IExceptionHttpService['input']) {
+        const apiResponse = new ApiResponse<any, any>();
 
-        throw new HttpException(ApiResponse.handler({
-            codMessage: input.errorCode,
+        throw new HttpException(apiResponse.handler({
+            objMessage: input.objMessage,
             property: input.property,
-            valueArg: input.value,
+            valueArg: input.valueArg,
             error: {
-                message: input.objError.message,
+                message: input.errMessage,
                 context: {
-                    input: input,
-                    output: {
-                        className: "className",
-                        methodName: "throw new HttpException(ApiResponse.handler)",
-                        objectError: input.objError.context.output.objError
-                    }
+                    className: "ExceptionHttpService",
+                    methodName: "createException",
+                    input: input.input,
+                    output: input.output
                 }
             }
-        }), input.statusCode);
+        }), input.httpStatusCode);
     }
 }

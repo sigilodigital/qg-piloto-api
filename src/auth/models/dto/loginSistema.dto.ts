@@ -1,9 +1,9 @@
 import { IConstraintSchema } from "@libs/common/interfaces/ConstraintsSchema";
 import { ApiProperty } from "@nestjs/swagger";
 import { Validate } from "class-validator";
-import { ValidaSchema } from "src/shared/validation/classes/valida-schema";
 import { SistemaEntity } from "../entities/sistema.entity";
 import { MetodoEntity } from "../entities/metodo.entity";
+import { ValidaSchema } from "@sd-root/libs/common/src/validations/valida-schema";
 
 export interface ISistemaWS {
     codSegSistemaWs: number;

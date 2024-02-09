@@ -1,47 +1,48 @@
+
 export interface IMessage {
     text: string;
     code: number;
 }
 
-export class Message {
+export const MSG = {
     // DEFAULT
-    DEFAULT_FALHA?: IMessage = { text: "Falha.", code: 0 };
-    DEFAULT_SUCESSO?: IMessage = { text: "Sucesso.", code: 1 };
+    DEFAULT_FALHA:  { text: "Falha.", code: 0 },
+    DEFAULT_SUCESSO:  { text: "Sucesso.", code: 1 },
     // CREATE
-    REG_INCL?: IMessage = { text: "Registro incluído.", code: 10 };
+    REG_INCL:  { text: "Registro incluído.", code: 10 },
     // UPDATE
-    REG_ATUA?: IMessage = { text: "Registro atualizado.", code: 11 };
+    REG_ATUA:  { text: "Registro atualizado.", code: 11 },
     // DELETE
-    REG_REMO?: IMessage = { text: "Registro removido.", code: 12 };
+    REG_REMO:  { text: "Registro removido.", code: 12 },
     // FIND
-    REG_ENCO?: IMessage = { text: "Registro encontrado.", code: 13 };
-    REG_N_ENCONT?: IMessage = { text: "Registro não encontrado.", code: 14 };
+    REG_ENCO:  { text: "Registro encontrado.", code: 13 },
+    REG_N_ENCONT:  { text: "Registro não encontrado.", code: 14 },
     // ERROR - FIELD VALIDATION
-    ERR_FIELD_INVA?: IMessage = { text: "Campo inválido.", code: 20 };
-    ERR_FIELD_N_SOLI?: IMessage = { text: "Campo @campo não solicitado.", code: 21 };
-    ERR_FIELD_N_INFO?: IMessage = { text: "Campo @campo não informado.", code: 22 };
-    ERR_FIELD_TIPO?: IMessage = { text: "Tipo do campo @campo é inválido.", code: 23 };
-    ERR_FIELD_TAM?: IMessage = { text: "Tamanho do campo @campo é inválido.", code: 24 };
-    ERR_FIELD_VALOR?: IMessage = { text: "Valor do campo @campo é inválido.", code: 25 };
+    ERR_FIELD_INVA:  { text: "Campo inválido.", code: 20 },
+    ERR_FIELD_N_SOLI:  { text: "Campo @campo não solicitado.", code: 21 },
+    ERR_FIELD_N_INFO:  { text: "Campo @campo não informado.", code: 22 },
+    ERR_FIELD_TIPO:  { text: "Tipo do campo @campo é inválido.", code: 23 },
+    ERR_FIELD_TAM:  { text: "Tamanho do campo @campo é inválido.", code: 24 },
+    ERR_FIELD_VALOR:  { text: "Valor do campo @campo é inválido.", code: 25 },
     // ERROR - AUTH
     // ERROR - AUTH_USR
-    ERR_AUTH_USR_N_ENCONT?: IMessage = { text: "Usuário não encontrado.", code: 80 };
-    ERR_AUTH_USR_INATIV?: IMessage = { text: "Usuário inativado.", code: 81 };
-    ERR_AUTH_USR_N_AUTENT?: IMessage = { text: "Usuário não autenticado.", code: 82 };
-    ERR_AUTH_USR_SENHA_BLOQUEADA?: IMessage = { text: "Usuário com senha bloqueada.", code: 83 };
-    ERR_AUTH_USR_N_METODO?: IMessage = { text: "Usuário não tem acesso ao método solicitado.", code: 84 };
-    ERR_AUTH_USR_ACES_PUB_NEGADO?: IMessage = { text: "Acesso público negado.", code: 85 };
+    ERR_AUTH_USR_N_ENCONT:  { text: "Usuário não encontrado.", code: 80 },
+    ERR_AUTH_USR_INATIV:  { text: "Usuário inativado.", code: 81 },
+    ERR_AUTH_USR_N_AUTENT:  { text: "Usuário não autenticado.", code: 82 },
+    ERR_AUTH_USR_SENHA_BLOQUEADA:  { text: "Usuário com senha bloqueada.", code: 83 },
+    ERR_AUTH_USR_N_METODO:  { text: "Usuário não tem acesso ao método solicitado.", code: 84 },
+    ERR_AUTH_USR_ACES_PUB_NEGADO:  { text: "Acesso público negado.", code: 85 },
     // ERROR - AUTH_PROFILE
-    ERR_AUTH_PROFILE_N_METODO?: IMessage = { text: "Perfil não tem acesso ao método solicitado.", code: 89 };
+    ERR_AUTH_PROFILE_N_METODO:  { text: "Perfil não tem acesso ao método solicitado.", code: 89 },
     // ERROR - AUTH_SYS
-    ERR_AUTH_SYS_N_ENCONT?: IMessage = { text: "Sistema não encontrado.", code: 90 };
-    ERR_AUTH_SYS_INATIV?: IMessage = { text: "Sistema inativado.", code: 91 };
-    ERR_AUTH_SYS_N_AUTENT?: IMessage = { text: "Sistema não autenticado.", code: 92 };
-    ERR_AUTH_SYS_N_METODO?: IMessage = { text: "Sistema não tem acesso ao método solicitado.", code: 93 };
+    ERR_AUTH_SYS_N_ENCONT:  { text: "Sistema não encontrado.", code: 90 },
+    ERR_AUTH_SYS_INATIV:  { text: "Sistema inativado.", code: 91 },
+    ERR_AUTH_SYS_N_AUTENT:  { text: "Sistema não autenticado.", code: 92 },
+    ERR_AUTH_SYS_N_METODO:  { text: "Sistema não tem acesso ao método solicitado.", code: 93 },
     // ERROR - FIND
-    ERR_FIND_CONSU_EXTERNA?: IMessage = { text: "Consulta externa não encontrada.", code: 30 };
-    ERR_FIND_URL_INVALIDA?: IMessage = { text: "URL inválida.", code: 31 };
-    ERR_FIND_CEP_N_ENCONT?: IMessage = { text: "CEP não encontrado.", code: 32 }
+    ERR_FIND_CONSU_EXTERNA:  { text: "Consulta externa não encontrada.", code: 30 },
+    ERR_FIND_URL_INVALIDA:  { text: "URL inválida.", code: 31 },
+    ERR_FIND_CEP_N_ENCONT:  { text: "CEP não encontrado.", code: 32 },
 };
 
 // // CONTINUAR CORREÇÃO DAQUI --------------------------------

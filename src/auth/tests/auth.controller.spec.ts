@@ -8,6 +8,7 @@ import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
 import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
 import { LoginUserOutputDto } from '../models/dto/login-user.dto';
+import { MSG } from '@libs/common/services/code-messages';
 
 describe('AuthController', () => {
     let controller: AuthController;

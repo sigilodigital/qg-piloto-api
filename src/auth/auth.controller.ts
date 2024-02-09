@@ -14,6 +14,7 @@ import { AuthSystemValidate } from './validates/auth-system.validate';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { HttpExceptionFilter } from '@libs/common/services/http-exception-filter';
 import { ApiResponse } from '@libs/common/services/response-handler-v2';
+import { MSG } from '@libs/common/services/code-messages';
 
 @Controller('auth')
 export class AuthController {
@@ -33,12 +34,11 @@ export class AuthController {
 
         if ((await fnSeExigirAlteracaoDeSenha(user, this))) return;
 
-        return res.json(this.apiResponse.handler({ objMessage: 1, output: user, warning: { message: 'Conferir o codMessage correto' } }));
+        return res.json(this.apiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: user, warning: { message: 'Conferir o codMessage correto' } }));
 
         async function fnSeExigirAlteracaoDeSenha<C extends AuthController>(user: LoginUserOutputDto, C: C) {
             if (user.__params.isPasswordRequireChange === true) {
-                // TODO: inserir codigo referente
-                res.json(C.apiResponse.handler({ objMessage: 0, output: user }));
+                res.json(C.apiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: user }));
                 return true;
             }
             return false;
@@ -71,7 +71,7 @@ export class AuthController {
         const token = await this.authservice.tokenGenerate(result, { expiresIn: '24h' });
         result = fnInserirTokenNaResposta(req.user, token);
 
-        return res.json(this.apiResponse.handler({ objMessage: 1, output: result }));
+        return res.json(this.apiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: result }));
 
         function fnInserirTokenNaResposta(user: LoginSistemaOutputDto, token: string): LoginSistemaOutputDto {
             res.header('tokenSystem', token);

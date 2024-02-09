@@ -22,28 +22,28 @@ services:
       - "50010:9229"
     networks:
       - "app-network"
-    depends_on:
-      - piloto-db
+    # depends_on:
+    #   - piloto-db
 
     command: npm run start:debug
 
 
-  piloto-db:
-    image: postgres
-    environment:
-      POSTGRES_DB: piloto
-      POSTGRES_USER: piloto
-      POSTGRES_PASSWORD: piloto123
-      PGDATA: /var/lib/postgresql/data/pgdata
+  # piloto-db:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_DB: piloto
+  #     POSTGRES_USER: piloto
+  #     POSTGRES_PASSWORD: piloto123
+  #     PGDATA: /var/lib/postgresql/data/pgdata
       
-    container_name: "PILOTO_DB"
-    restart: always
-    volumes:
-      - ~/projects/qg/piloto/data_pg:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - "app-network"
+  #   container_name: "PILOTO_DB"
+  #   restart: always
+  #   volumes:
+  #     - ~/projects/qg/piloto/data_pg:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   networks:
+  #     - "app-network"
 
 networks:
   app-network:

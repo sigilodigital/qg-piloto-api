@@ -49,10 +49,11 @@ export class ValidaCnpjCpf implements ValidatorConstraintInterface {
         const methodName = "defaultMessage(args: ValidationArguments)";
         ExceptionHttpService.createException({
             property: this.property,
-            value: this.value,
-            statusCode: HttpStatus.BAD_REQUEST,
-            errorCode: this.codMessage,
-            objError: {
+            valueArg: this.value,
+            httpStatusCode: HttpStatus.BAD_REQUEST,
+            errMessage: '',
+            objMessage: {code: 1,text:''},
+            error: {
                 message: "Validação de campos",
                 context: {
                     input: args,
