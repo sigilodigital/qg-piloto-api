@@ -69,7 +69,7 @@ export class AuthService implements IAuthService {
             if (!system)
                 throw new ForbiddenException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_SYS_N_ENCONT,
-                    error: {
+                    warning: {
                         message: 'Sistema não encontrado.',
                         context: {
                             className: C.LOG_CLASS_NAME,
@@ -85,7 +85,7 @@ export class AuthService implements IAuthService {
             if (sistema.isActive === false) {
                 throw new ForbiddenException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_SYS_INATIV,
-                    error: {
+                    warning: {
                         message: 'Sistema está inativo.',
                         context: {
                             className: C.LOG_CLASS_NAME,
@@ -149,7 +149,7 @@ export class AuthService implements IAuthService {
             if (!user)
                 throw new BadRequestException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_USR_N_ENCONT,
-                    error: {
+                    warning: {
                         message: 'Usuário não existe!',
                         context: {
                             className: C.LOG_CLASS_NAME,
@@ -165,7 +165,7 @@ export class AuthService implements IAuthService {
             if (user.isActive === false) {
                 throw new BadRequestException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_USR_INATIV,
-                    error: {
+                    warning: {
                         message: "Usuário está inativo.",
                         context: {
                             className: C.LOG_CLASS_NAME,
@@ -183,7 +183,7 @@ export class AuthService implements IAuthService {
                 throw new BadRequestException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_USR_N_AUTENT,
                     error: {
-                        message: 'Dados não conferem, usuário com senha em branco!',
+                        message: 'Usuário com senha em branco.',
                         context: {
                             className: C.LOG_CLASS_NAME,
                             methodName: C.usuarioValidar.name,
@@ -199,7 +199,7 @@ export class AuthService implements IAuthService {
             if (user._dataAccess.isPasswordLocked === true) {
                 throw new ForbiddenException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_USR_SENHA_BLOQUEADA,
-                    error: {
+                    warning: {
                         message: 'A senha do usuário está bloqueada.',
                         context: {
                             className: C.LOG_CLASS_NAME,

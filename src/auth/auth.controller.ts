@@ -46,7 +46,8 @@ export class AuthController {
         }
 
         async function fnGerarToken<C extends AuthController>(user: LoginUserOutputDto, C: C) {
-            return {
+            // TODO: melhoria: centralizar as configurações do tokenGenerate
+            return { 
                 bearer: await C.authservice.tokenGenerate(user, { expiresIn: '1h' }),
                 replace: await C.authservice.tokenGenerate({}, { expiresIn: '24h' })
             };
