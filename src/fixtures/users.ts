@@ -1,6 +1,6 @@
 import { UsuarioEntity } from "src/usuario/models/entities/usuario.entity";
 
-const usuario: UsuarioEntity[] = [
+export const userList: UsuarioEntity[] = [
     {
         fullname: 'Ricardo Dias',
         cpf: 12345678901,
@@ -42,9 +42,7 @@ const usuario: UsuarioEntity[] = [
             password: 'abcd1234',
             passwordHash: '$2a$10$sU8WdC5ggk02VlMTJ41lWuXx/dUpaKywTMRLg7sDJ/qO0MGTAmDD.'
         },
-        isActive: false,
+        isActive: true,
 
     }
 ];
-
-export default { usuario };

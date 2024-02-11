@@ -14,21 +14,21 @@ export class CodigoVerificacaoEntity implements ICodigoVerificacao {
   })
   codCodigoVerificacaoPessoa: number;
 
-  @Column('varchar2', {
+  @Column('varchar', {
     name: 'TXT_INTERESSADO',
     length: 255,
     nullable: false, 
   })
   txtInteressado: string;
 
-  @Column('varchar2', {
+  @Column('varchar', {
     name: 'TXT_CNPJ_CPF',
     length: 14,
     nullable: false,
   })
   txtCnpjCpf: string;
 
-  @Column('varchar2', {
+  @Column('varchar', {
     name: 'TXT_CODIGO_SEGURANCA',
     length: 50,
     nullable: false,

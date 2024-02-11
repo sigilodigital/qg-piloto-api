@@ -13,7 +13,7 @@ export class UserDto {
     @Validate(ValidaCnpjCpf)
     @Validate(ValidaTamanhoCnpjCpf)
     @Validate(ValidaCampoPorSchema)
-    @Column("varchar2", {
+    @Column("varchar", {
         name: "TXT_CNPJ_CPF",
         nullable: true,
         unique: true,
@@ -27,6 +27,6 @@ export class UserDto {
         required: true
     })
     @Validate(ValidaCampoPorSchema)
-    @Column("varchar2", { name: "TXT_SENHA", nullable: true, length: 300 })
+    @Column("varchar", { name: "TXT_SENHA", nullable: true, length: 300 })
     txtSenha: string | null;
 }

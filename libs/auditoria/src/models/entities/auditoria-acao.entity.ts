@@ -6,10 +6,10 @@ import { AuditoriaObjetoEntity } from "./auditoria-objeto.entity";
 @Index("UC_TBL_SISTEMA_HISTORICO_ACAO", ["txtConstante"], { unique: true })
 @Entity("TBL_SISTEMA_HISTORICO_ACAO")
 export class AuditoriaAcaoEntity {
-    @Column("varchar2", { name: "TXT_CONSTANTE", unique: true, length: 50 })
+    @Column("varchar", { name: "TXT_CONSTANTE", unique: true, length: 50 })
     txtConstante: string;
 
-    @Column("varchar2", { name: "TXT_ACAO", length: 255 })
+    @Column("varchar", { name: "TXT_ACAO", length: 255 })
     txtAcao: string;
 
     @Column("number", { name: "COD_EXIBE_COMBO" })

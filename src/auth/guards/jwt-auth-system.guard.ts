@@ -68,7 +68,7 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
         let methodName = fnNormalizarUrlParaMetodo(pathMethod.methodName)
         // if (methodName) methodName = await this.fnGetMethodInterno(context);
         if (methodName) {
-            return await this.utilRepository.findOneBy(MetodoEntity, { nome: methodName });
+            return await this.utilRepository.findOneBy(MetodoEntity, { name: methodName });
         } else fnFalhaTokenInexistente();
 
         function fnNormalizarUrlParaMetodo(url: string){
@@ -141,7 +141,7 @@ function fnSeSistemaInativoException(thiss: any, sistema: SistemaEntity) {
 }
 
 function fnSeMetodoInativoException(metodosWs: MetodoEntity) {
-    if (metodosWs.seAtivo == false) {
+    if (metodosWs.isActive == false) {
         throw new UnauthorizedException(ApiResponse.handler({
             codNumber: 7,
             outputError: {
@@ -170,8 +170,8 @@ function fnSeMetodoNaoEncontradoException(metodosWs: MetodoEntity, sistema: Sist
                         txtDescricao: sistema.description
                     },
                     metodo: {
-                        nome: metodosWs.nome,
-                        descricao: metodosWs.descricao
+                        nome: metodosWs.name,
+                        descricao: metodosWs.description
                     }
                 },
                 output: {

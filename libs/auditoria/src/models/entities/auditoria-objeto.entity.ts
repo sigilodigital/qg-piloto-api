@@ -4,7 +4,7 @@ import { AuditoriaAcaoEntity } from "./auditoria-acao.entity";
 @Index("PK_SISTEMA_HISTORICO_OBJETO", ["codObjeto"], { unique: true })
 @Entity("TBL_SISTEMA_HISTORICO_OBJETO")
 export class AuditoriaObjetoEntity {
-    @Column("varchar2", { name: "TXT_OBJETO", length: 50 })
+    @Column("varchar", { name: "TXT_OBJETO", length: 50 })
     txtObjeto: string;
 
     @Column("number", { primary: true, name: "COD_OBJETO" })

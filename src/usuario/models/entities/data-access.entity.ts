@@ -11,10 +11,10 @@ export class DataAccessEntity {
     @Column("text")
     username: string;
 
-    @Column("text", { select: false })
+    @Column("text")
     password: string;
 
-    @Column("text", { name: 'passwordHash', select: false })
+    @Column("text", { name: 'passwordHash' })
     passwordHash?: string;
 
     @Column("integer", { name: 'passCountErrors', default: 0 })

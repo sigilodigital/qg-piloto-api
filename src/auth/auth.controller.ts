@@ -1,6 +1,6 @@
 import { Controller, Post, Request, Response, UseFilters, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Response as ResponseExpress, Request as RequestExpress } from 'express';
 
 // import { ApiResponse, IAPIResponse } from './../shared/response-handler';
@@ -16,6 +16,7 @@ import { HttpExceptionFilter } from '@libs/common/services/http-exception-filter
 import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
 import { MSG } from '@libs/common/services/code-messages';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authservice: AuthService, private apiResponse: ApiResponse<LoginUserInputDto, unknown>) { }
@@ -61,11 +62,11 @@ export class AuthController {
         }
     }
 
-    @ApiBody({ type: LoginSistemaInputDto })
+    @ApiBody({ type: LoginSistemaInputDto, examples: { teste_1: { value: { username: 'sd-portal', password: 'abcd1234' } } } })
     @UseGuards(AuthGuard('login-system-strategy'))
     @UseGuards(AuthSystemValidate)
     @UseFilters(HttpExceptionFilter)
-    @Post('sistema-senha-validar')
+    @Post('sistema-autenticar')
     async sistemaSenhaValidar(@Request() req: RequestExpress & { user: LoginSistemaOutputDto; }, @Response() res: ResponseExpress) {
 
         let result: LoginSistemaOutputDto = req.user;

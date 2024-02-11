@@ -3,7 +3,9 @@ import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 import { ContatoEntity } from "./contato.entity";
 import { DataAccessEntity } from "./data-access.entity";
 import { LoginInfoEntity } from "./login-info.entity";
+import { Index } from "typeorm";
 
+@Index("PK_TBL_SISTEMA", ["id"], { unique: true })
 @Entity({ name: 'TBL_USUARIO' })
 export class UsuarioEntity {
 
@@ -27,7 +29,7 @@ export class UsuarioEntity {
     _contato?: ContatoEntity;
 
     @OneToOne(type => LoginInfoEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
-    @JoinColumn({name: 'LoginInfoId'})
+    @JoinColumn({ name: 'LoginInfoId' })
     _loginInfo?: LoginInfoEntity;
 
     @OneToOne(type => DataAccessEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })

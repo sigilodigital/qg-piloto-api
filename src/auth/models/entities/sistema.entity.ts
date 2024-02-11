@@ -3,31 +3,34 @@ import { Column, Entity, Index, JoinTable, ManyToMany, OneToMany } from "typeorm
 import { MetodoEntity } from "./metodo.entity";
 import { SistemaMetodoEntity } from "./sistema-metodo.entity";
 
-@Index("PK_TBL_SISTEMA", ["id"], { unique: true })
 @Entity("TBL_SISTEMA")
 export class SistemaEntity {
     @Column("uuid", { primary: true, generated: 'uuid' })
-    id: string;
+    id?: string;
 
-    @Column("varchar2", { name: "name", length: 100 })
+    @Column("text", { name: "name", unique: true })
     name: string;
 
-    @Column("varchar2", { name: "username", length: 50 })
+    @Column("text", { name: "username", unique: true })
     username: string;
 
-    @Column("varchar2", { name: "password", length: 30 })
+    @Column("text", { name: "password" })
     password: string;
 
-    @Column("varchar2", { name: "description", length: 500 })
-    description: string;
+    @Column("text", { name: "description" })
+    description?: string;
 
     @Column("boolean", { name: "isActive", default: false })
     isActive?: boolean;
 
-    @ManyToMany(type => MetodoEntity, e => e._sistemaList, { })
-    @JoinTable()
-    _metodoList: MetodoEntity[];
+    @ManyToMany(type => MetodoEntity, e => e._sistemaList, { cascade: ['insert'] })
+    @JoinTable({ 
+        name: 'REL_SISTEMA_X_METODO', 
+        joinColumn: { name: 'sistemaId', referencedColumnName: 'id'}, 
+        inverseJoinColumn: { name: 'metodoId', referencedColumnName: 'id' } 
+    })
+    _metodoList?: MetodoEntity[];
 
-    @OneToMany(type => SistemaMetodoEntity, e => e._sistema, { })
-    _sistemaMetodoList: SistemaMetodoEntity;
+    // @OneToMany(type => SistemaMetodoEntity, e => e._sistema, {})
+    // _sistemaMetodoList?: SistemaMetodoEntity;
 }

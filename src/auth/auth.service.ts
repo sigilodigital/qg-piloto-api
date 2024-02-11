@@ -39,22 +39,20 @@ export class AuthService implements IAuthService {
         private utilService: UtilService,
         private usuarioRepository: UsuarioRepository
     ) {
-        this.entityList = [SistemaEntity, MetodoEntity, SistemaMetodoEntity];
-        this.utilRepository = new UtilRepository();
+        this.entityList = [SistemaEntity, MetodoEntity/*, SistemaMetodoEntity*/];
+        this.utilRepository = new UtilRepository(this.entityList);
     }
 
     async sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto> {
 
-        await this.utilRepository.init(this.entityList);
+        // await this.utilRepository.init(this.entityList);
 
         const system = await this.utilRepository.findOne(SistemaEntity, { where: { username: input.username }, relations: { _metodoList: true } });
-        // TODO: conferir a propriedade relationLoadStrategy: join|query
-        // const system = await this.utilRepository.findOne(SistemaEntity, { where: { username: input.username }, relationLoadStrategy: '' });
 
-        fnThrowSeSistemaAusente(system);
-        fnThrowSeSistemaInativo(system);
+        fnThrowSeSistemaAusente(system, this);
+        fnThrowSeSistemaInativo(system, this);
 
-        await fnSeSistemaSenhaNaoConfere(system, input);
+        await fnSeSistemaSenhaNaoConfere(system, input, this);
 
         return systemDto(system);
 
@@ -65,7 +63,7 @@ export class AuthService implements IAuthService {
             };
         }
 
-        function fnThrowSeSistemaAusente<C extends AuthService>(system: SistemaEntity, C?: C): void {
+        function fnThrowSeSistemaAusente<C extends AuthService>(system: SistemaEntity, C: C): void {
             if (!system)
                 throw new ForbiddenException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_SYS_N_ENCONT,
@@ -81,7 +79,7 @@ export class AuthService implements IAuthService {
                 }));
         }
 
-        function fnThrowSeSistemaInativo<C extends AuthService>(sistema: SistemaEntity, C?: C) {
+        function fnThrowSeSistemaInativo<C extends AuthService>(sistema: SistemaEntity, C: C) {
             if (sistema.isActive === false) {
                 throw new ForbiddenException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_SYS_INATIV,
@@ -98,7 +96,7 @@ export class AuthService implements IAuthService {
             }
         }
 
-        async function fnSeSistemaSenhaNaoConfere<C extends AuthService>(system: SistemaEntity, input: LoginSistemaInputDto, C?: C): Promise<void> {
+        async function fnSeSistemaSenhaNaoConfere<C extends AuthService>(system: SistemaEntity, input: LoginSistemaInputDto, C: C): Promise<void> {
             if (!(await C.utilService.decrypt(input.password, system.password)))
                 throw new ForbiddenException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_SYS_N_AUTENT,
@@ -116,10 +114,13 @@ export class AuthService implements IAuthService {
     }
 
     async usuarioValidar(input: LoginUserInputDto): Promise<LoginUserOutputDto> {
-        await this.utilRepository.init([DataAccessEntity, ProfileEntity, UsuarioEntity, ContatoEntity, LoginInfoEntity, EmailEntity, TelefoneEntity, EnderecoEntity])
+        await this.utilRepository.init([DataAccessEntity, ProfileEntity, UsuarioEntity, ContatoEntity, LoginInfoEntity, EmailEntity, TelefoneEntity, EnderecoEntity]);
 
-        const user: UsuarioEntity = await this.usuarioRepository.findOne({ where: { _dataAccess: { username: input.username } }, relations: { _dataAccess: true } });
-        const data: DataAccessEntity = await this.utilRepository.findOne(DataAccessEntity, { where: { username: input.username }, relations: { _usuario: true } });
+        const user: UsuarioEntity = await this.usuarioRepository.findOne({
+            where: { _dataAccess: { username: input.username } },
+            relations: { _dataAccess: true }
+        });
+        // const data: DataAccessEntity = await this.utilRepository.findOne(DataAccessEntity, { where: { username: input.username }, relations: { _usuario: true } });
 
         await throwSeUsuarioAusente(user, input, this);
         await throwSeUsuarioInativo(user, input, this);
@@ -145,7 +146,7 @@ export class AuthService implements IAuthService {
             };
         }
 
-        async function throwSeUsuarioAusente<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
+        async function throwSeUsuarioAusente<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C: C) {
             if (!user)
                 throw new BadRequestException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_USR_N_ENCONT,
@@ -161,7 +162,7 @@ export class AuthService implements IAuthService {
                 }));
         }
 
-        async function throwSeUsuarioInativo<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
+        async function throwSeUsuarioInativo<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C: C) {
             if (user.isActive === false) {
                 throw new BadRequestException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_USR_INATIV,
@@ -178,7 +179,7 @@ export class AuthService implements IAuthService {
             }
         }
 
-        async function throwSeUsuarioSenhaNaoCadastrada<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
+        async function throwSeUsuarioSenhaNaoCadastrada<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C: C) {
             if (!user._dataAccess.passwordHash) {
                 throw new BadRequestException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_USR_N_AUTENT,
@@ -195,7 +196,7 @@ export class AuthService implements IAuthService {
             }
         }
 
-        function throwSeUsuarioSenhaBloqueada<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
+        function throwSeUsuarioSenhaBloqueada<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C: C) {
             if (user._dataAccess.isPasswordLocked === true) {
                 throw new ForbiddenException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_USR_SENHA_BLOQUEADA,
@@ -212,12 +213,12 @@ export class AuthService implements IAuthService {
             }
         }
 
-        async function fnUsuarioSenhaConferir<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C): Promise<void> {
+        async function fnUsuarioSenhaConferir<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C: C): Promise<void> {
             if (!(await C.utilService.decrypt(input.password, user._dataAccess.passwordHash)))
                 await throwUsuarioSenhaIncrementaContadorErroSenha(user, input, C);
         }
 
-        async function throwUsuarioSenhaIncrementaContadorErroSenha<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C): Promise<void> {
+        async function throwUsuarioSenhaIncrementaContadorErroSenha<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C: C): Promise<void> {
             // TODO: incrementar quantidade maxima de erros configurada por parâmetro
             if (++user._dataAccess.passCountErrors >= 5) {
                 user._dataAccess.isPasswordLocked = true;
@@ -233,7 +234,7 @@ export class AuthService implements IAuthService {
             await throwUsuarioSenhaIncorreta(user, C);
         }
 
-        async function throwUsuarioSenhaIncorreta<C extends AuthService>(user: UsuarioEntity, C?: C): Promise<UsuarioEntity> {
+        async function throwUsuarioSenhaIncorreta<C extends AuthService>(user: UsuarioEntity, C: C): Promise<UsuarioEntity> {
             throw new BadRequestException(C.apiResponse.handler({
                 objMessage: MSG.ERR_AUTH_USR_N_AUTENT,
                 error: {
@@ -249,7 +250,7 @@ export class AuthService implements IAuthService {
             }));
         }
 
-        function throwSeUsuarioSenhaExcedeuTentativas<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C?: C) {
+        function throwSeUsuarioSenhaExcedeuTentativas<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C: C) {
             if (user._dataAccess.passCountErrors >= 5)
                 throw new BadRequestException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_USR_SENHA_BLOQUEADA,
@@ -265,7 +266,7 @@ export class AuthService implements IAuthService {
                 }));
         }
 
-        async function fnUsuarioAtualizar_zerarContadorTentativas<C extends AuthService>(user: UsuarioEntity, C?: C) {
+        async function fnUsuarioAtualizar_zerarContadorTentativas<C extends AuthService>(user: UsuarioEntity, C: C) {
             user._dataAccess.passCountErrors = 0;
             C.usuarioRepository.update(user);
         }

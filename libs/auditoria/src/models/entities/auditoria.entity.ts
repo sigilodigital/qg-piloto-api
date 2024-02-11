@@ -22,17 +22,17 @@ export class AuditoriaEntity {
     @Column("clob", { name: "TXT_SQL", nullable: true })
     txtSql: string | null;
 
-    @Column("varchar2", {
+    @Column("varchar", {
         name: "TXT_ENDERECO_NOME",
         nullable: true,
         length: 255,
     })
     txtEnderecoNome: string | null;
 
-    @Column("varchar2", { name: "TXT_ENDERECO_IP", nullable: true, length: 28 })
+    @Column("varchar", { name: "TXT_ENDERECO_IP", nullable: true, length: 28 })
     txtEnderecoIp: string | null;
 
-    @Column("varchar2", { name: "TXT_ALTERACAO", nullable: true, length: 4000 })
+    @Column("varchar", { name: "TXT_ALTERACAO", nullable: true, length: 4000 })
     txtAlteracao: string | null;
 
     @Column("timestamp", { name: "DT_ACAO", default: () => "sysdate" })
