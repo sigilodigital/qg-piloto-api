@@ -8,6 +8,8 @@ import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler'
 import { LoginUserInputDto, LoginUserOutputDto } from '../models/dto/login-user.dto';
 import { UsuarioEntity } from 'src/usuario/models/entities/usuario.entity';
 import { BadRequestException, HttpException } from '@nestjs/common/exceptions';
+import { MSG } from '@sd-root/libs/common/src/services/code-messages';
+import { SDExpectJest } from '@sd-root/libs/common/src/tests/expects-jest';
 
 describe('AuthService', () => {
 
@@ -78,7 +80,7 @@ describe('AuthService', () => {
                 }
             });
         } catch(error){
-            await fnNotCatchError(error)
+            await SDExpectJest.fnNotCatchError(error, expect)
         }
     });
 
@@ -101,37 +103,37 @@ describe('AuthService', () => {
             const result = await authService.usuarioValidar(input)
             expect(result).toThrow()
         } catch (error){
-            await fnCatchErrorDefault(error)
+            await SDExpectJest.fnCatchErrorDefault(error, expect)
         }
     });
 });
 
-async function fnNotCatchError(error) {
-    expect(error).not.toBeInstanceOf(Error);
-    expect(error).not.toBeInstanceOf(HttpException);
-}
+// async function fnNotCatchError(error) {
+//     expect(error).not.toBeInstanceOf(Error);
+//     expect(error).not.toBeInstanceOf(HttpException);
+// }
 
-async function fnCatchErrorDefault(error) {
-    expect(error).toBeInstanceOf(Error);
-    expect(error).toBeInstanceOf(HttpException);
-    expect(error).toBeInstanceOf(BadRequestException);
-}
+// async function fnCatchErrorDefault(error) {
+//     expect(error).toBeInstanceOf(Error);
+//     expect(error).toBeInstanceOf(HttpException);
+//     expect(error).toBeInstanceOf(BadRequestException);
+// }
 
-async function fnCatchErrorForRequired(error) {
-    expect(error.response).toHaveProperty('status.statusCode', 1);
-}
+// async function fnCatchErrorForRequired(error) {
+//     expect(error.response).toHaveProperty('status.statusCode', MSG.ERR_FIELD_N_INFO.code);
+// }
 
-async function fnCatchErrorForSize(error) {
-    expect(error.response).toHaveProperty('status.statusCode', 3);
-}
+// async function fnCatchErrorForSize(error) {
+//     expect(error.response).toHaveProperty('status.statusCode', MSG.ERR_FIELD_TAM);
+// }
 
-async function fnCatchErrorForType(error) {
-    expect(error.response).toHaveProperty('status.statusCode', 2);
-}
+// async function fnCatchErrorForType(error) {
+//     expect(error.response).toHaveProperty('status.statusCode', MSG.ERR_FIELD_TIPO);
+// }
 
-async function fnCatchErrorForValue(error) {
-    expect(error.response).toHaveProperty('status.statusCode', 4);
-}
+// async function fnCatchErrorForValue(error) {
+//     expect(error.response).toHaveProperty('status.statusCode', MSG.ERR_FIELD_VALOR);
+// }
 
 // describe('AuthService', () => {
 //     let authService: AuthService;
