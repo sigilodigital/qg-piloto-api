@@ -29,8 +29,7 @@ describe('AuthService', () => {
             isActive: true,
             _dataAccess:{ 
                 username: 'abcd', 
-                password: 'abcd1234',
-                passwordHash: '$2a$10$sU8WdC5ggk02VlMTJ41lWuXx/dUpaKywTMRLg7sDJ/qO0MGTAmDD.', 
+                password: '$2a$10$sU8WdC5ggk02VlMTJ41lWuXx/dUpaKywTMRLg7sDJ/qO0MGTAmDD.', //? abcd1234
                 passCountErrors: 0, 
                 isPasswordRequireChange: false,
             }

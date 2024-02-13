@@ -16,7 +16,7 @@ export class ValidaSchema implements ValidatorConstraintInterface {
     async validate(value: string, args: ValidationArguments) {
         const schema = <IConstraintSchema>args.constraints[0];
 
-        if (!value && schema.nullable)
+        if ((!value && schema.nullable) || typeof value === 'object')
             return true;
 
         this.validaNulo(value, schema, args);

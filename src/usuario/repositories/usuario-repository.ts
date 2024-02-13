@@ -20,13 +20,25 @@ export class UsuarioRepository extends GenericRepository<UsuarioEntity> implemen
         super(UsuarioEntity, config || entityList);
     }
 
-    async usuarioFind(usuario: FindOptionsWhere<UsuarioEntity>): Promise<UsuarioEntity[]> {
+    async getUserList(usuario: FindOptionsWhere<UsuarioEntity>): Promise<UsuarioEntity[]> {
         await this.init(this.config);
         return await this.queryDataSource.manager.findBy(UsuarioEntity, usuario);
+    }
+
+    async getLoginInfoByUserId(id: FindOptionsWhere<string>): Promise<LoginInfoEntity> {
+        await this.init(this.config);
+        return (await this.queryDataSource.manager.findOne(UsuarioEntity, { where: { id }, relations: { _loginInfo: true } }))?._loginInfo;
+    }
+
+    async getDataAccessByUserId(id: FindOptionsWhere<string>): Promise<DataAccessEntity> {
+        await this.init(this.config);
+        return (await this.queryDataSource.manager.findOne(UsuarioEntity, { where: { id }, relations: { _dataAccess: true } }))?._dataAccess;
     }
 
 }
 
 export interface IUsuarioRepository extends IGenericRepository<UsuarioEntity> {
-    usuarioFind(usuario: FindOptionsWhere<UsuarioEntity>): Promise<UsuarioEntity[]>;
+    getUserList(usuario: FindOptionsWhere<UsuarioEntity>): Promise<UsuarioEntity[]>;
+    getLoginInfoByUserId(usuario: FindOptionsWhere<string>): Promise<LoginInfoEntity>;
+    getDataAccessByUserId(usuario: FindOptionsWhere<string>): Promise<DataAccessEntity>;
 }

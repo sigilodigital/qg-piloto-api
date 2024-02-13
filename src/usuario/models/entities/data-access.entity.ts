@@ -14,9 +14,6 @@ export class DataAccessEntity {
     @Column("text")
     password: string;
 
-    @Column("text", { name: 'passwordHash' })
-    passwordHash?: string;
-
     @Column("integer", { name: 'passCountErrors', default: 0 })
     passCountErrors?: number;
 

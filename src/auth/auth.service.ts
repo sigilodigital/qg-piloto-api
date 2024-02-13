@@ -180,7 +180,7 @@ export class AuthService implements IAuthService {
         }
 
         async function throwSeUsuarioSenhaNaoCadastrada<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C: C) {
-            if (!user._dataAccess.passwordHash) {
+            if (!user._dataAccess.password) {
                 throw new BadRequestException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_USR_N_AUTENT,
                     error: {
@@ -214,7 +214,7 @@ export class AuthService implements IAuthService {
         }
 
         async function fnUsuarioSenhaConferir<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C: C): Promise<void> {
-            if (!(await C.utilService.decrypt(input.password, user._dataAccess.passwordHash)))
+            if (!(await C.utilService.decrypt(input.password, user._dataAccess.password)))
                 await throwUsuarioSenhaIncrementaContadorErroSenha(user, input, C);
         }
 

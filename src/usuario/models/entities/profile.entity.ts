@@ -1,6 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, ManyToOne } from "typeorm";
-import { ContatoEntity } from "./contato.entity";
-import { UsuarioEntity } from "./usuario.entity";
+import { Column, Entity, ManyToOne } from "typeorm";
 import { DataAccessEntity } from "./data-access.entity";
 
 @Entity({ name: 'TBL_PROFILE' })
@@ -10,16 +8,10 @@ export class ProfileEntity {
     id?: string;
 
     @Column("text")
-    username: string;
-
-    @Column("text")
-    password: string;
-
-    @Column("text")
-    passwordHash: string;
+    name: string;
 
     // TODO: mudar relacionamento para ManyToMany
     @ManyToOne(type => DataAccessEntity, e => e._profileList)
-    _dataAccess: DataAccessEntity;
+    _dataAccess?: DataAccessEntity;
 
 }
