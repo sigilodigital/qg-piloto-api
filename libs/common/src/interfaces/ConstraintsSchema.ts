@@ -7,5 +7,5 @@ export interface IConstraintSchema {
     nullable?: boolean;
     required?: boolean;
     default?: (boolean|string|number|object)[];
-    regex?: RegExp;
+    regex?: RegExp|string;
 }

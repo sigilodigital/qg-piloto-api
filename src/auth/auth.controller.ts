@@ -1,20 +1,19 @@
 import { Controller, Post, Request, Response, UseFilters, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { Response as ResponseExpress, Request as RequestExpress } from 'express';
+import { ApiBody, ApiHeader, ApiParam, ApiTags } from '@nestjs/swagger';
+import { Request as RequestExpress, Response as ResponseExpress } from 'express';
 
 // import { ApiResponse, IAPIResponse } from './../shared/response-handler';
+import { MSG } from '@libs/common/services/code-messages';
+import { HttpExceptionFilter } from '@libs/common/services/http-exception-filter';
+import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
 import { AuthService } from './auth.service';
 import { JwtAuthSystemGuard } from './guards/jwt-auth-system.guard';
 import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
 import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
-import { UserDto } from './models/dto/user.dto';
-import { AuthUserValidate } from './validates/auth-user.validate';
 import { AuthSystemValidate } from './validates/auth-system.validate';
-import { LocalAuthGuard } from './guards/local-auth.guard';
-import { HttpExceptionFilter } from '@libs/common/services/http-exception-filter';
-import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
-import { MSG } from '@libs/common/services/code-messages';
+import { AuthUserValidate } from './validates/auth-user.validate';
+import configs from '@sd-root/libs/common/src/configs';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -22,11 +21,10 @@ export class AuthController {
     constructor(private readonly authservice: AuthService, private apiResponse: ApiResponse<LoginUserInputDto, unknown>) { }
 
     @ApiBody({ type: LoginUserInputDto, examples: { usuario_teste: { value: { username: 'abcd', password: 'abcd1234' } } } })
-    // @UseGuards(JwtAuthSystemGuard)
-    // @UseGuards(LocalAuthGuard)
-    @UseGuards(AuthGuard('login-user-strategy'))
-    // @UseGuards(AuthGuard('login-system-strategy'))
+    @UseGuards(AuthGuard('user-strategy'))
     @UseGuards(AuthUserValidate)
+    // TODO: Trocar a validacao de JWT do sistema, pq esta parece não poder alterar o parametro de recebimento do token (Authentication no cabecalho), conflita com a autenticação do usuario
+    // @UseGuards(JwtAuthSystemGuard)
     @UseFilters(HttpExceptionFilter)
     @Post('usuario-autenticar')
     async usuarioAutenticar(@Request() req: RequestExpress & { user: LoginUserOutputDto; }, @Response() res: ResponseExpress): Promise<any> {
@@ -36,7 +34,8 @@ export class AuthController {
 
         if ((await fnSeExigirAlteracaoDeSenha(user, this))) return;
 
-        res.json(this.apiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: user, warning: { message: 'Conferir o codMessage correto' } }));
+        const result = this.apiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: user, warning: { message: 'Conferir o codMessage correto' } });
+        res.json(result);
 
         async function fnSeExigirAlteracaoDeSenha<C extends AuthController>(user: LoginUserOutputDto, C: C) {
             if (user.__params.isPasswordRequireChange === true) {
@@ -48,22 +47,22 @@ export class AuthController {
 
         async function fnGerarToken<C extends AuthController>(user: LoginUserOutputDto, C: C) {
             // TODO: melhoria: centralizar as configurações do tokenGenerate
-            return { 
-                bearer: await C.authservice.tokenGenerate(user, { expiresIn: '1h' }),
-                replace: await C.authservice.tokenGenerate({}, { expiresIn: '24h' })
+            return {
+                bearer: await C.authservice.tokenGenerate(user, { expiresIn: configs().auth.expiresIn.bearer }),
+                replace: await C.authservice.tokenGenerate(null, { expiresIn: configs().auth.expiresIn.replace })
             };
         }
 
         function fnInserirTokenNaResposta(user: LoginUserOutputDto, token: LoginUserOutputDto['token']): LoginUserOutputDto {
             user.token = token;
-            res.header('tokenBearer', token.bearer);
-            res.header('tokenReplace', token.replace);
+            res.header('token-bearer', token.bearer);
+            res.header('token-replace', token.replace);
             return user;
         }
     }
 
     @ApiBody({ type: LoginSistemaInputDto, examples: { teste_1: { value: { username: 'sd-portal', password: 'abcd1234' } } } })
-    @UseGuards(AuthGuard('login-system-strategy'))
+    @UseGuards(AuthGuard('system-strategy'))
     @UseGuards(AuthSystemValidate)
     @UseFilters(HttpExceptionFilter)
     @Post('sistema-autenticar')

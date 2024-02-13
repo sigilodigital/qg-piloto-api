@@ -23,12 +23,13 @@ export class ApiResponse<Tin, Tout> {
             return (!(GlobalService.debugModeVerify() && (input?.error?.message || input?.warning?.message)))
                 ? undefined
                 : {
-                    message: input[msgType]?.message,
+                    message: (<IError<Tin,Tout>>input[msgType])?.message,
+                    fix: (<IError<Tin,Tout>>input[msgType])?.fix,
                     context: {
-                        className: input[msgType]?.context?.className,
-                        methodName: input[msgType]?.context?.methodName,
-                        input: input?.input,
-                        output: input.output
+                        className: (<IError<Tin,Tout>>input[msgType])?.context?.className,
+                        methodName: (<IError<Tin,Tout>>input[msgType])?.context?.methodName,
+                        input: (<IError<Tin,Tout>>input[msgType])?.context.input,
+                        output: (<IError<Tin,Tout>>input[msgType]).context.output
                     }
                 };
         }
@@ -58,6 +59,7 @@ interface IStatusMessage<Tin, Tout> {
 
 interface IError<Tin, Tout> {
     message: string;
+    fix?: string;
     context?: {
         className?: string;
         methodName?: string;

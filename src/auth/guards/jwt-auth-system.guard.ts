@@ -3,11 +3,13 @@ import { AuthGuard } from '@nestjs/passport';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 
 import { UtilRepository } from '@libs/common/repository/util.repository';
-import { ApiResponse } from '../../shared/response-handler';
-import { SistemaEntity } from '../models/entities/sistema.entity';
-import { RotasInternasConfig } from '../utils/rotarInternas-map';
+import { MSG } from '@sd-root/libs/common/src/services/code-messages';
+import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
+import { LoginSistemaInputDto } from '../models/dto/loginSistema.dto';
 import { MetodoEntity } from '../models/entities/metodo.entity';
 import { SistemaMetodoEntity } from '../models/entities/sistema-metodo.entity';
+import { SistemaEntity } from '../models/entities/sistema.entity';
+import { RotasInternasConfig } from '../utils/rotarInternas-map';
 
 export interface IHandleRequest {
     erro?: any;
@@ -18,68 +20,65 @@ export interface IHandleRequest {
 
 @Injectable()
 export class JwtAuthSystemGuard extends AuthGuard('jwt') {
-    private LOG_CLASS_NAME = "JwtAuthGuard";
-    
+    public LOG_CLASS_NAME = "JwtAuthGuard";
+
     private handle: IHandleRequest;
-    private entityList : EntityClassOrSchema[];
+    private entityList: EntityClassOrSchema[];
     private utilRepository: UtilRepository;
+    public apiResponse: ApiResponse<any, any>;
 
     constructor() {
         super();
         this.entityList = [SistemaEntity, MetodoEntity, SistemaMetodoEntity];
         this.utilRepository = new UtilRepository();
+        this.apiResponse = new ApiResponse<any, any>();
 
     }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         await super.canActivate(context);
-        (await this.utilRepository.init(this.entityList));
 
         if (!this.handle.user) {
-            fnSeInvalideToken(this.handle);
-            fnSeTokenExpirado(this.handle);
-            fnSeTokenInexistente(this.handle);
-            fnSeTokenMalFormado(this.handle);
-        } else {
-            const sistema = await this.getSistema();
-            if (sistema) {
-                fnSeSistemaInativoException(this, sistema);
-
-                const metodosWs = await this.getMetodosWS(context);
-
-                if (metodosWs) {
-                    fnSeMetodoInativoException(metodosWs);
-                    const sistemaMetodoWs = await this.getSistemaMetodo('ALTERADO', sistema.id); //!ALTERADO
-                    if (!sistemaMetodoWs)
-                        fnSeMetodoNaoEncontradoException(metodosWs, sistema);
-
-                    return this.handle.user;
-                } else fnMetodoNaoAutorizado();
-            } else fnSeSistemaMetodoNaoEncontrado();
+            fnSeTokenInexistente(this.handle, this);
+            fnSeTokenInvalido(this.handle, this);
+            fnSeTokenExpirado(this.handle, this);
+            fnSeTokenMalFormado(this.handle, this);
         }
+
+        return this.handle.user;
+
+        // const sistema = await this.getSystem();
+        // fnSeSistemaMetodoNaoEncontrado(sistema, this);
+        // fnSeSistemaInativoException(sistema, this);
+        // fnSeMetodoInativoException(sistema, this);
+        // fnSeMetodoNaoEncontradoException(sistema, this);
+        // fnSeMetodoNaoAutorizado();
+
+        // const metodosWs = await this.getMetodosWS(context);
+
     }
 
-    async getSistema() {
-        return await this.utilRepository.findOneBy(SistemaEntity, { username: this.handle.user['systemDataLogin']['username'] });
+    async getSystem(loginSystem: LoginSistemaInputDto): Promise<SistemaEntity> {
+        return await this.utilRepository.findOne(SistemaEntity, { where: { username: loginSystem.username }, relations: { _metodoList: true } });
     }
 
     async getMetodosWS(context: ExecutionContext) {
-        let pathMethod = await this.fnLerHeader('methodName');
-        let methodName = fnNormalizarUrlParaMetodo(pathMethod.methodName)
-        // if (methodName) methodName = await this.fnGetMethodInterno(context);
-        if (methodName) {
-            return await this.utilRepository.findOneBy(MetodoEntity, { name: methodName });
-        } else fnFalhaTokenInexistente();
+        // let pathMethod = await this.fnLerHeader('methodName');
+        // let methodName = fnNormalizarUrlParaMetodo(pathMethod.methodName);
+        // // if (methodName) methodName = await this.fnGetMethodInterno(context);
+        // if (methodName) {
+        //     return await this.utilRepository.findOneBy(MetodoEntity, { name: methodName });
+        // } else throwTokenInexistente();
 
-        function fnNormalizarUrlParaMetodo(url: string){
-            url = url.split('?')[0] //? remove queryParam
-            url = url.split(/\/\d+$/)[0] //? remove urlParam
-            return url
-        }
+        // function fnNormalizarUrlParaMetodo(url: string) {
+        //     url = url.split('?')[0]; //? remove queryParam
+        //     url = url.split(/\/\d+$/)[0]; //? remove urlParam
+        //     return url;
+        // }
     }
 
     async getSistemaMetodo(_metodo: string, _sistema: string) {
-        return await this.utilRepository.findOne(SistemaMetodoEntity, {  }); //!ALTERADO
+        return await this.utilRepository.findOne(SistemaMetodoEntity, {}); //!ALTERADO
     }
 
     handleRequest(err: any, user: any, info: any, context: any) {
@@ -118,33 +117,31 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
     }
 }
 
-function fnSeSistemaInativoException(thiss: any, sistema: SistemaEntity) {
+function fnSeSistemaInativoException<C extends JwtAuthSystemGuard>(sistema: SistemaEntity, C: C) {
     if (sistema.isActive === false) {
-        throw new UnauthorizedException(ApiResponse.handler({
-            codNumber: 7,
-            outputError: {
+        throw new UnauthorizedException(C.apiResponse.handler({
+            objMessage: MSG.ERR_AUTH_SYS_INATIV,
+            error: {
                 message: 'Sistema inativo.',
                 context: {
+                    className: C.LOG_CLASS_NAME,
+                    methodName: null,
                     input: {
                         codAtivo: sistema.isActive,
                         txtDescricao: sistema.description,
-
                     },
-                    output: {
-                        className: thiss.className,
-                        methodName: "fnSeSistemaAtivo"
-                    }
+                    output: null
                 }
             }
         }));
     }
 }
 
-function fnSeMetodoInativoException(metodosWs: MetodoEntity) {
+function fnSeMetodoInativoException<C extends JwtAuthSystemGuard>(metodosWs: MetodoEntity, C: C) {
     if (metodosWs.isActive == false) {
-        throw new UnauthorizedException(ApiResponse.handler({
-            codNumber: 7,
-            outputError: {
+        throw new UnauthorizedException(C.apiResponse.handler({
+            objMessage: MSG.ERR_AUTH_SYS_N_METODO,
+            error: {
                 message: 'Método inativo.',
                 context: {
                     output: {
@@ -155,12 +152,12 @@ function fnSeMetodoInativoException(metodosWs: MetodoEntity) {
             }
         }));
     }
-}
+};
 
-function fnSeMetodoNaoEncontradoException(metodosWs: MetodoEntity, sistema: SistemaEntity) {
-    throw new UnauthorizedException(ApiResponse.handler({
-        codNumber: 8,
-        outputError: {
+function fnSeMetodoNaoEncontradoException<C extends JwtAuthSystemGuard>(metodosWs: MetodoEntity, sistema: SistemaEntity, C: C) {
+    throw new UnauthorizedException(C.apiResponse.handler({
+        objMessage: MSG.ERR_AUTH_SYS_N_METODO,
+        error: {
             message: "Metodo não cadastrado para o sistema",
             context: {
                 input: {
@@ -182,73 +179,75 @@ function fnSeMetodoNaoEncontradoException(metodosWs: MetodoEntity, sistema: Sist
     }));
 }
 
-function fnMetodoNaoAutorizado() {
-    throw new UnauthorizedException(ApiResponse.handler({
-        codNumber: 5,
-        outputError: {
+function fnSeMetodoNaoAutorizado<C extends JwtAuthSystemGuard>(methodList: MetodoEntity[], C: C) {
+    throw new UnauthorizedException(C.apiResponse.handler({
+        objMessage: MSG.ERR_AUTH_SYS_N_METODO,
+        error: {
             message: 'O acesso ao método não é permitido.'
         }
     }));
 }
 
-function fnFalhaTokenInexistente() {
-    throw new UnauthorizedException(ApiResponse.handler({
-        codNumber: 77,
-        outputError: {
-            message: 'Token não informado no cabeçalho.'
+function throwTokenInexistente<C extends JwtAuthSystemGuard>(C: C) {
+    throw new UnauthorizedException(C.apiResponse.handler({
+        objMessage: MSG.ERR_AUTH_TOKEN_N_INFORMED,
+        error: {
+            message: 'O token do sistema não foi informado ou informado em outro parâmetro.',
+            fix: ''
+                + '(1) Informar o token do sistema no parametro de cabeçalho correto da requisição. '
+                + '(2) Gerar um novo token para o sistema.'
         }
     }));
 }
 
-function fnFalhaTokenInvalido() {
-    throw new UnauthorizedException(ApiResponse.handler({
-        codNumber: 78,
-        outputError: {
-            message: 'Token informado é inválido.'
+function ThrowTokenInvalido<C extends JwtAuthSystemGuard>(C: C) {
+    throw new UnauthorizedException(C.apiResponse.handler({
+        objMessage: MSG.ERR_AUTH_TOKEN_INVALID,
+        error: {
+            message: 'O token do sistema informado está inválido.',
+            fix: ''
+                + '(1) Adequar o token informado. '
+                + '(2) Gerar um novo token para o sistema.'
         }
     }));
 }
 
-function fnFalhaTokenExpirado() {
-    throw new UnauthorizedException(ApiResponse.handler({
-        codNumber: 79,
-        outputError: {
-            message: 'Token informado expirado.'
+function throwTokenExpirado<C extends JwtAuthSystemGuard>(C: C) {
+    throw new UnauthorizedException(C.apiResponse.handler({
+        objMessage: MSG.ERR_AUTH_TOKEN_EXPIRED,
+        error: {
+            message: 'O token do sistema informado no cabeçalho da requisição foi expirado.',
+            fix: ''
+                + '(1) Deve ser gerado um novo token.'
         }
     }));
 }
 
-function fnFalhaTokenMalFormado() {
-    throw new UnauthorizedException(ApiResponse.handler({
-        codNumber: 80,
-        outputError: {
-            message: 'Token mal formado.'
+function throwTokenMalFormado<C extends JwtAuthSystemGuard>(C: C) {
+    throw new UnauthorizedException(C.apiResponse.handler({
+        objMessage: MSG.ERR_AUTH_TOKEN_BAD_FORMED,
+        error: {
+            message: 'O token do sistema informado no cabeçalho da requisição está em formato iválido.',
+            fix: ''
+                + '(1) Verificar a formatação ou tipo correto (bearer, replace ou outro). '
+                + '(2) Gerar um novo token para o sistema.'
         }
     }));
 }
 
-function fnSeSistemaMetodoNaoEncontrado() {
-    throw new UnauthorizedException(ApiResponse.handler({
-        codNumber: 5,
-        outputError: {
-            message: 'Sistema metodo não encontradi'
-        }
-    }));
+function fnSeTokenInexistente<C extends JwtAuthSystemGuard>(handle: IHandleRequest, C: C) {
+    if (handle?.info && handle?.info.message == "No auth token") throwTokenInexistente(C);
 }
 
-function fnSeInvalideToken(handle: IHandleRequest) {
-    if (handle?.info && handle.info?.message == 'invalid signature' || handle.info?.message == 'invalid token') fnFalhaTokenInvalido();
+function fnSeTokenInvalido<C extends JwtAuthSystemGuard>(handle: IHandleRequest, C: C) {
+    if (handle?.info && handle.info?.message == 'invalid signature' || handle.info?.message == 'invalid token') ThrowTokenInvalido(C);
 }
 
-function fnSeTokenExpirado(handle: IHandleRequest) {
-    if (handle?.info && handle.info?.message == "jwt expired") fnFalhaTokenExpirado();
+function fnSeTokenExpirado<C extends JwtAuthSystemGuard>(handle: IHandleRequest, C: C) {
+    if (handle?.info && handle.info?.message == "jwt expired") throwTokenExpirado(C);
 }
 
-function fnSeTokenInexistente(handle: IHandleRequest) {
-    if (handle?.info && handle?.info.message == "No auth token") fnFalhaTokenInexistente();
-}
-
-function fnSeTokenMalFormado(handle: IHandleRequest) {
-    if (handle?.info && handle?.info.message == "jwt malformed") fnFalhaTokenMalFormado();
+function fnSeTokenMalFormado<C extends JwtAuthSystemGuard>(handle: IHandleRequest, C: C) {
+    if (handle?.info && handle?.info.message == "jwt malformed") throwTokenMalFormado(C);
 }
 

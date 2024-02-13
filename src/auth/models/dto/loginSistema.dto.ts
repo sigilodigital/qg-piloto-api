@@ -19,7 +19,9 @@ export interface ISistemaMetodoWS {
 }
 
 export class LoginSistemaInputDto {
-    
+
+    @Validate(ValidaSchema, [<IConstraintSchema>{nullable: true, regex: /^swagger|app$/gi }])
+    agent?: 'swagger' | 'app' | null;
     @ApiProperty({ name: "txtLogin", type: String, required: true, description: "Nome do usuário do sistema." })
     @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', maxLength: 50 }])
     username: string;
@@ -30,7 +32,7 @@ export class LoginSistemaInputDto {
 
 }
 export class LoginSistemaOutputDto {
-    
+
     sistema: SistemaEntity;
     metodoList: MetodoEntity[];
     token?: string;

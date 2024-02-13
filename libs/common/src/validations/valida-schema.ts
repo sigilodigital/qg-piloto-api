@@ -9,7 +9,9 @@ import { IMessage, MSG } from '@sd-root/libs/common/src/services/code-messages';
 export class ValidaSchema implements ValidatorConstraintInterface {
     LOG_CLASS_NAME = "ValidaSchema";
 
-    constructor(private apiResponse: ApiResponse<any, any>) { }
+    private apiResponse: ApiResponse<any, any>;
+
+    constructor() { this.apiResponse = new ApiResponse<any, any>(); }
 
     async validate(value: string, args: ValidationArguments) {
         const schema = <IConstraintSchema>args.constraints[0];
@@ -68,8 +70,11 @@ export class ValidaSchema implements ValidatorConstraintInterface {
     }
 
     validaExpressaoRegular(value: string, schema: IConstraintSchema, args: ValidationArguments) {
-        if (schema.regex && !schema.regex.test(value))
+        const rgx = <RegExp><unknown>schema.regex;
+        if (rgx && !rgx.test(value)) {
+            (<IConstraintSchema>args.constraints[0]).regex = `/${rgx.source}/${rgx.flags}`;
             this.message(MSG.ERR_FIELD_VALOR, args);
+        }
     }
 
     message(objMessage: IMessage, args: ValidationArguments) {
@@ -78,12 +83,17 @@ export class ValidaSchema implements ValidatorConstraintInterface {
             property: args.property,
             valueArg: args.value,
             error: {
-                message: `Validação do objeto ${args.targetName}:: ${args.property}: ${args.value}`,
+                message: `Validação do objeto ${args.targetName} :: propriedade: ${args.property}, valor: ${args.value}, tipo: ${typeof args.value}`,
                 context: {
                     className: this.LOG_CLASS_NAME,
-                    methodName: "defaultMessage(args: ValidationArguments)",
-                    input: args,
-                    output: null
+                    methodName: this.message.name,
+                    input: {
+                        targetName: args.targetName,
+                        property: args.property,
+                        value: args.value,
+                        constraints: args.constraints,
+                        object: args.object,
+                    }
                 }
             }
         });

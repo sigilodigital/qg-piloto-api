@@ -7,9 +7,9 @@ import configs from '@libs/common/configs';
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor() {
         super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            jwtFromRequest: ExtractJwt.fromHeader('token-system'),
             ignoreExpiration: false,
-            secretOrKey: configs().auth.secretKey //!ALTERADO
+            secretOrKey: configs().auth.secretKey
         });
     }
 

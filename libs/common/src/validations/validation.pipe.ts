@@ -5,15 +5,20 @@ import { validate } from 'class-validator';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
-    
+
     async transform(value: any, metadata?: ArgumentMetadata) {
         if (!metadata.metatype || !this.toValidate(metadata.metatype)) {
             return value;
         }
 
         const object = plainToInstance(metadata.metatype, value);
-        await validate(object, {dismissDefaultMessages: false, always:false, enableDebugMessages: true, stopAtFirstError: true });
-        return value
+        await validate(object, {
+            dismissDefaultMessages: false,
+            always: false,
+            enableDebugMessages: true,
+            stopAtFirstError: true,
+        });
+        return value;
     }
 
     private toValidate(metatype: Function): boolean {

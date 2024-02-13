@@ -25,6 +25,11 @@ export const MSG = {
     ERR_FIELD_TAM:  { text: "Tamanho do campo @campo é inválido.", code: 24 },
     ERR_FIELD_VALOR:  { text: "Valor do campo @campo é inválido.", code: 25 },
     // ERROR - AUTH
+    ERR_AUTH_TOKEN_N_INFORMED:  { text: "Token não informado.", code: 70 },
+    ERR_AUTH_TOKEN_INVALID:  { text: "Token inválido.", code: 71 },
+    ERR_AUTH_TOKEN_ASSIN_INVALID:  { text: "Token com assinatura inválida.", code: 72 },
+    ERR_AUTH_TOKEN_EXPIRED:  { text: "Token expirado.", code: 73 },
+    ERR_AUTH_TOKEN_BAD_FORMED:  { text: "Token mal formado.", code: 74 },
     // ERROR - AUTH_USR
     ERR_AUTH_USR_N_ENCONT:  { text: "Usuário não encontrado.", code: 80 },
     ERR_AUTH_USR_INATIV:  { text: "Usuário inativado.", code: 81 },

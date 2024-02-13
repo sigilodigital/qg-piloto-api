@@ -5,7 +5,7 @@ import configs from "../configs";
 export class GlobalService {
     static enableDebugModeInHeader = true;
 
-    static debugModeVerify(){
-        return GlobalService.enableDebugModeInHeader && configs().enviroment.isDebugMode
+    static debugModeVerify(isOk: boolean = false): boolean {
+        return isOk || (GlobalService.enableDebugModeInHeader && configs().enviroment.isDebugMode);
     }
 }

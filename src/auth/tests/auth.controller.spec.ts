@@ -31,7 +31,7 @@ describe('AuthController', () => {
     });
 });
 
-describe('AuthController - usuarioSenhaValidar', () => {
+describe('AuthController - usuarioAutenticar', () => {
     let authController: AuthController;
     let authService: AuthService;
     let mockRequest: RequestExpress & { user: LoginUserOutputDto; };
@@ -65,8 +65,8 @@ describe('AuthController - usuarioSenhaValidar', () => {
         const s = mockResponse.json();
         // expect(authService.tokenGenerate).toHaveBeenCalledWith(mockRequest.user);
         expect(authService.tokenGenerate).toHaveBeenCalledTimes(2);
-        expect(mockResponse.header).toHaveBeenCalledWith('tokenBearer', 'mockToken');
-        expect(mockResponse.header).toHaveBeenCalledWith('tokenReplace', 'mockToken');
+        expect(mockResponse.header).toHaveBeenCalledWith('token-bearer', 'mockToken');
+        expect(mockResponse.header).toHaveBeenCalledWith('token-replace', 'mockToken');
         expect(mockResponse.json).toHaveBeenCalled();
     });
 });
