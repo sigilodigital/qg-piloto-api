@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, PartialType } from "@nestjs/swagger";
 import { Validate, ValidateNested } from 'class-validator';
 
 import { IConstraintSchema } from "@libs/common/interfaces/ConstraintsSchema";
@@ -27,7 +27,7 @@ export class DataAccessInputDto implements DataAccessEntity {
 
     @ApiProperty({ name: 'username', type: String, nullable: false })
     @Validate(ValidaSchema, [<IConstraintSchema>{}])
-    password: string;
+    password?: string;
 
     passCountErrors?: number;
     isPasswordLocked?: boolean;
@@ -38,6 +38,6 @@ export class DataAccessInputDto implements DataAccessEntity {
     _profileList?: ProfileInputDto[];
 }
 
-export class DataAccessOutputDto {
+export class DataAccessOutputDto extends PartialType(DataAccessInputDto) {
 
 }

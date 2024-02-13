@@ -1,15 +1,15 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { JsonWebTokenError } from 'jsonwebtoken';
 
 import { IUtilRepository, UtilRepository } from '@libs/common/repository/util.repository';
 import { ApiResponse } from '@libs/common/services/response-handler';
 import { UtilService } from '@libs/common/services/util.service';
-import { SistemaEntity } from '../models/entities/sistema.entity';
+import configs from '@sd-root/libs/common/src/configs';
+import { MSG } from '@sd-root/libs/common/src/services/code-messages';
 import { MetodoEntity } from '../models/entities/metodo.entity';
 import { SistemaMetodoEntity } from '../models/entities/sistema-metodo.entity';
-import { MSG } from '@sd-root/libs/common/src/services/code-messages';
-import { JsonWebTokenError } from '@nestjs/jwt';
-import configs from '@sd-root/libs/common/src/configs';
+import { SistemaEntity } from '../models/entities/sistema.entity';
 
 @Injectable()
 export class RouteSystemGuard implements CanActivate {
@@ -50,7 +50,7 @@ export class RouteSystemGuard implements CanActivate {
     }
 
     private async tokenVerificar(token: string): Promise<ITokenInfoSystem> {
-        token = token.replace(/^.*\s/, '')
+        token = token.replace(/^.*\s/, '');
         try {
             const result = <ITokenInfoSystem><unknown>await this.utilService.tokenVerify(token, { secret: configs().auth.secretKey });
             return result;

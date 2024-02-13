@@ -1,24 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
 
-import { RunnerTransaction } from '@libs/common/databases/runner-transaction/runner-transaction';
-import { UsuarioEntity } from './models/entities/usuario.entity';
-import { CodigoAcaoEnum } from '@libs/common/enumerations/codigo-acao.enum';
-import { UsuarioRepository } from './repositories/usuario-repository';
 import { IHistoricoDadosPrimarios } from '@libs/auditoria/models/dto/auditoria-event-list.dto';
+import { RunnerTransaction } from '@libs/common/databases/runner-transaction/runner-transaction';
+import { CodigoAcaoEnum } from '@libs/common/enumerations/codigo-acao.enum';
 import { OrigemEnum } from '@libs/common/enumerations/origem.enum';
+import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from './models/dto/usuario-consultar.dto';
-import { UsuarioIncluirUseCase } from './usecases/usuario-incluir.usecase';
-import { UsuarioConsultarUseCase } from './usecases/usuario-consultar.usecase';
-import { UtilRepository } from '@libs/common/repository/util.repository';
 import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from './models/dto/usuario-incluir/usuario-incluir.dto';
-import { ContatoEntity } from './models/entities/contato.entity';
-import { EmailEntity } from './models/entities/email.entity';
-import { TelefoneEntity } from './models/entities/telefone.entity';
-import { EnderecoEntity } from './models/entities/endereco.entity';
-import { LoginInfoEntity } from './models/entities/login-info.entity';
-import { DataAccessEntity } from './models/entities/data-access.entity';
-import { ProfileEntity } from './models/entities/profile.entity';
+import { UsuarioEntity } from './models/entities/usuario.entity';
+import { UsuarioRepository } from './repositories/usuario-repository';
+import { UsuarioConsultarUseCase } from './usecases/usuario-consultar.usecase';
+import { UsuarioIncluirUseCase } from './usecases/usuario-incluir.usecase';
 
 @Injectable()
 export class UsuarioService {
@@ -29,7 +22,7 @@ export class UsuarioService {
         const historico = { ...(await fnHistoricoDadosPrimarios()), codAcao: CodigoAcaoEnum.USUARIO_INCLUIR };
 
         queryRunner.data = historico;
-        const ucUsuario = new UsuarioIncluirUseCase(new UsuarioRepository());
+        const ucUsuario = new UsuarioIncluirUseCase(new UsuarioRepository(), new ApiResponse<any, any>());
         const result = await ucUsuario.handle(input);
         queryRunner.data = null;
 

@@ -4,13 +4,16 @@ import { DataSource, EntityTarget, FindManyOptions, FindOptionsWhere, QueryRunne
 
 import { AppDataSourceAsync } from "@libs/common/databases";
 import { RunnerTransaction } from "@libs/common/databases/runner-transaction/runner-transaction";
-import { ApiResponse } from "@sd-root/libs/common/src/services/response-handler-v1";
+import { ApiResponse } from "@sd-root/libs/common/src/services/response-handler";
+import { MSG } from "../services/code-messages";
 
 export abstract class GenericRepository<E> implements IGenericRepository<E> {
+    protected LOG_CLASS_NAME = 'GenericRepository';
 
     protected queryDataSource: QueryRunner | DataSource;
     protected config: EntityClassOrSchema[] | QueryRunner;
     protected entityClass: EntityTarget<E>;
+    protected apiResponse: ApiResponse<any, any>;
 
     protected constructor(entityClass: EntityTarget<E>, config?: EntityClassOrSchema[] | QueryRunner) {
         this.config = config;
@@ -50,7 +53,6 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
 
     async save(object: E): Promise<E> {
         await this.init(this.config);
-        // object.codT = await (new UtilRepository()).getSequence('S_XXXXXXXX');
         try {
             const result = await this.queryDataSource.manager.save(object);
             return result;
@@ -58,7 +60,20 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
             (this.queryDataSource instanceof DataSource)
                 ? undefined
                 : RunnerTransaction.rollbackTransaction(this.queryDataSource);
-            throw new BadGatewayException(ApiResponse.handler({ codMessage: 60 }));
+            throw new BadGatewayException(this.apiResponse.handler({
+                objMessage: MSG.DEFAULT_FALHA,
+                error: {
+                    message: 'Erro ao tentar persistir dados no DB.',
+                    fix: ''
+                        + '(1) conferir a conexão com o DB',
+                    context: {
+                        className: this.LOG_CLASS_NAME,
+                        methodName: this.save.name,
+                        input: object,
+                        output: error
+                    }
+                }
+            }));
         }
     }
 

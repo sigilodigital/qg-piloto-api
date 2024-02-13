@@ -4,6 +4,11 @@ import { LoginUserInputDto } from '@sd-root/src/core/auth/models/dto/login-user.
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from '../models/dto/usuario-consultar.dto';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
 import { UsuarioRepository } from '../repositories/usuario-repository';
+import { SDExpectJest } from '@sd-root/libs/common/src/tests/expects-jest';
+import { DataAccessOutputDto } from '../models/dto/usuario-incluir/data-access.dto';
+import { DataAccessEntity } from '../models/entities/data-access.entity';
+import { ProfileEntity } from '../models/entities/profile.entity';
+import { EmailEntity } from '../models/entities/email.entity';
 
 describe('UsuarioRepository', () => {
     let repo: UsuarioRepository;
@@ -39,34 +44,38 @@ describe('UsuarioRepository: Testando conexão com DB', () => {
 });
 
 describe('UsuarioRepository: testando os métodos do repository', () => {
-    let repo: UsuarioRepository;
+    let userRepository: UsuarioRepository;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [UsuarioRepository],
         }).compile();
 
-        repo = module.get<UsuarioRepository>(UsuarioRepository);
+        userRepository = module.get<UsuarioRepository>(UsuarioRepository);
     });
 
-    it('usuarioRepository:usuarioFind: deve retornar uma lista de usuários ativos', async () => {
+    it('getUserList: deve retornar uma lista de usuários ativos', async () => {
         const input: UsuarioConsultarInputDto = { isActive: true };
-        const result = await repo.usuarioFind(input);
+        try {
+            const result = await userRepository.getUserList(input);
 
-        expect(result).toBeInstanceOf(Array<UsuarioConsultarOutputDto>);
-        expect(result.length).toBeGreaterThanOrEqual(2);
+            expect(result).toBeInstanceOf(Array<UsuarioConsultarOutputDto>);
+            expect(result.length).toBeGreaterThanOrEqual(2);
+        } catch (error) {
+            await SDExpectJest.fnNotCatchError(error, expect);
+        }
     });
 
-    it('usuarioRepository:find: deve retornar uma lista de usuários', async () => {
+    it('find: deve retornar uma lista de usuários', async () => {
         const input: LoginUserInputDto = { username: 'sd', password: '123' };
-        const result = await repo.find({ where: { isActive: true } });
+        const result = await userRepository.find({ where: { isActive: true } });
 
         expect(result).toBeInstanceOf(Array<UsuarioConsultarOutputDto>);
     });
 
-    it('usuarioRepository:find: deve retornar todos os usuários, inclusive os dados das tabelas relacionadas', async () => {
+    it('find: deve retornar todos os usuários, inclusive os dados das tabelas relacionadas', async () => {
         const input: UsuarioConsultarInputDto = {};
-        const result = await repo.find({
+        const result = await userRepository.find({
             where: input, relations: {
                 _contato: true,
                 _dataAccess: true,
@@ -76,11 +85,17 @@ describe('UsuarioRepository: testando os métodos do repository', () => {
 
         expect(result).toBeInstanceOf(Array<UsuarioConsultarOutputDto>);
         expect(result.length).toBeGreaterThanOrEqual(2);
+        expect(result[0]).toMatchObject({
+            'id': expect.any(String),
+            // '_dataAccess': expect.any(DataAccessEntity),
+            '_contato': { '_emailList': expect.any(Array<EmailEntity>) },
+            // '_profileList': expect.any(Array<ProfileEntity>),
+        });
     });
 
-    it('usuarioRepository:find: deve retornar apenas um usuário, mas com os dados das tabelas relacionadas', async () => {
-        const input: UsuarioConsultarInputDto = { _dataAccess: { username: 'asdf', password: undefined } };
-        const result: UsuarioEntity[] = await repo.find({
+    it('findOne: deve retornar apenas um usuário e seus relacionamentos', async () => {
+        const input: UsuarioConsultarInputDto = { _dataAccess: { username: 'abcd' } };
+        const result = await userRepository.findOne({
             where: input, relations: {
                 _contato: true,
                 _dataAccess: true,
@@ -88,10 +103,12 @@ describe('UsuarioRepository: testando os métodos do repository', () => {
             }
         });
 
-        expect(result).toBeInstanceOf(Array<UsuarioConsultarOutputDto>);
-        expect(result.length).toBeGreaterThanOrEqual(1);
-        expect(result[0]._dataAccess).not.toBeNull();
-        expect(result[0]._contato).not.toBeNull();
-        expect(result[0]._loginInfo).toBeNull();
+        expect(result).toBeInstanceOf(UsuarioEntity);
+        expect(result).toMatchObject({
+            'id': expect.any(String),
+            '_dataAccess': expect.any(DataAccessEntity),
+            '_contato': { '_emailList': expect.any(Array<EmailEntity>) },
+            // '_profileList': expect.any(Array<ProfileEntity>),
+        });
     });
 });

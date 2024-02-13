@@ -6,7 +6,7 @@ import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler'
 import { IMessage, MSG } from '@sd-root/libs/common/src/services/code-messages';
 
 @ValidatorConstraint({ name: 'ValidaSchema', async: true })
-export class ValidaSchema implements ValidatorConstraintInterface {
+export class ValidaSchema_v1 implements ValidatorConstraintInterface {
     LOG_CLASS_NAME = "ValidaSchema";
 
     constructor(private apiResponse: ApiResponse<any,any>){}
@@ -68,7 +68,7 @@ export class ValidaSchema implements ValidatorConstraintInterface {
     }
 
     validaExpressaoRegular(value: string, schema: IConstraintSchema, args: ValidationArguments) {
-        if (schema.regex && !schema.regex.test(value))
+        if (schema.regex && !(<RegExp>schema.regex).test(value))
             this.message(MSG.ERR_FIELD_VALOR, args);
     }
 

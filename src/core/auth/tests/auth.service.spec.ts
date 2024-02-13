@@ -91,12 +91,6 @@ describe('AuthService', () => {
         jest.spyOn(userRepository, 'update').mockResolvedValueOnce(user);
         // jest.spyOn(utilService, 'decrypt').mockResolvedValueOnce(true);
 
-        const r = {ERR_: (()=>{return 'asdf'})(), SUCCESS: (()=>{return 'asdf2'})() }
-        
-        const S = Object.keys(r)
-        console.log(r)
-        console.log(r.ERR_)
-        console.log(S)
         // expect.assertions(1)
         try {
             const result = await authService.usuarioValidar(input)

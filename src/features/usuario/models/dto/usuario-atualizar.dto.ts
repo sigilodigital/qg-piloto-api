@@ -2,7 +2,7 @@ import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 import { Validate } from 'class-validator';
 
 import { IConstraintSchema } from '@sd-root/libs/common/src/interfaces/ConstraintsSchema';
-import { ValidaSchema } from '@sd-root/src/shared/validation/classes/valida-schema';
+import { ValidaSchema } from '@sd-root/libs/common/src/validations/valida-schema';
 import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from './usuario-incluir/usuario-incluir.dto';
 
 export class UsuarioAtualizarInputDto extends PartialType(UsuarioIncluirInputDto) {

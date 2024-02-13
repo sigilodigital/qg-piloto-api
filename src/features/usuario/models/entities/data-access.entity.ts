@@ -12,7 +12,7 @@ export class DataAccessEntity {
     username: string;
 
     @Column("text")
-    password: string;
+    password?: string;
 
     @Column("integer", { name: 'passCountErrors', default: 0 })
     passCountErrors?: number;
@@ -23,7 +23,7 @@ export class DataAccessEntity {
     @Column("boolean", { name: 'isPasswordRequireChange', default: true })
     isPasswordRequireChange?: boolean;
 
-    @OneToOne(type => ProfileEntity, e => e._dataAccess)
+    @OneToOne(type => ProfileEntity, e => e._dataAccess, { eager: true })
     @JoinColumn()
     _profileList?: ProfileEntity[];
 
