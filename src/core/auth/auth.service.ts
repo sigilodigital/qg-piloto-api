@@ -30,22 +30,21 @@ interface IAuthService {
 export class AuthService implements IAuthService {
     readonly LOG_CLASS_NAME = "AuthService";
 
-    private utilRepository: UtilRepository;
-    private entityList: EntityClassOrSchema[];
+    private systemEntityList: EntityClassOrSchema[];
 
     constructor(
         private apiResponse: ApiResponse<LoginSistemaInputDto, any>,
         private jwtService: JwtService,
         private utilService: UtilService,
+        private utilRepository: UtilRepository,
         private usuarioRepository: UsuarioRepository
     ) {
-        this.entityList = [SistemaEntity, MetodoEntity/*, SistemaMetodoEntity*/];
-        this.utilRepository = new UtilRepository(this.entityList);
+        this.systemEntityList = [SistemaEntity, MetodoEntity/*, SistemaMetodoEntity*/];
     }
 
     async sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto> {
 
-        // await this.utilRepository.init(this.entityList);
+        await this.utilRepository.init(this.systemEntityList);
 
         const system = await this.utilRepository.findOne(SistemaEntity, { where: { username: input.username }, relations: { _metodoList: true } });
 
@@ -114,7 +113,6 @@ export class AuthService implements IAuthService {
     }
 
     async usuarioValidar(input: LoginUserInputDto): Promise<LoginUserOutputDto> {
-        await this.utilRepository.init([DataAccessEntity, ProfileEntity, UsuarioEntity, ContatoEntity, LoginInfoEntity, EmailEntity, TelefoneEntity, EnderecoEntity]);
 
         const user: UsuarioEntity = await this.usuarioRepository.findOne({
             where: { _dataAccess: { username: input.username } },
