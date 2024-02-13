@@ -1,4 +1,4 @@
-import { UsuarioEntity } from "src/usuario/models/entities/usuario.entity";
+import { UsuarioEntity } from "@sd-root/src/features/usuario/models/entities/usuario.entity";
 
 export const userList: UsuarioEntity[] = [
     {

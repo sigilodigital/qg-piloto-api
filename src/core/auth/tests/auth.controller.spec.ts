@@ -4,7 +4,7 @@ import { Request as RequestExpress, Response as ResponseExpress } from 'express'
 
 import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
 import { UtilService } from '@libs/common/services/util.service';
-import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
+import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario-repository';
 import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
 import { LoginUserOutputDto } from '../models/dto/login-user.dto';

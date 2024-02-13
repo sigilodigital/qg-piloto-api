@@ -1,9 +1,9 @@
 import { GlobalService } from '@libs/common/services/global.service';
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { RouteSystemGuard } from './auth/guards/route-system.guard';
+import { RouteSystemGuard } from './core/auth/guards/route-system.guard';
 import configs from '@sd-root/libs/common/src/configs';
-import { LoginSistemaInputDto } from './auth/models/dto/loginSistema.dto';
+import { LoginSistemaInputDto } from './core/auth/models/dto/loginSistema.dto';
 
 @Injectable()
 export class AppMiddleware implements NestMiddleware {

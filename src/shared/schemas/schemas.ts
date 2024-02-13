@@ -1,6 +1,6 @@
-import { LoginSistemaSchema } from "src/auth/models/schemas/loginSistemaWS.schema";
-import { LoginUserSchema } from "src/auth/models/schemas/loginUser.schema";
-import { PerguntaSecretaSchema } from "src/auth/models/schemas/perguntaSecreta.schema";
+import { LoginSistemaSchema } from "@sd-root/src/core/auth/models/schemas/loginSistemaWS.schema";
+import { LoginUserSchema } from "@sd-root/src/core/auth/models/schemas/loginUser.schema";
+import { PerguntaSecretaSchema } from "@sd-root/src/core/auth/models/schemas/perguntaSecreta.schema";
 import { EntitySchema } from "typeorm";
 
 export interface ISchema {

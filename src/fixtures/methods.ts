@@ -1,4 +1,4 @@
-import { MetodoEntity } from "../auth/models/entities/metodo.entity";
+import { MetodoEntity } from "../core/auth/models/entities/metodo.entity";
 
 export const methodList: MetodoEntity[] = [
 

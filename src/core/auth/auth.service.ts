@@ -5,21 +5,21 @@ import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-clas
 import { UtilRepository } from '@libs/common/repository/util.repository';
 import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
 import { UtilService } from '@libs/common/services/util.service';
-import { UsuarioEntity } from 'src/usuario/models/entities/usuario.entity';
-import { UsuarioRepository } from 'src/usuario/repositories/usuario-repository';
+import { UsuarioEntity } from '@sd-root/src/features/usuario/models/entities/usuario.entity';
+import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario-repository';
 import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
 import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
 import { MetodoEntity } from './models/entities/metodo.entity';
 import { SistemaMetodoEntity } from './models/entities/sistema-metodo.entity';
 import { SistemaEntity } from './models/entities/sistema.entity';
 import { MSG } from '@libs/common/services/code-messages';
-import { DataAccessEntity } from '../usuario/models/entities/data-access.entity';
-import { ProfileEntity } from '../usuario/models/entities/profile.entity';
-import { ContatoEntity } from '../usuario/models/entities/contato.entity';
-import { LoginInfoEntity } from '../usuario/models/entities/login-info.entity';
-import { EmailEntity } from '../usuario/models/entities/email.entity';
-import { TelefoneEntity } from '../usuario/models/entities/telefone.entity';
-import { EnderecoEntity } from '../usuario/models/entities/endereco.entity';
+import { DataAccessEntity } from '../../features/usuario/models/entities/data-access.entity';
+import { ProfileEntity } from '../../features/usuario/models/entities/profile.entity';
+import { ContatoEntity } from '../../features/usuario/models/entities/contato.entity';
+import { LoginInfoEntity } from '../../features/usuario/models/entities/login-info.entity';
+import { EmailEntity } from '../../features/usuario/models/entities/email.entity';
+import { TelefoneEntity } from '../../features/usuario/models/entities/telefone.entity';
+import { EnderecoEntity } from '../../features/usuario/models/entities/endereco.entity';
 
 interface IAuthService {
     sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto>;

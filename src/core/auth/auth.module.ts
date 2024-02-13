@@ -4,7 +4,7 @@ import { PassportModule } from '@nestjs/passport';
 
 import { CommonModule } from '@libs/common';
 import configs from '@libs/common/configs';
-import { UsuarioModule } from 'src/usuario/usuario.module';
+import { UsuarioModule } from '@sd-root/src/features/usuario/usuario.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { LoginCertModule } from './login-cert/login-cert.module';

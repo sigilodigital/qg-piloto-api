@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { LoginUserInputDto } from 'src/auth/models/dto/login-user.dto';
+import { LoginUserInputDto } from '@sd-root/src/core/auth/models/dto/login-user.dto';
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from '../models/dto/usuario-consultar.dto';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
 import { UsuarioRepository } from '../repositories/usuario-repository';

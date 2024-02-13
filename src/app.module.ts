@@ -4,8 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import dbPgPilotoConfig from '@libs/common/databases/db-pg-piloto.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { UsuarioModule } from './usuario/usuario.module';
+import { AuthModule } from './core/auth/auth.module';
+import { UsuarioModule } from './features/usuario/usuario.module';
 import { AppMiddleware } from './app.middleware';
 import { RequestMethod } from '@nestjs/common/enums';
 
