@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Next, Post, Response } from '@nestjs/common';
 import { AuthCertService } from './login-cert.service';
-import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler-v1';
+import { ApiResponse } from '@libs/common/services/response-handler-v1';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Auth-Certificate')

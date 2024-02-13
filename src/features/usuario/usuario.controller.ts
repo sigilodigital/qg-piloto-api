@@ -2,7 +2,7 @@ import { Body, Controller, Post, Req } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiTags, ApiResponse as ApiResponseSwagger } from '@nestjs/swagger';
 import { Request } from 'express';
 
-import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler-v1';
+import { ApiResponse } from '@libs/common/services/response-handler-v1';
 import { ValidationPipe } from '@libs/common/validations/validation.pipe';
 import { UsuarioService } from './usuario.service';
 import { UsuarioDoc } from './docs/usuario.doc';

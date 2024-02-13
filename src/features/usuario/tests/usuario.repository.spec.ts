@@ -1,14 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { LoginUserInputDto } from '@sd-root/src/core/auth/models/dto/login-user.dto';
+import { SDExpectJest } from '@libs/common/tests/expects-jest';
+import { LoginUserInputDto } from 'src/core/auth/models/dto/login-user.dto';
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from '../models/dto/usuario-consultar.dto';
+import { DataAccessEntity } from '../models/entities/data-access.entity';
+import { EmailEntity } from '../models/entities/email.entity';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
 import { UsuarioRepository } from '../repositories/usuario-repository';
-import { SDExpectJest } from '@sd-root/libs/common/src/tests/expects-jest';
-import { DataAccessOutputDto } from '../models/dto/usuario-incluir/data-access.dto';
-import { DataAccessEntity } from '../models/entities/data-access.entity';
-import { ProfileEntity } from '../models/entities/profile.entity';
-import { EmailEntity } from '../models/entities/email.entity';
 
 describe('UsuarioRepository', () => {
     let repo: UsuarioRepository;

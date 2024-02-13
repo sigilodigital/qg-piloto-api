@@ -2,8 +2,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Validate } from "class-validator";
 
 import { IConstraintSchema } from "@libs/common/interfaces/ConstraintsSchema";
-import { ValidaSchema } from "@sd-root/libs/common/src/validations/valida-schema";
-import { ValidaCnpjCpf } from "@sd-root/src/shared/validation/classes/validaCnpjCpf";
+import { ValidaSchema } from "@libs/common/validations/valida-schema";
+import { ValidaCnpjCpf } from "src/shared/validation/classes/validaCnpjCpf";
 
 export class LoginUserInputDto {
 

@@ -3,7 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Validate } from "class-validator";
 import { SistemaEntity } from "../entities/sistema.entity";
 import { MetodoEntity } from "../entities/metodo.entity";
-import { ValidaSchema } from "@sd-root/libs/common/src/validations/valida-schema";
+import { ValidaSchema } from "@libs/common/validations/valida-schema";
 
 export interface ISistemaWS {
     codSegSistemaWs: number;

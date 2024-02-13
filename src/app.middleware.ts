@@ -2,7 +2,7 @@ import { GlobalService } from '@libs/common/services/global.service';
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { RouteSystemGuard } from './core/auth/guards/route-system.guard';
-import configs from '@sd-root/libs/common/src/configs';
+import configs from '@libs/common/configs';
 import { LoginSistemaInputDto } from './core/auth/models/dto/loginSistema.dto';
 
 @Injectable()

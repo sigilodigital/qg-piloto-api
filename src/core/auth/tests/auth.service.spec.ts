@@ -1,17 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from '../auth.service';
-import { JwtService } from '@nestjs/jwt';
 import { UtilService } from '@libs/common/services/util.service';
-import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario-repository';
-import { UsuarioModule } from '@sd-root/src/features/usuario/usuario.module';
-import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
-import { LoginUserInputDto, LoginUserOutputDto } from '../models/dto/login-user.dto';
-import { UsuarioEntity } from '@sd-root/src/features/usuario/models/entities/usuario.entity';
-import { BadRequestException, HttpException } from '@nestjs/common/exceptions';
-import { MSG } from '@sd-root/libs/common/src/services/code-messages';
-import { SDExpectJest } from '@sd-root/libs/common/src/tests/expects-jest';
+import { JwtService } from '@nestjs/jwt';
+import { Test, TestingModule } from '@nestjs/testing';
+import { ApiResponse } from '@libs/common/services/response-handler';
+import { SDExpectJest } from '@libs/common/tests/expects-jest';
+import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
+import { UsuarioRepository } from 'src/features/usuario/repositories/usuario-repository';
+import { AuthService } from '../auth.service';
+import { LoginUserInputDto } from '../models/dto/login-user.dto';
 
-describe('AuthService', () => {
+describe('AuthService :: MockData', () => {
 
     let authService: AuthService;
     let userRepository: UsuarioRepository;
@@ -60,7 +57,7 @@ describe('AuthService', () => {
 
     it('SUCESSO: deve retornar os dados de login necessários', async () => {
 
-        const input: LoginUserInputDto = {username: 'abcd', password:'abcd1234'}
+        // const input: LoginUserInputDto = {username: 'abcd', password:'abcd1234'}
         
         jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(user);
         jest.spyOn(userRepository, 'update').mockResolvedValueOnce(user);
@@ -85,7 +82,7 @@ describe('AuthService', () => {
 
     it('FALHA: propriedade senha não registrado no BD.', async () => {
 
-        const input: LoginUserInputDto = {username: 'abcd', password:'abcd1234'}
+        // const input: LoginUserInputDto = {username: 'abcd', password:'abcd1234'}
         
         jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce({...user, _dataAccess:{ password: undefined } } as UsuarioEntity);
         jest.spyOn(userRepository, 'update').mockResolvedValueOnce(user);
@@ -93,125 +90,13 @@ describe('AuthService', () => {
 
         // expect.assertions(1)
         try {
-            const result = await authService.usuarioValidar(input)
-            expect(result).toThrow()
+            expect(await authService.usuarioValidar(input)).toThrow();
+            // await expect(authService.usuarioValidar(input)).rejects.toThrow();
+            // const result = await authService.usuarioValidar(input)
+            // expect(result).toThrow()
         } catch (error){
+            
             await SDExpectJest.fnCatchErrorDefault(error, expect)
         }
     });
 });
-
-// async function fnNotCatchError(error) {
-//     expect(error).not.toBeInstanceOf(Error);
-//     expect(error).not.toBeInstanceOf(HttpException);
-// }
-
-// async function fnCatchErrorDefault(error) {
-//     expect(error).toBeInstanceOf(Error);
-//     expect(error).toBeInstanceOf(HttpException);
-//     expect(error).toBeInstanceOf(BadRequestException);
-// }
-
-// async function fnCatchErrorForRequired(error) {
-//     expect(error.response).toHaveProperty('status.statusCode', MSG.ERR_FIELD_N_INFO.code);
-// }
-
-// async function fnCatchErrorForSize(error) {
-//     expect(error.response).toHaveProperty('status.statusCode', MSG.ERR_FIELD_TAM);
-// }
-
-// async function fnCatchErrorForType(error) {
-//     expect(error.response).toHaveProperty('status.statusCode', MSG.ERR_FIELD_TIPO);
-// }
-
-// async function fnCatchErrorForValue(error) {
-//     expect(error.response).toHaveProperty('status.statusCode', MSG.ERR_FIELD_VALOR);
-// }
-
-// describe('AuthService', () => {
-//     let authService: AuthService;
-//     let mockJwtService: JwtService;
-//     let mockUtilService: UtilService;
-//     let mockUtilRepository: UtilRepository;
-//     // Add any other dependencies that are required by AuthService
-
-//     beforeEach(async () => {
-//       // Create mocks for each of the dependencies
-//       mockJwtService = createMockInstance(JwtService);
-//       mockUtilService = createMockInstance(UtilService);
-//       mockUtilRepository = createMockInstance(UtilRepository);
-//       // Initialize AuthService with the mocked dependencies
-//       authService = new AuthService(mockJwtService, mockUtilService, mockUtilRepository);
-//     });
-
-//     describe('sistemaValidar', () => {
-//       it('should validate the system and return a valid output', async () => {
-//         const input: LoginSistemaInputDto = {
-//           // Populate with necessary input fields
-//         };
-//         const expectedOutput: LoginSistemaOutputDto = {
-//           // Populate with expected output fields
-//         };
-
-//         // Mock the utilRepository.findOne method to return a valid system entity
-//         jest.spyOn(mockUtilRepository, 'findOne').mockResolvedValue(/* Mocked SistemaEntity */);
-
-//         // Call the sistemaValidar method
-//         const result = await authService.sistemaValidar(input);
-
-//         // Assertions to ensure the method behaves as expected
-//         expect(result).toEqual(expectedOutput);
-//         expect(mockUtilRepository.findOne).toHaveBeenCalledWith(SistemaEntity, expect.any(Object));
-//         // Add any other assertions that make sense for your test case
-//       });
-      
-//       it('should throw an error if the system is not found', async () => {
-//         const input: LoginSistemaInputDto = {
-//           // Populate with necessary input fields
-//         };
-
-//         // Mock the utilRepository.findOne method to return null, simulating not found
-//         jest.spyOn(mockUtilRepository, 'findOne').mockResolvedValue(null);
-
-//         // Expect the sistemaValidar method to throw an error when the system is not found
-//         await expect(authService.sistemaValidar(input)).rejects.toThrow();
-//       });
-
-//       // Add more test cases as necessary
-//     });
-
-//     // Additional tests for other AuthService methods can go here
-//   });
-
-// describe('AuthService', () => {
-//     let authService: AuthService;
-    
-//     beforeEach(async () => {
-//       const module: TestingModule = await Test.createTestingModule({
-//         providers: [AuthService],
-//       }).compile();
-
-//       authService = module.get<AuthService>(AuthService);
-//     });
-
-//     describe('usuarioValidar', () => {
-//       it('should return a LoginUserOutputDto when valid input is provided', async () => {
-//         const input: LoginUserInputDto = {
-//           username: 'testUser',
-//           password: 'testPass'
-//         };
-//         const user: UsuarioEntity = new UsuarioEntity();
-//         user._dataAccess = { username: 'testUser', password: 'hashedPassword' };
-
-//         jest.spyOn(authService, 'usuarioRepo.findOne').mockResolvedValue(user);
-//         jest.spyOn(authService, 'throwSeUsuarioAusente').mockResolvedValue(undefined);
-//         jest.spyOn(authService, 'throwSeUsuarioInativo').mockResolvedValue(undefined);
-//         jest.spyOn(authService, 'throwSeUsuarioSenhaNaoCadastrada').mockResolvedValue(undefined);
-//         jest.spyOn(authService, 'throwSeUsuarioSenhaBloqueada').mockResolvedValue(undefined);
-//         jest.spyOn(authService, 'fnUsuarioSenhaConferir').mockResolvedValue(undefined);
-
-//         const result = await authService.usuarioValidar(input);
-//         expect(result).toBeInstanceOf(LoginUserOutputDto);
-//       });
-//     });
-//   });

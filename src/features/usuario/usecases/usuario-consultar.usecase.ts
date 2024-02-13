@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 
-import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler-v1';
+import { ApiResponse } from '@libs/common/services/response-handler-v1';
 import { IUsuarioRepository } from '../repositories/usuario-repository';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from '../models/dto/usuario-consultar.dto';

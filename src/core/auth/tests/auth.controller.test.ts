@@ -4,7 +4,7 @@ import { Page, chromium, expect as pExpect } from '@playwright/test';
 import { ValidationPipe } from '@libs/common/validations/validation.pipe';
 // import { SistemaLogin } from 'src/features/servicos/test/sistemaLogin';
 import { LoginUserInputDto } from '../models/dto/login-user.dto';
-import { SDExpectPlaywright } from '@sd-root/libs/common/src/tests/expects-playwright';
+import { SDExpectPlaywright } from '@libs/common/tests/expects-playwright';
 
 describe('AutorizacaoRejeitar', () => {
     let page: Page;

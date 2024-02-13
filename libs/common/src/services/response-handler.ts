@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
 
-import { MensagenEnum } from "../enumerations/mensagens.enum";
-import { GlobalService } from "./global.service";
 import { IMessage } from "./code-messages";
+import { GlobalService } from "./global.service";
 
 @Injectable()
 export class ApiResponse<Tin, Tout> {
@@ -20,16 +19,17 @@ export class ApiResponse<Tin, Tout> {
         return { data, status };
 
         function precaution(input: IApiResponseMessage<Tin, Tout>): IError<Tin, Tout> {
+            const inputMsgType = (<IError<Tin,Tout>>input[msgType])
             return (!(GlobalService.debugModeVerify() && (input?.error?.message || input?.warning?.message)))
                 ? undefined
                 : {
-                    message: (<IError<Tin,Tout>>input[msgType])?.message,
-                    fix: (<IError<Tin,Tout>>input[msgType])?.fix,
+                    message: inputMsgType?.message,
+                    fix: inputMsgType?.fix,
                     context: {
-                        className: (<IError<Tin,Tout>>input[msgType])?.context?.className,
-                        methodName: (<IError<Tin,Tout>>input[msgType])?.context?.methodName,
-                        input: (<IError<Tin,Tout>>input[msgType])?.context.input,
-                        output: (<IError<Tin,Tout>>input[msgType]).context.output
+                        className: inputMsgType?.context?.className,
+                        methodName: inputMsgType?.context?.methodName,
+                        input: inputMsgType?.context?.input,
+                        output: inputMsgType.context?.output
                     }
                 };
         }

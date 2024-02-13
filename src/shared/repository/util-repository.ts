@@ -1,5 +1,5 @@
 
-import { AppDataSource } from '@sd-root/src/core/database';
+import { AppDataSource } from 'src/core/database';
 import { DataSource, EntityTarget, FindOptionsWhere, QueryRunner } from 'typeorm';
 import { QueryPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 

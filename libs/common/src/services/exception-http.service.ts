@@ -1,4 +1,4 @@
-import { ApiResponse, IApiResponseMessage } from '@sd-root/libs/common/src/services/response-handler';
+import { ApiResponse, IApiResponseMessage } from '@libs/common/services/response-handler';
 import { HttpException, Injectable } from '@nestjs/common';
 
 export interface IExceptionHttpService extends IApiResponseMessage<any, any> { 

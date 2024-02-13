@@ -6,14 +6,14 @@ import { Request as RequestExpress, Response as ResponseExpress } from 'express'
 // import { ApiResponse, IAPIResponse } from './../shared/response-handler';
 import { MSG } from '@libs/common/services/code-messages';
 import { HttpExceptionFilter } from '@libs/common/services/http-exception-filter';
-import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
+import { ApiResponse } from '@libs/common/services/response-handler';
 import { AuthService } from './auth.service';
 import { JwtAuthSystemGuard } from './guards/jwt-auth-system.guard';
 import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
 import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
 import { AuthSystemValidate } from './validates/auth-system.validate';
 import { AuthUserValidate } from './validates/auth-user.validate';
-import configs from '@sd-root/libs/common/src/configs';
+import configs from '@libs/common/configs';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -37,19 +37,19 @@ export class AuthController {
         const result = this.apiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: user, warning: { message: 'Conferir o codMessage correto' } });
         res.json(result);
 
-        async function fnSeExigirAlteracaoDeSenha<C extends AuthController>(user: LoginUserOutputDto, C: C) {
+        async function fnSeExigirAlteracaoDeSenha(user: LoginUserOutputDto, thiss: AuthController) {
             if (user.__params.isPasswordRequireChange === true) {
-                res.json(C.apiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: user }));
+                res.json(thiss.apiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: user }));
                 return true;
             }
             return false;
         }
 
-        async function fnGerarToken<C extends AuthController>(user: LoginUserOutputDto, C: C) {
+        async function fnGerarToken(user: LoginUserOutputDto, thiss: AuthController) {
             // TODO: melhoria: centralizar as configurações do tokenGenerate
             return {
-                bearer: await C.authservice.tokenGenerate(user, { expiresIn: configs().auth.expiresIn.bearer }),
-                replace: await C.authservice.tokenGenerate(null, { expiresIn: configs().auth.expiresIn.replace })
+                bearer: await thiss.authservice.tokenGenerate(user, { expiresIn: configs().auth.expiresIn.bearer }),
+                replace: await thiss.authservice.tokenGenerate(null, { expiresIn: configs().auth.expiresIn.replace })
             };
         }
 

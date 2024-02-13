@@ -3,10 +3,10 @@ import { JwtService } from '@nestjs/jwt';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 
 import { UtilRepository } from '@libs/common/repository/util.repository';
-import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
+import { ApiResponse } from '@libs/common/services/response-handler';
 import { UtilService } from '@libs/common/services/util.service';
-import { UsuarioEntity } from '@sd-root/src/features/usuario/models/entities/usuario.entity';
-import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario-repository';
+import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
+import { UsuarioRepository } from 'src/features/usuario/repositories/usuario-repository';
 import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
 import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
 import { MetodoEntity } from './models/entities/metodo.entity';

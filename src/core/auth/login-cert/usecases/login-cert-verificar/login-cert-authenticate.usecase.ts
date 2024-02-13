@@ -1,8 +1,8 @@
 
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { LoginUserInputDto } from '@sd-root/src/core/auth/models/dto/login-user.dto';
-import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler-v1';
-import { UsuarioEntity } from '@sd-root/src/features/usuario/models/entities/usuario.entity';
+import { LoginUserInputDto } from 'src/core/auth/models/dto/login-user.dto';
+import { ApiResponse } from '@libs/common/services/response-handler-v1';
+import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
 
 type PessoaType = UsuarioEntity;
 

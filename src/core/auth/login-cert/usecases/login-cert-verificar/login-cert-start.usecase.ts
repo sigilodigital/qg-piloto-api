@@ -2,7 +2,7 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { NextFunction } from 'express';
 import { IPkiService } from '../../services/pki.service';
-import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler-v1';
+import { ApiResponse } from '@libs/common/services/response-handler-v1';
 
 export class LoginCertStartUseCase {
 

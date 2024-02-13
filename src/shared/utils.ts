@@ -1,5 +1,5 @@
 import { compare, hash } from 'bcrypt';
-import { AppDataSource } from '@sd-root/src/core/database';
+import { AppDataSource } from 'src/core/database';
 
 export class utils {
 

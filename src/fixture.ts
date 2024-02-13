@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { DataSource } from 'typeorm';
 
 import { UtilRepository } from '@libs/common/repository/util.repository';
-import { dbPgPilotoConfig_fixture } from '@sd-root/libs/common/src/databases/db-pg-piloto.config';
+import { dbPgPilotoConfig_fixture } from '@libs/common/atabases/db-pg-piloto.config';
 import { AppModule } from './app.module';
 import { ContatoEntity } from './features/usuario/models/entities/contato.entity';
 import { DataAccessEntity } from './features/usuario/models/entities/data-access.entity';

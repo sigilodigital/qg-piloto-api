@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { IMessage, MSG } from '@sd-root/libs/common/src/services/code-messages';
+import { IMessage, MSG } from '@libs/common/services/code-messages';
 import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
 import { ExceptionHttpService } from 'src/exception-http/exception-http.service';
 import { Schemas } from 'src/shared/schemas/schemas';

@@ -5,7 +5,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 
 import { MSG } from '@libs/common/services/code-messages';
-import { ApiResponse } from '@sd-root/libs/common/src/services/response-handler';
+import { ApiResponse } from '@libs/common/services/response-handler';
 
 @Injectable()
 export class LocalAuthGuard extends AuthGuard('local') {
