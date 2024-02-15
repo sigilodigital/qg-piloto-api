@@ -22,7 +22,7 @@ export class UsuarioService {
         const historico = { ...(await fnHistoricoDadosPrimarios()), codAcao: CodigoAcaoEnum.USUARIO_INCLUIR };
 
         queryRunner.data = historico;
-        const ucUsuario = new UsuarioIncluirUseCase(new UsuarioRepository(), new ApiResponse<any, any>());
+        const ucUsuario = new UsuarioIncluirUseCase(new UsuarioRepository(), new ApiResponse());
         const result = await ucUsuario.handle(input);
         queryRunner.data = null;
 

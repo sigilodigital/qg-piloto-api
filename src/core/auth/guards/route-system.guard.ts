@@ -17,12 +17,12 @@ export class RouteSystemGuard implements CanActivate {
     private utilRepository: IUtilRepository;
     private utilService: UtilService;
     private entityList = [SistemaEntity, MetodoEntity, SistemaMetodoEntity];
-    public apiResponse: ApiResponse<any, any>;
+    public apiResponse: ApiResponse;
 
     constructor() {
         this.utilRepository = new UtilRepository();
         this.utilService = new UtilService();
-        this.apiResponse = new ApiResponse<any, any>();
+        this.apiResponse = new ApiResponse();
     }
 
     async canActivate(context: ExecutionContext | { req: Request, res: Response; }): Promise<boolean> {

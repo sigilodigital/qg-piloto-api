@@ -9,9 +9,9 @@ import { IMessage, MSG } from '@libs/common/services/code-messages';
 export class ValidaSchema implements ValidatorConstraintInterface {
     LOG_CLASS_NAME = "ValidaSchema";
 
-    private apiResponse: ApiResponse<any, any>;
+    private apiResponse: ApiResponse;
 
-    constructor() { this.apiResponse = new ApiResponse<any, any>(); }
+    constructor() { this.apiResponse = new ApiResponse(); }
 
     async validate(value: string, args: ValidationArguments) {
         const schema = <IConstraintSchema>args.constraints[0];

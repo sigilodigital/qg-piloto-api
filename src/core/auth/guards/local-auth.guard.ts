@@ -11,7 +11,7 @@ import { ApiResponse } from '@libs/common/services/response-handler';
 export class LocalAuthGuard extends AuthGuard('local') {
     readonly LOG_CLASS_NAME = 'LocalAuthGuard';
 
-    constructor(private apiResponse: ApiResponse<any, any>) { super(); }
+    constructor(private apiResponse: ApiResponse) { super(); }
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         return super.canActivate(context);
     }

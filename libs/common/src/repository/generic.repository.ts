@@ -13,7 +13,7 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
     protected queryDataSource: QueryRunner | DataSource;
     protected config: EntityClassOrSchema[] | QueryRunner;
     protected entityClass: EntityTarget<E>;
-    protected apiResponse: ApiResponse<any, any>;
+    protected apiResponse: ApiResponse;
 
     protected constructor(entityClass: EntityTarget<E>, config?: EntityClassOrSchema[] | QueryRunner) {
         this.config = config;

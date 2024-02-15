@@ -8,7 +8,7 @@ import { MSG } from '@libs/common/services/code-messages';
 
 export class UsuarioIncluirUseCase {
 
-    constructor(public usuarioRepository: IUsuarioRepository, public apiResponse: ApiResponse<any,any>) { }
+    constructor(public usuarioRepository: IUsuarioRepository, public apiResponse: ApiResponse) { }
 
     public async handle(input: UsuarioIncluirInputDto): Promise<UsuarioIncluirOutputDto> {
 

@@ -10,7 +10,7 @@ export interface IExceptionHttpService extends IApiResponseMessage<any, any> {
 export class ExceptionHttpService {
 
     static createException(input: IExceptionHttpService['input']) {
-        const apiResponse = new ApiResponse<any, any>();
+        const apiResponse = new ApiResponse();
 
         throw new HttpException(apiResponse.handler({
             objMessage: input.objMessage,

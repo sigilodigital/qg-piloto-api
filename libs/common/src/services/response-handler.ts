@@ -4,8 +4,8 @@ import { IMessage } from "./code-messages";
 import { GlobalService } from "./global.service";
 
 @Injectable()
-export class ApiResponse<Tin, Tout> {
-    handler(input: IApiResponseMessage<Tin, Tout>): IAPIResponseHandler<Tin, Tout> {
+export class ApiResponse<Tin = any, Tout = any> {
+    handler(input: IApiResponseMessage<Tin, Tout>): IApiResponseHandler<Tin, Tout> {
         let message = fnReplaceText(input);
         const msgType = (input.error) ? 'error' : 'warning';
 
@@ -45,7 +45,7 @@ export class ApiResponse<Tin, Tout> {
     }
 }
 
-export interface IAPIResponseHandler<Tin, Tout> {
+export interface IApiResponseHandler<Tin, Tout> {
     data: Tout;
     status: IStatusMessage<Tin, Tout>;
 }

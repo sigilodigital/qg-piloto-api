@@ -25,13 +25,13 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
     private handle: IHandleRequest;
     private entityList: EntityClassOrSchema[];
     private utilRepository: UtilRepository;
-    public apiResponse: ApiResponse<any, any>;
+    public apiResponse: ApiResponse;
 
     constructor() {
         super();
         this.entityList = [SistemaEntity, MetodoEntity, SistemaMetodoEntity];
         this.utilRepository = new UtilRepository();
-        this.apiResponse = new ApiResponse<any, any>();
+        this.apiResponse = new ApiResponse();
 
     }
 
