@@ -17,13 +17,14 @@
 
 <h2 align="center">API Gestão de acesso</h2>
 <p align="center">
-Esta API foi desenvolvida em <a href="http://nodejs.org" target="_blank">Node.js</a>. O projeto utiliza o <a href="https://github.com/nestjs/nest" target="_blank">NestJs</a>, principal framework para o desenvolvimento desta aplicação, e <a href="https://github.com/nestjs/nest" target="_blank">TypeORM</a>, como instrumento para persistência e consulta dos dados, além de seguir padrões de boas práticas para arquitetura e desenvolvimento, como os aclamados princípios S.O.L.I.D. e Clean Code, de <a href="http://cleancoder.com" target="_blank">Robert Cecil Martin "Uncle Bob"</a>.
+Esta API foi desenvolvida em <a href="http://nodejs.org" target="_blank">Node.js</a>. O projeto utiliza o <a href="https://github.com/nestjs/nest" target="_blank">NestJs</a>, principal framework para o desenvolvimento desta aplicação, e <a href="https://github.com/nestjs/nest" target="_blank">TypeORM</a>, como instrumento para persistência e consulta dos dados, além de seguir padrões de boas práticas para arquitetura e desenvolvimento, como os famigerados princípios S.O.L.I.D. e Clean Code, de <a href="http://cleancoder.com" target="_blank">Robert Cecil Martin "Uncle Bob"</a>.
 </p>
 
 <!-- ![GitHub license](https://img.shields.io/github/license/sigilodigital/qg-gestao-acesso-api?style=flat-square) -->
 
 #### Repository
->![API](https://img.shields.io/badge/-API-blue.svg?style=flat-square&color=333)
+>&#32;
+![API](https://img.shields.io/badge/-API-blue.svg?style=flat-square&color=333)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 ![Languages count](https://img.shields.io/github/languages/count/sigilodigital/qg-gestao-acesso-api?style=flat-square)
 ![Languages top](https://img.shields.io/github/languages/top/sigilodigital/qg-gestao-acesso-api?style=flat-square)
@@ -57,7 +58,8 @@ A *stack* utilizada no desenvolvimento inclui:
 -->
 
 #### Backend
->[![NestJs](https://img.shields.io/badge/-NestJs-ea2845?style=for-the-badge&logo=nestjs&logoColor=white)](https://nestjs.com/)
+>&#32;
+[![NestJs](https://img.shields.io/badge/-NestJs-ea2845?style=for-the-badge&logo=nestjs&logoColor=white)](https://nestjs.com/)
 ![NodeJS](https://img.shields.io/badge/-NodeJS-blue.svg?style=flat-square&logo=Node.JS&color=8CC03D&logoColor=fff)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=flat-square&logo=express&logoColor=%2361DAFB)
 [![TypeORM](https://avatars.githubusercontent.com/u/20165699?s=28&v=4)](https://typeorm.io/)
@@ -70,26 +72,30 @@ A *stack* utilizada no desenvolvimento inclui:
 ![ENV](https://img.shields.io/badge/.ENV-ECD53F.svg?style=flat-square&logo=dotenv&logoColor=black)
 
 #### Documentation
->[![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)](https://swagger.io)
+>&#32;
+[![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)](https://swagger.io)
 
 #### Testing and Code Analysis
+>&#32;
+![ESlint](https://img.shields.io/badge/eslint-3A33D1?style=flat-square&logo=eslint&logoColor=white)
+![SonarLint](https://img.shields.io/badge/SonarLint-CB2029?style=flat-square&logo=SONARLINT&logoColor=white)
 >![Jest](https://img.shields.io/badge/-jest-%23C21325?style=flat-square&logo=jest&logoColor=white)
 [![Playwright](https://img.shields.io/badge/Playwright-45ba4b?style=for-the-badge&logo=Playwright&logoColor=white)](https://playwright.dev)
 ![Insomnia](https://img.shields.io/badge/Insomnia-5849be?style=flat-square&logo=Insomnia&logoColor=white)
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=Postman&logoColor=white)
-![ESlint](https://img.shields.io/badge/eslint-3A33D1?style=flat-square&logo=eslint&logoColor=white)
-![SonarLint](https://img.shields.io/badge/SonarLint-CB2029?style=flat-square&logo=SONARLINT&logoColor=white)
 ![SonarQube](https://img.shields.io/badge/Sonarqube-5190cf?style=flat-square&logo=sonarqube&logoColor=white)
 
 <!-- ![SonarQube](https://img.shields.io/badge/SonarQube-black?style=flat-square&logo=sonarqube&logoColor=4E9BCD) -->
 
 #### Infrastructure
->[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com)
+>&#32;
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=flat-square&logo=ubuntu&logoColor=white)
 
 #### Others Platforms
->[![GitKraken](https://img.shields.io/badge/GitKraken-179287?style=for-the-badge&logo=GitKraken&logoColor=white)](https://www.gitkraken.com)
+>&#32;
+[![GitKraken](https://img.shields.io/badge/GitKraken-179287?style=for-the-badge&logo=GitKraken&logoColor=white)](https://www.gitkraken.com)
 ![GitLab](https://img.shields.io/badge/gitlab-330F63.svg?style=flat-square&logo=gitlab&logoColor=white)
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=flat-square&logo=github&logoColor=white)
 [![Google Cloud](https://img.shields.io/badge/GoogleCloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white)](https://cloud.google.com)
@@ -97,7 +103,8 @@ A *stack* utilizada no desenvolvimento inclui:
 ![Trello](https://img.shields.io/badge/Trello-0052CC?style=flat-square&logo=trello&logoColor=white)
 
 #### Other tools
->[![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com)
+>&#32;
+[![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com)
 ![Node Package Manager](https://img.shields.io/badge/-NPM-blue.svg?style=flat-square&logo=NPM&color=CB3837&logoColor=fff)
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=flat-square&logo=visual-studio-code&logoColor=white)
 ![Prettier](https://img.shields.io/badge/prettier-1A2C34?style=flat-square&logo=prettier&logoColor=F7BA3E)
