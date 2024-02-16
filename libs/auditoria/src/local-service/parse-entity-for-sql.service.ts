@@ -30,7 +30,7 @@ export class ParseEntityForSql {
             conditional += ` ${value.databaseName} = ${evento.operacao.entity[value.propertyName]}${i < (evento.operacao.metadata.primaryColumns.length - 1)? ` AND `: ``}`;
 
         });
-        const sql = ` SELECT ${fields} FROM IUSR_PROTON.${evento.operacao.metadata.tableName} ${evento.operacao.metadata.targetName} WHERE ${conditional} `;
+        const sql = ` SELECT ${fields} FROM PUBLIC.${evento.operacao.metadata.tableName} ${evento.operacao.metadata.targetName} WHERE ${conditional} `;
         return <string><unknown>sql;
     }
 

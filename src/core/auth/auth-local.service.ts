@@ -31,7 +31,7 @@
 //         const methodName = "async validarSistema(input: ILoginSistema['input']): Promise<IAPIResponse<ILoginSistema['output']>>";
 
 //         let sql = `
-//             SELECT * FROM IUSR_PROTON.TBL_SEG_SISTEMA_WS tssw
+//             SELECT * FROM PUBLIC.TBL_SEG_SISTEMA_WS tssw
 //             WHERE TXT_LOGIN = '${input.txtLogin}'
 //         `;
 //         const querySistema = await AppDataSource.manager.query(sql);
@@ -55,7 +55,7 @@
 //             if (await decrypt(input.txtSenha, querySistema[0]['TXT_SENHA'])) {
 //                 this.sistema = sistemaResult;
 //                 sql = `
-//                     SELECT * FROM IUSR_PROTON.TBL_SEG_SISTEMA_METODO_WS tssmw
+//                     SELECT * FROM PUBLIC.TBL_SEG_SISTEMA_METODO_WS tssmw
 //                     WHERE COD_SEG_SISTEMA_WS = '${sistemaResult.codSegSistemaWs}'
 //                 `;
 

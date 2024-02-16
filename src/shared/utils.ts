@@ -36,7 +36,7 @@ export class utils {
         }
 
         async function getSequesce(sequenceName: string): Promise<number> {
-            const sequence = await AppDataSource.manager.query(`SELECT IUSR_PROTON.${sequenceName}.NEXTVAL FROM dual`);
+            const sequence = await AppDataSource.manager.query(`SELECT PUBLIC.${sequenceName}.NEXTVAL FROM dual`);
             return sequence[0].NEXTVAL;
         }
     }

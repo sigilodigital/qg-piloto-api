@@ -2,7 +2,7 @@ import { EntitySchema } from "typeorm"
 
 export const AuditoriaSchema = new EntitySchema({
     name: "AuditoriaEntity",
-    schema: "IUSR_PROTON",
+    schema: "PUBLIC",
     columns: {
         codChave: {
             name: "COD_CHAVE", 

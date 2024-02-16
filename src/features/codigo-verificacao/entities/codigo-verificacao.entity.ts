@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { EntitySchema } from 'typeorm';
 
-@Entity('TBL_CODIGO_VERIFICACAO_PESSOA', {schema:'IUSR_PORTAL'})
+@Entity('TBL_CODIGO_VERIFICACAO_PESSOA'/*, {schema:'PUBLIC'}*/)
 export class CodigoVerificacaoEntity implements ICodigoVerificacao {
   // TODO: verificar como usar sequence no decorator
   // @PrimaryColumn({

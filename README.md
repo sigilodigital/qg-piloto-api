@@ -17,7 +17,7 @@
 
 <h2 align="center">API Gestão de acesso</h2>
 <p align="center">
-Esta API foi desenvolvida em <a href="http://nodejs.org" target="_blank">Node.js</a>. O projeto utiliza o <a href="https://github.com/nestjs/nest" target="_blank">NestJs</a>, principal framework para o desenvolvimento desta aplicação, e <a href="https://github.com/nestjs/nest" target="_blank">TypeORM</a>, como instrumento para persistência e consulta dos dados, além de seguir padrões de boas práticas para arquitetura e desenvolvimento, como os famigerados princípios S.O.L.I.D. e Clean Code, de <a href="http://cleancoder.com" target="_blank">Robert Cecil Martin "Uncle Bob"</a>.
+Esta API está sendo desenvolvida em <a href="http://nodejs.org" target="_blank">Node.js</a>. O projeto utiliza o <a href="https://github.com/nestjs/nest" target="_blank">NestJs</a>, principal framework para o desenvolvimento desta aplicação, e <a href="https://github.com/nestjs/nest" target="_blank">TypeORM</a>, como instrumento para persistência e consulta dos dados no BD, além de seguir padrões de boas práticas para arquitetura e desenvolvimento, como os famigerados princípios S.O.L.I.D. e Clean Code, de <a href="http://cleancoder.com" target="_blank">Robert Cecil Martin "Uncle Bob"</a>.
 </p>
 
 <!-- ![GitHub license](https://img.shields.io/github/license/sigilodigital/qg-gestao-acesso-api?style=flat-square) -->
