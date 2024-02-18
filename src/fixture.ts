@@ -18,6 +18,7 @@ import { SistemaMetodoEntity } from './core/auth/models/entities/sistema-metodo.
 import { userList } from './fixtures/users';
 import { systemList } from './fixtures/systems';
 import { methodList } from './fixtures/methods';
+import { UsuarioRepository } from './features/usuario/repositories/usuario-repository';
 
 async function bootstrap() {
 
@@ -36,12 +37,15 @@ async function bootstrap() {
 
     const dataSource = await new DataSource(dbPgPilotoConfig_fixture(entities)).initialize();
     const utilRepo = await (new UtilRepository()).init(dataSource.createQueryRunner());
+    const u = new UsuarioRepository(entities);
+    await (await u.init()).manager.connection.dropDatabase();
+    await (await u.init()).manager.connection.synchronize(true);
+    u.save(userList);
+    // await utilRepo.manager.connection.dropDatabase();
+    // await utilRepo.manager.connection.synchronize(true);
 
-    await utilRepo.manager.connection.dropDatabase();
-    await utilRepo.manager.connection.synchronize(true);
-
-    await utilRepo.manager.save(UsuarioEntity, userList);
-    await utilRepo.manager.save(SistemaEntity, systemList);
+    // await utilRepo.manager.save(UsuarioEntity, userList);
+    // await utilRepo.manager.save(SistemaEntity, systemList);
     // await utilRepo.manager.save(MetodoEntity, methodList);
 
     console.log(await utilRepo.manager.find(UsuarioEntity));
