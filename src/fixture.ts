@@ -35,19 +35,19 @@ async function bootstrap() {
         SistemaEntity, MetodoEntity, /*SistemaMetodoEntity*/
     ];
 
-    
-    const dataSource = await new DataSource(dbPgPilotoConfig_fixture(entities)).initialize();
-    const ur = new UtilRepository()
-    await ur.init(dataSource.createQueryRunner())
-    const utilRepo = await (new UtilRepository()).init(dataSource.createQueryRunner());
-
-    // const r = await ur.init();
-    await (await ur.init()).manager.connection.synchronize(true);
-    // await (await ur.init()).manager.save(userList)
-    // await utilRepo.manager.connection.dropDatabase();
-    // await utilRepo.manager.connection.synchronize(true);
-
+    let utilRepo;
+    let dataSource;
+    try {
+        dataSource = await new DataSource(dbPgPilotoConfig_fixture(entities)).initialize();
+        utilRepo = await (new UtilRepository()).init(dataSource.createQueryRunner());
+    } catch (e) {
+        console.log('EEE:', e.code);
+    }
     const u = new UsuarioRepository()
+    await u.init(dataSource.createQueryRunner());
+    await (await u.init()).manager.connection.dropDatabase();
+    await (await u.init()).manager.connection.synchronize(true);
+    
     const up = <UsuarioEntity>(await u.save([userList[1]])[0])
     await u.update({cpf: up.cpf}, {fullname: 'Haroldo Emerson'})
     // await ur.save(userList,UsuarioEntity);

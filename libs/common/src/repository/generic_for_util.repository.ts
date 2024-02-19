@@ -54,12 +54,13 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
         return result;
     }
 
-    async save(object: E[], entityClass?: EntityTarget<E>, pkProperty?: string, dbSequenceName?: string, dbSchema?: string): Promise<E[]> {
+    async save(entityList: E[], entityClass?: EntityTarget<E>, pkProperty?: string, dbSequenceName?: string, dbSchema?: string): Promise<E[]> {
         await this.init(this.config);
-        // object[pkProperty] = await this.getSequence(dbSequenceName, dbSchema);
+
+        entityList[pkProperty] = (pkProperty) ? await this.getSequence(dbSequenceName, dbSchema) : undefined;
 
         try {
-            const result = await this.queryDataSource.manager.save(entityClass || this.entityClass, object);
+            const result = await this.queryDataSource.manager.save(entityClass || this.entityClass, entityList);
             return result;
         } catch (error) {
             (this.queryDataSource instanceof DataSource)
@@ -75,7 +76,7 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
                     context: {
                         className: this.LOG_CLASS_NAME,
                         methodName: this.save.name,
-                        input: object,
+                        input: entityList,
                         output: error
                     }
                 }
@@ -112,6 +113,6 @@ export interface IGenericRepository<E> {
     findOneBy(partialEntity: FindOptionsWhere<E>, entityClass?: EntityTarget<E>): Promise<E>;
     save(entity: E[], pkProperty?: string, dbSequenceName?: string): Promise<E[]>;
     update(criteria: Partial<E>, entity: QueryDeepPartialEntity<E>, entityClass?: EntityTarget<E>): Promise<UpdateResult>;
-    getSequence(name: string): Promise<number>;
-    query<E>(sql: string): Promise<E>;
+    query(sql: string): Promise<E>;
+    getSequence(dbSequenceName: string, dbScheme?: string): Promise<number>;
 }
