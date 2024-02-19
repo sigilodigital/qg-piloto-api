@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 import { FindOptionsWhere, QueryRunner } from 'typeorm';
 
-import { GenericRepository, IGenericRepository } from '@libs/common/repository/generic.repository';
+import { GenericRepository, IGenericRepository } from '@libs/common/repository/generic_for_util.repository';
 import { ContatoEntity } from '../models/entities/contato.entity';
 import { DataAccessEntity } from '../models/entities/data-access.entity';
 import { EmailEntity } from '../models/entities/email.entity';

@@ -13,7 +13,7 @@ export class UsuarioIncluirUseCase {
     public async handle(input: UsuarioIncluirInputDto): Promise<UsuarioIncluirOutputDto> {
 
         try {
-            const result = await this.usuarioRepository.save(<UsuarioEntity>input);
+            const result = await this.usuarioRepository.save([<UsuarioEntity>input])[0];
             return result;
         } catch (error) {
             throw new BadRequestException((error.response?.status)

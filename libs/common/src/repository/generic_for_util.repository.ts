@@ -1,6 +1,6 @@
 import { BadGatewayException } from "@nestjs/common";
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
-import { DataSource, EntityTarget, FindManyOptions, FindOptionsWhere, QueryRunner } from "typeorm";
+import { DataSource, EntityTarget, FindManyOptions, FindOptionsWhere, QueryRunner, UpdateResult } from "typeorm";
 
 import { AppDataSourceAsync } from "@libs/common/databases";
 import { RunnerTransaction } from "@libs/common/databases/runner-transaction/runner-transaction";
@@ -19,11 +19,12 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
     protected constructor(entityClass: EntityTarget<E>, config?: EntityClassOrSchema[] | QueryRunner) {
         this.config = config;
         this.entityClass = (entityClass) ? entityClass : this.entityClass;
+        this.apiResponse = new ApiResponse<E>();
     }
 
-    async init(config: EntityClassOrSchema[] | QueryRunner): Promise<QueryRunner | DataSource> {
-        if (this.queryDataSource) return this.queryDataSource;
+    async init(config?: EntityClassOrSchema[] | QueryRunner): Promise<QueryRunner | DataSource> {
         if (!config) config = [<EntityClassOrSchema>this.entityClass];
+        if (this.queryDataSource) return this.queryDataSource;
         // if (!config) config = [];
         this.queryDataSource = (Array.isArray(config)) ? await AppDataSourceAsync.init(config) : config;
         return this.queryDataSource;
@@ -53,17 +54,18 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
         return result;
     }
 
-    async save(object: E, pkProperty?: string, dbSequenceName?: string, dbSchema?: string): Promise<E> {
+    async save(object: E[], entityClass?: EntityTarget<E>, pkProperty?: string, dbSequenceName?: string, dbSchema?: string): Promise<E[]> {
         await this.init(this.config);
-        object[pkProperty] = await this.getSequence(dbSequenceName, dbSchema);
+        // object[pkProperty] = await this.getSequence(dbSequenceName, dbSchema);
 
         try {
-            const result = await this.queryDataSource.manager.save(object);
+            const result = await this.queryDataSource.manager.save(entityClass || this.entityClass, object);
             return result;
         } catch (error) {
             (this.queryDataSource instanceof DataSource)
                 ? undefined
                 : RunnerTransaction.rollbackTransaction(this.queryDataSource);
+            throw new BadGatewayException(error);
             throw new BadGatewayException(this.apiResponse.handler({
                 objMessage: MSG.DEFAULT_FALHA,
                 error: {
@@ -81,10 +83,10 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
         }
     }
 
-    async update(object: E, criteria: Partial<E>, entity: QueryDeepPartialEntity<E>, entityClass?: EntityTarget<E>): Promise<E> {
+    async update(criteria?: Partial<E>, partialEntity?: QueryDeepPartialEntity<E>, entityClass?: EntityTarget<E>): Promise<UpdateResult> {
         await this.init(this.config);
-        // const result = this.queryDataSource.manager.update(entityClass, criteria, entity);
-        const result = await this.queryDataSource.manager.save(object);
+        const result = this.queryDataSource.manager.update(entityClass, criteria, partialEntity);
+        // const result = await this.queryDataSource.manager.save(criteria);
         return result;
     }
 
@@ -108,8 +110,8 @@ export interface IGenericRepository<E> {
     findBy(partialEntity: FindOptionsWhere<E>, entityClass?: EntityTarget<E>): Promise<E[]>;
     findOne(partialEntity: FindManyOptions<E>, entityClass?: EntityTarget<E>): Promise<E>;
     findOneBy(partialEntity: FindOptionsWhere<E>, entityClass?: EntityTarget<E>): Promise<E>;
-    save(entity: E, pkProperty?: string, dbSequenceName?: string): Promise<E>;
-    update(object: E, criteria: Partial<E>, entity: QueryDeepPartialEntity<E>, entityClass?: EntityTarget<E>): Promise<E>;
+    save(entity: E[], pkProperty?: string, dbSequenceName?: string): Promise<E[]>;
+    update(criteria: Partial<E>, entity: QueryDeepPartialEntity<E>, entityClass?: EntityTarget<E>): Promise<UpdateResult>;
     getSequence(name: string): Promise<number>;
     query<E>(sql: string): Promise<E>;
 }

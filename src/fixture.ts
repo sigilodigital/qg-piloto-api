@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { DataSource } from 'typeorm';
 
-import { UtilRepository } from '@libs/common/repository/util.repository';
+import { UtilRepository } from '@libs/common/repository/util_with_generic.repository';
 import { dbPgPilotoConfig_fixture } from '@libs/common/databases/db-pg-piloto.config';
 import { AppModule } from './app.module';
 import { ContatoEntity } from './features/usuario/models/entities/contato.entity';
@@ -18,6 +18,7 @@ import { SistemaMetodoEntity } from './core/auth/models/entities/sistema-metodo.
 import { userList } from './fixtures/users';
 import { systemList } from './fixtures/systems';
 import { methodList } from './fixtures/methods';
+import { UsuarioRepository } from './features/usuario/repositories/usuario-repository';
 
 async function bootstrap() {
 
@@ -34,21 +35,33 @@ async function bootstrap() {
         SistemaEntity, MetodoEntity, /*SistemaMetodoEntity*/
     ];
 
+    
     const dataSource = await new DataSource(dbPgPilotoConfig_fixture(entities)).initialize();
+    const ur = new UtilRepository()
+    await ur.init(dataSource.createQueryRunner())
     const utilRepo = await (new UtilRepository()).init(dataSource.createQueryRunner());
 
-    await utilRepo.manager.connection.dropDatabase();
-    await utilRepo.manager.connection.synchronize(true);
+    // const r = await ur.init();
+    await (await ur.init()).manager.connection.synchronize(true);
+    // await (await ur.init()).manager.save(userList)
+    // await utilRepo.manager.connection.dropDatabase();
+    // await utilRepo.manager.connection.synchronize(true);
 
-    await utilRepo.manager.save(UsuarioEntity, userList);
-    await utilRepo.manager.save(SistemaEntity, systemList);
+    const u = new UsuarioRepository()
+    const up = <UsuarioEntity>(await u.save([userList[1]])[0])
+    await u.update({cpf: up.cpf}, {fullname: 'Haroldo Emerson'})
+    // await ur.save(userList,UsuarioEntity);
+    // await utilRepo.manager.save(UsuarioEntity, userList);
+    // await utilRepo.manager.save(SistemaEntity, systemList);
     // await utilRepo.manager.save(MetodoEntity, methodList);
 
-    console.log(await utilRepo.manager.find(UsuarioEntity));
-    console.log(await utilRepo.manager.find(ContatoEntity));
-    console.log(await utilRepo.manager.find(EmailEntity));
-    console.log(await utilRepo.manager.find(TelefoneEntity));
-    console.log(await utilRepo.manager.find(EnderecoEntity));
+    console.log(await u.find({}));
+    // console.log(await (await ur.init()).manager.find(UsuarioEntity));
+    // console.log(await utilRepo.manager.find(UsuarioEntity));
+    // console.log(await utilRepo.manager.find(ContatoEntity));
+    // console.log(await utilRepo.manager.find(EmailEntity));
+    // console.log(await utilRepo.manager.find(TelefoneEntity));
+    // console.log(await utilRepo.manager.find(EnderecoEntity));
 
     app.close();
     // await app.listen(configs().server.port, "0.0.0.0");
