@@ -46,7 +46,7 @@ export class AuthService implements IAuthService {
 
         await this.utilRepository.init(this.systemEntityList);
 
-        const system = await this.utilRepository.findOne(SistemaEntity, { where: { username: input.username }, relations: { _metodoList: true } });
+        const system = <SistemaEntity>await this.utilRepository.findOne({ where: { username: input.username }, relations: { _metodoList: true } }, SistemaEntity);
 
         fnThrowSeSistemaAusente(system, this);
         fnThrowSeSistemaInativo(system, this);

@@ -1,13 +1,12 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { RequestMethod } from '@nestjs/common/enums';
 
-import dbPgPilotoConfig from '@libs/common/databases/db-pg-piloto.config';
 import { AppController } from './app.controller';
+import { AppMiddleware } from './app.middleware';
 import { AppService } from './app.service';
 import { AuthModule } from './core/auth/auth.module';
 import { UsuarioModule } from './features/usuario/usuario.module';
-import { AppMiddleware } from './app.middleware';
-import { RequestMethod } from '@nestjs/common/enums';
 
 @Module({
     imports: [

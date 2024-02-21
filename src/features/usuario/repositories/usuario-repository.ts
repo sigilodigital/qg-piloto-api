@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 import { FindOptionsWhere, QueryRunner } from 'typeorm';
 
-import { GenericRepository, IGenericRepository } from '@libs/common/repository/generic_for_util.repository';
+import { GenericRepository, IGenericRepository } from '@libs/common/repository/generic.repository';
 import { ContatoEntity } from '../models/entities/contato.entity';
 import { DataAccessEntity } from '../models/entities/data-access.entity';
 import { EmailEntity } from '../models/entities/email.entity';
@@ -20,9 +20,9 @@ export class UsuarioRepository extends GenericRepository<UsuarioEntity> implemen
         super(UsuarioEntity, config || entityList);
     }
 
-    async getUserList(usuario: FindOptionsWhere<UsuarioEntity>): Promise<UsuarioEntity[]> {
+    async getUserList(partialEntity: FindOptionsWhere<UsuarioEntity>): Promise<UsuarioEntity[]> {
         await this.init(this.config);
-        return await this.queryDataSource.manager.findBy(UsuarioEntity, usuario);
+        return await this.queryDataSource.manager.findBy(UsuarioEntity, partialEntity);
     }
 
     async getLoginInfoByUserId(id: FindOptionsWhere<string>): Promise<LoginInfoEntity> {

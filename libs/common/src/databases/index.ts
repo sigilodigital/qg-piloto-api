@@ -1,12 +1,15 @@
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
-import { DataSource } from "typeorm";
-import dbPgPilotoConfig from "./db-pg-piloto.config";
+import { DataSource, DataSourceOptions } from "typeorm";
+
+import { dbConfig_pgPiloto as dbConfig_pgPilotoDefault } from "./db-pg-piloto.config";
 
 export class AppDataSourceAsync {
 
-    static async init(entityList: EntityClassOrSchema[]) {
+    static async init(entityList: EntityClassOrSchema[], dbConfig?: DbConfigType): Promise<DataSource> {
 
-        const dataSource = new DataSource(dbPgPilotoConfig(entityList));
+        if(!dbConfig) dbConfig = dbConfig_pgPilotoDefault
+
+        const dataSource = new DataSource(dbConfig(entityList));
 
         await dataSource.initialize()
             .then(() => {
@@ -19,3 +22,5 @@ export class AppDataSourceAsync {
         return dataSource;
     }
 }
+
+type DbConfigType = (eL: EntityClassOrSchema[]) => DataSourceOptions;

@@ -59,7 +59,7 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
     }
 
     async getSystem(loginSystem: LoginSistemaInputDto): Promise<SistemaEntity> {
-        return await this.utilRepository.findOne(SistemaEntity, { where: { username: loginSystem.username }, relations: { _metodoList: true } });
+        return <SistemaEntity>await this.utilRepository.findOne({ where: { username: loginSystem.username }, relations: { _metodoList: true } }, SistemaEntity);
     }
 
     async getMetodosWS(context: ExecutionContext) {
@@ -78,7 +78,7 @@ export class JwtAuthSystemGuard extends AuthGuard('jwt') {
     }
 
     async getSistemaMetodo(_metodo: string, _sistema: string) {
-        return await this.utilRepository.findOne(SistemaMetodoEntity, {}); //!ALTERADO
+        return <SistemaMetodoEntity>await this.utilRepository.findOne({}, SistemaMetodoEntity); //!ALTERADO
     }
 
     handleRequest(err: any, user: any, info: any, context: any) {

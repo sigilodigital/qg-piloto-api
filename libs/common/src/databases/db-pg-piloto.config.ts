@@ -20,13 +20,13 @@ const pgPilotoConfig: DataSourceOptions = {
         // '**/entities/*.dto'
     ]
 };
-export default function dbPgPilotoConfig(entityList: EntityClassOrSchema[] = []): DataSourceOptions {
+export function dbConfig_pgPiloto(entityList: EntityClassOrSchema[] = []): DataSourceOptions {
     return {
         ...pgPilotoConfig,
         entities: [...entityList]
     };
 }
-export function dbPgPilotoConfig_fixture(entityList: EntityClassOrSchema[] = []): DataSourceOptions {
+export function dbConfig_pgPilotoFixture(entityList: EntityClassOrSchema[] = []): DataSourceOptions {
     return {
         ...pgPilotoConfig,
         host: 'localhost',

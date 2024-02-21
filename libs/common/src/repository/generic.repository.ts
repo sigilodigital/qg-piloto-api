@@ -1,65 +1,82 @@
 import { BadGatewayException } from "@nestjs/common";
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
-import { DataSource, EntityTarget, FindManyOptions, FindOptionsWhere, QueryRunner } from "typeorm";
+import { DataSource, EntityTarget, FindManyOptions, FindOptionsWhere, QueryRunner, UpdateResult } from "typeorm";
 
 import { AppDataSourceAsync } from "@libs/common/databases";
 import { RunnerTransaction } from "@libs/common/databases/runner-transaction/runner-transaction";
 import { ApiResponse } from "@libs/common/services/response-handler";
 import { MSG } from "../services/code-messages";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity.js";
 
 export abstract class GenericRepository<E> implements IGenericRepository<E> {
     protected LOG_CLASS_NAME = 'GenericRepository';
 
     protected queryDataSource: QueryRunner | DataSource;
-    protected config: EntityClassOrSchema[] | QueryRunner;
+    protected config: EntityClassOrSchema[] | QueryRunner = [];
     protected entityClass: EntityTarget<E>;
+    protected isSpecialist: boolean = false;
     protected apiResponse: ApiResponse;
 
     protected constructor(entityClass: EntityTarget<E>, config?: EntityClassOrSchema[] | QueryRunner) {
-        this.config = config;
-        this.entityClass = entityClass;
+        this.config = config || [];
+        //se entityClass eh especialista || senao eh util
+        this.entityClass = (entityClass) ? entityClass : this.entityClass;
+        this.apiResponse = new ApiResponse<E>();
     }
 
-    protected async init(config: EntityClassOrSchema[] | QueryRunner): Promise<QueryRunner | DataSource> {
+    async init(config: EntityClassOrSchema[] | QueryRunner): Promise<QueryRunner | DataSource> {
+        // se for QueryRunner
+        if (!Array.isArray(config)) {
+            this.queryDataSource = <QueryRunner>this.config;
+            return this.queryDataSource;
+        }
+        
+        //se ja tiver inicializado (util ou especialista) >> retorna QueryRunner ou DataSource
         if (this.queryDataSource) return this.queryDataSource;
-        if (!config) config = [<EntityClassOrSchema>this.entityClass];
-        this.queryDataSource = (Array.isArray(config)) ? await AppDataSourceAsync.init(config) : config;
+
+        // retorna um DataSource
+        this.queryDataSource = await AppDataSourceAsync.init(<[]>config);
         return this.queryDataSource;
     }
 
-    async find(object: FindManyOptions<E>): Promise<any[]> {
+    async find(partialEntity: FindManyOptions<E>, entityClass?: EntityTarget<E>): Promise<E[]> {
         await this.init(this.config);
-        const result = await this.queryDataSource.manager.find(this.entityClass, object);
+        const result = await this.queryDataSource.manager.find(entityClass || this.entityClass, partialEntity);
         return result;
     }
 
-    async findBy(object: FindOptionsWhere<E>): Promise<any[]> {
+    async findBy(partialEntity: FindOptionsWhere<E>, entityClass?: EntityTarget<E>): Promise<E[]> {
         await this.init(this.config);
-        const result = await this.queryDataSource.manager.find(this.entityClass, { where: object });
+        const result = await this.queryDataSource.manager.find(entityClass || this.entityClass, { where: partialEntity });
         return result;
     }
 
-    async findOne(object: FindManyOptions<E>): Promise<any> {
+    async findOne(partialEntity: FindManyOptions<E>, entityClass?: EntityTarget<E>) {
         await this.init(this.config);
-        const result = await this.queryDataSource.manager.findOne(this.entityClass, object);
+        const result = await this.queryDataSource.manager.findOne(entityClass || this.entityClass, partialEntity);
         return result;
     }
 
-    async findOneBy(object: FindOptionsWhere<E>): Promise<any> {
+    async findOneBy(partialEntity: FindOptionsWhere<E>, entityClass?: EntityTarget<E>): Promise<E> {
         await this.init(this.config);
-        const result = await this.queryDataSource.manager.findOne(this.entityClass, { where: object });
+        const result = await this.queryDataSource.manager.findOne(entityClass || this.entityClass, { where: partialEntity });
         return result;
     }
 
-    async save(object: E): Promise<E> {
+    async save(entityList: E[], entityClass?: EntityTarget<E>, pkProperty?: string, dbSequenceName?: string, dbSchema?: string): Promise<E[]> {
         await this.init(this.config);
+
+        if (pkProperty)
+            entityList[pkProperty] = await this.getSequence(dbSequenceName, dbSchema);
+
         try {
-            const result = await this.queryDataSource.manager.save(object);
+            const result = await this.queryDataSource.manager.save(entityClass || this.entityClass, entityList);
             return result;
         } catch (error) {
             (this.queryDataSource instanceof DataSource)
                 ? undefined
                 : RunnerTransaction.rollbackTransaction(this.queryDataSource);
+            throw new BadGatewayException(error);
             throw new BadGatewayException(this.apiResponse.handler({
                 objMessage: MSG.DEFAULT_FALHA,
                 error: {
@@ -69,7 +86,7 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
                     context: {
                         className: this.LOG_CLASS_NAME,
                         methodName: this.save.name,
-                        input: object,
+                        input: entityList,
                         output: error
                     }
                 }
@@ -77,19 +94,35 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
         }
     }
 
-    async update(object: E): Promise<E> {
+    async update(criteria?: Partial<E>, partialEntity?: QueryDeepPartialEntity<E>, entityClass?: EntityTarget<E>): Promise<UpdateResult> {
         await this.init(this.config);
-        const result = await this.queryDataSource.manager.save(object);
+        const result = this.queryDataSource.manager.update(entityClass || this.entityClass, criteria, partialEntity);
+        // const result = await this.queryDataSource.manager.save(criteria);
         return result;
+    }
+
+    async query<E>(sql: string): Promise<E> {
+        await this.init(this.config);
+        return this.queryDataSource.manager.query(sql);
+    }
+
+    async getSequence(dbSequenceName: string, dbScheme?: string): Promise<number> {
+        await this.init(this.config);
+        // TODO: pegar o schema dinamicamente pelo datasource
+        const sequence = (await this.queryDataSource.manager.query(`SELECT ${dbScheme}.${dbSequenceName}.NEXTVAL FROM DUAL`))[0].NEXTVAL;
+        return sequence;
     }
 
 }
 
 export interface IGenericRepository<E> {
-    find(object: FindManyOptions<E>): Promise<E[]>;
-    findBy(object: FindOptionsWhere<E>): Promise<E[]>;
-    findOne(object: FindManyOptions<E>): Promise<E>;
-    findOneBy(object: FindOptionsWhere<E>): Promise<E>;
-    save(object: E): Promise<E>;
-    update(object: E): Promise<E>;
+    init(config?: EntityClassOrSchema[] | QueryRunner): Promise<QueryRunner | DataSource>;
+    find(partialEntity: FindManyOptions<E>, entityClass?: EntityTarget<E>): Promise<E[]>;
+    findBy(partialEntity: FindOptionsWhere<E>, entityClass?: EntityTarget<E>): Promise<E[]>;
+    findOne(partialEntity: FindManyOptions<E>, entityClass?: EntityTarget<E>): Promise<E>;
+    findOneBy(partialEntity: FindOptionsWhere<E>, entityClass?: EntityTarget<E>): Promise<E>;
+    save(entity: E[], pkProperty?: string, dbSequenceName?: string): Promise<E[]>;
+    update(criteria: Partial<E>, entity: QueryDeepPartialEntity<E>, entityClass?: EntityTarget<E>): Promise<UpdateResult>;
+    query(sql: string): Promise<E>;
+    getSequence(dbSequenceName: string, dbScheme?: string): Promise<number>;
 }
