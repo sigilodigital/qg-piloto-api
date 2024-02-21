@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany, OneToOne } from "typeorm";
+import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
 
 import { EmailEntity } from "./email.entity";
 import { EnderecoEntity } from "./endereco.entity";
@@ -23,4 +24,8 @@ export class ContatoEntity {
     @OneToOne(type => UsuarioEntity, e => e._contato)
     // @JoinColumn()
     _usuario?: UsuarioEntity;
+
+    public static getEntityList(): EntityClassOrSchema[] {
+        return [ContatoEntity, EmailEntity, TelefoneEntity, EnderecoEntity];
+    }
 }

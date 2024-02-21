@@ -1,4 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
+import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
+
 import { ProfileEntity } from "./profile.entity";
 import { UsuarioEntity } from "./usuario.entity";
 
@@ -29,5 +31,9 @@ export class DataAccessEntity {
 
     @OneToOne(type => UsuarioEntity, e => e._dataAccess)
     _usuario?: UsuarioEntity;
+
+    public static getEntityList(): EntityClassOrSchema[] {
+        return [DataAccessEntity, ProfileEntity, ...UsuarioEntity.getEntityList()];
+    }
 
 }

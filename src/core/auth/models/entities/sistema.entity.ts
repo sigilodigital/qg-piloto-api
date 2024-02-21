@@ -23,7 +23,7 @@ export class SistemaEntity {
     @Column("boolean", { name: "isActive", default: false })
     isActive?: boolean;
 
-    @ManyToMany(type => MetodoEntity, e => e._sistemaList, { cascade: ['insert'] })
+    @ManyToMany(type => MetodoEntity, e => e._sistemaList, { eager: true  })
     @JoinTable({ 
         name: 'REL_SISTEMA_X_METODO', 
         joinColumn: { name: 'sistemaId', referencedColumnName: 'id'}, 

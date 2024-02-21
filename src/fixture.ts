@@ -20,9 +20,11 @@ import { systemList } from './fixtures/systems';
 import { methodList } from './fixtures/methods';
 import { UsuarioRepository } from './features/usuario/repositories/usuario-repository';
 import { AppDataSourceAsync } from '@sd-root/libs/common/src/databases';
+import { RunnerTransaction } from '@sd-root/libs/common/src/databases/runner-transaction/runner-transaction';
 
 async function bootstrap() {
 
+    console.time('fixture');
     const app = await NestFactory.create(AppModule);
 
     await app.init();
@@ -36,46 +38,42 @@ async function bootstrap() {
         SistemaEntity, MetodoEntity, /*SistemaMetodoEntity*/
     ];
 
-    let utilRepo: UtilRepository;
-    let dataSource: DataSource;
-    try {
-        // dataSource = await (new DataSource(dbConfig_pgPilotoFixture(entities))).initialize();
-        dataSource = await AppDataSourceAsync.init(entities, dbConfig_pgPilotoFixture)
-    } catch (e) {
-        console.log('Erro ao tentar inicializar o Datasource:', e);
-    }
-    // utilRepo = await (new UtilRepository()).init(dataSource.createQueryRunner());
-    utilRepo = new UtilRepository<UsuarioEntity>(dataSource.createQueryRunner());
-    const conn = (await utilRepo.init([])).manager.connection
+    const queryRunner = await RunnerTransaction.startTransaction(entities, 'pg_piloto_default_fixture');
+    let conn: DataSource;
+    let utilRepo = new UtilRepository<unknown>(queryRunner);
+    let userRepo = new UsuarioRepository(queryRunner);
+    conn = queryRunner.manager.connection;
     await conn.dropDatabase();
-    await conn.synchronize();
-    await utilRepo.save(userList, UsuarioEntity)
-    console.log(await utilRepo.find({},UsuarioEntity))
+    await conn.synchronize(true);
+    const m = await utilRepo.save(methodList, MetodoEntity);
+    const s = await utilRepo.save(systemList, SistemaEntity);
+    s[0]._metodoList.push(m[0]);
+    await utilRepo.save([s[0]], SistemaEntity);
+    await userRepo.save(userList);
+    await userRepo.update({}, { socialname: 'Haroldinho' });
 
+    console.log(await utilRepo.find({}, UsuarioEntity));
+    console.log(await utilRepo.find({}, ContatoEntity));
+    console.log(await utilRepo.find({}, EmailEntity));
+    console.log(await utilRepo.find({}, TelefoneEntity));
+    console.log(await utilRepo.find({}, EnderecoEntity));
+    console.log(await utilRepo.find({}, LoginInfoEntity));
+    console.log(await utilRepo.find({}, DataAccessEntity));
+    console.log(await utilRepo.find({}, ProfileEntity));
+    console.log(await utilRepo.find({loadRelationIds: true}, SistemaEntity));
+    console.log(await utilRepo.find({}, MetodoEntity));
 
+    console.time('commit');
+    await RunnerTransaction.commitTransaction(queryRunner);
+    console.timeEnd('commit');
+    console.time('finalize');
+    await RunnerTransaction.finalizeTransaction(queryRunner);
+    console.timeEnd('finalize');
 
-
-    
-    // const u = new UsuarioRepository(dataSource.createQueryRunner())
-    // await (await u.init([])).manager.connection.dropDatabase();
-    // await (await u.init([])).manager.connection.synchronize(true);
-    
-    // const up = (await u.save([userList[1]]))[0]
-    // await u.update({cpf: up.cpf}, {socialname: 'Haroldinho'})
-    // // await ur.save(userList,UsuarioEntity);
-    // // await utilRepo.manager.save(UsuarioEntity, userList);
-    // // await utilRepo.manager.save(SistemaEntity, systemList);
-    // // await utilRepo.manager.save(MetodoEntity, methodList);
-
-    // console.log(await u.find({}));
-    // // console.log(await (await ur.init()).manager.find(UsuarioEntity));
-    // // console.log(await utilRepo.manager.find(UsuarioEntity));
-    // // console.log(await utilRepo.manager.find(ContatoEntity));
-    // // console.log(await utilRepo.manager.find(EmailEntity));
-    // // console.log(await utilRepo.manager.find(TelefoneEntity));
-    // // console.log(await utilRepo.manager.find(EnderecoEntity));
-
-    app.close();
+    await app.close().finally(async () => {
+        console.log('app closed');
+    });
+    console.timeEnd('fixture');
     // await app.listen(configs().server.port, "0.0.0.0");
 }
 

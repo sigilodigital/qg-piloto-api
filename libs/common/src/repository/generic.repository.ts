@@ -27,16 +27,31 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
     async init(config: EntityClassOrSchema[] | QueryRunner): Promise<QueryRunner | DataSource> {
         // se for QueryRunner
         if (!Array.isArray(config)) {
+            this.queryDataSource = <QueryRunner>config;
+            return this.queryDataSource;
+        }
+        
+        // se ja tiver sido inicializado (com init) >> retorna QueryRunner ou DataSource
+        if (this.queryDataSource) return this.queryDataSource;
+        // se ja tiver sido inicializado (com new) >> retorna QueryRunner ou DataSource
+        if (!Array.isArray(this.config)) {
             this.queryDataSource = <QueryRunner>this.config;
             return this.queryDataSource;
         }
         
-        //se ja tiver inicializado (util ou especialista) >> retorna QueryRunner ou DataSource
-        if (this.queryDataSource) return this.queryDataSource;
+        // se chegar como array vazio
+        if (config.length === 0) { 
+            throw new BadGatewayException('ERRO: entityList não pode chegar neste estágio como array vazio.')
+        }
 
         // retorna um DataSource
         this.queryDataSource = await AppDataSourceAsync.init(<[]>config);
         return this.queryDataSource;
+    }
+
+    async close(): Promise<void> {
+        if (this.queryDataSource instanceof DataSource)
+            await this.queryDataSource.destroy();
     }
 
     async find(partialEntity: FindManyOptions<E>, entityClass?: EntityTarget<E>): Promise<E[]> {
@@ -63,14 +78,14 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
         return result;
     }
 
-    async save(entityList: E[], entityClass?: EntityTarget<E>, pkProperty?: string, dbSequenceName?: string, dbSchema?: string): Promise<E[]> {
+    async save<F>(entityList: F[], entityClass?: EntityTarget<F>, pkProperty?: string, dbSequenceName?: string, dbSchema?: string): Promise<F[]> {
         await this.init(this.config);
 
         if (pkProperty)
             entityList[pkProperty] = await this.getSequence(dbSequenceName, dbSchema);
 
         try {
-            const result = await this.queryDataSource.manager.save(entityClass || this.entityClass, entityList);
+            const result = await this.queryDataSource.manager.save(entityClass || <EntityTarget<F>>this.entityClass, entityList);
             return result;
         } catch (error) {
             (this.queryDataSource instanceof DataSource)
@@ -94,9 +109,9 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
         }
     }
 
-    async update(criteria?: Partial<E>, partialEntity?: QueryDeepPartialEntity<E>, entityClass?: EntityTarget<E>): Promise<UpdateResult> {
+    async update<F>(criteria?: Partial<F>, partialEntity?: QueryDeepPartialEntity<F>, entityClass?: EntityTarget<F>): Promise<UpdateResult> {
         await this.init(this.config);
-        const result = this.queryDataSource.manager.update(entityClass || this.entityClass, criteria, partialEntity);
+        const result = this.queryDataSource.manager.update(entityClass || <EntityTarget<F>>this.entityClass, criteria, partialEntity);
         // const result = await this.queryDataSource.manager.save(criteria);
         return result;
     }
