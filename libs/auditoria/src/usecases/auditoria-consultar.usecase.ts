@@ -22,7 +22,7 @@ export class AuditoriaConsultarUseCase {
         if (input.operacaoTipo)
             where.txtAlteracao = Like(input.operacaoTipo);
 
-        return await this.repository.findBy(AuditoriaEntity, where);
+        return await this.repository.findBy(where, AuditoriaEntity);
     }
 
 }

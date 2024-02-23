@@ -42,9 +42,8 @@ async function bootstrap() {
     let conn: DataSource;
     let utilRepo = new UtilRepository<unknown>(queryRunner);
     let userRepo = new UsuarioRepository(queryRunner);
-    conn = queryRunner.manager.connection;
-    await conn.dropDatabase();
-    await conn.synchronize(true);
+    await queryRunner.connection.dropDatabase();
+    await queryRunner.connection.synchronize(true);
     const m = await utilRepo.save(methodList, MetodoEntity);
     const s = await utilRepo.save(systemList, SistemaEntity);
     s[0]._metodoList.push(m[0]);

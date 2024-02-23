@@ -42,7 +42,7 @@ const pgPilotoConfig: DataSourceOptions = {
 export function dbConfig_pgPilotoDefault(entityList: EntityClassOrSchema[] = []): DataSourceOptions {
     return {
         ...pgPilotoConfig,
-        host: 'pg_piloto',
+        // host: 'pg_piloto',
         entities: [...entityList]
     } as DataSourceOptions;
 }

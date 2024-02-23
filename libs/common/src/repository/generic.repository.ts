@@ -14,7 +14,6 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
     protected queryDataSource: QueryRunner | DataSource;
     protected config: EntityClassOrSchema[] | QueryRunner = [];
     protected entityClass: EntityTarget<E>;
-    protected isSpecialist: boolean = false;
     protected apiResponse: ApiResponse;
 
     protected constructor(entityClass: EntityTarget<E>, config?: EntityClassOrSchema[] | QueryRunner) {
@@ -91,13 +90,13 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
             (this.queryDataSource instanceof DataSource)
                 ? undefined
                 : RunnerTransaction.rollbackTransaction(this.queryDataSource);
-            throw new BadGatewayException(error);
             throw new BadGatewayException(this.apiResponse.handler({
                 objMessage: MSG.DEFAULT_FALHA,
                 error: {
                     message: 'Erro ao tentar persistir dados no DB.',
                     fix: ''
-                        + '(1) conferir a conexão com o DB',
+                        + '(1) conferir a conexão com o DB'
+                        + '(2) conferir as configurações da conexão com o DB',
                     context: {
                         className: this.LOG_CLASS_NAME,
                         methodName: this.save.name,

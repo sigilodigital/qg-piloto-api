@@ -16,7 +16,7 @@ export class AppDataSourceAsync {
             })
             .catch((err) => {
                 console.error("Error during Data Source initialization", err);
-            });
+            })
 
         return dataSource;
     }

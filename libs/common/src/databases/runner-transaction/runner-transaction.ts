@@ -28,5 +28,6 @@ export class RunnerTransaction {
     }
     public static async finalizeTransaction(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.release();
+        await AppDataSourceAsync.close(queryRunner.connection);
     }
 }
