@@ -20,11 +20,11 @@ import { UsuarioModule } from './features/usuario/usuario.module';
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        consumer
-            .apply(AppMiddleware)
-            .exclude({ path: '/auth/sistema-autenticar', method: RequestMethod.POST })
-            .forRoutes(
-                { path: '*', method: RequestMethod.ALL }
-            );
+        // consumer
+        //     .apply(AppMiddleware)
+        //     .exclude({ path: '/auth/sistema-autenticar', method: RequestMethod.POST })
+        //     .forRoutes(
+        //         { path: '*', method: RequestMethod.ALL }
+        //     );
     }
 }

@@ -39,7 +39,7 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
         }
         
         // se chegar como array vazio
-        if (config.length === 0) { 
+        if (config.length === 0) {
             throw new BadGatewayException('ERRO: entityList não pode chegar neste estágio como array vazio.')
         }
 
