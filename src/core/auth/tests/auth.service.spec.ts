@@ -60,7 +60,7 @@ describe('AuthService :: MockData', () => {
         // const input: LoginUserInputDto = {username: 'abcd', password:'abcd1234'}
         
         jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce(user);
-        jest.spyOn(userRepository, 'update').mockResolvedValueOnce(user);
+        // jest.spyOn(userRepository, 'update').mockResolvedValueOnce(user);
         // jest.spyOn(utilService, 'decrypt').mockResolvedValueOnce(true);
 
         try {
@@ -85,7 +85,7 @@ describe('AuthService :: MockData', () => {
         // const input: LoginUserInputDto = {username: 'abcd', password:'abcd1234'}
         
         jest.spyOn(userRepository, 'findOne').mockResolvedValueOnce({...user, _dataAccess:{ password: undefined } } as UsuarioEntity);
-        jest.spyOn(userRepository, 'update').mockResolvedValueOnce(user);
+        // jest.spyOn(userRepository, 'update').mockResolvedValueOnce(user);
         // jest.spyOn(utilService, 'decrypt').mockResolvedValueOnce(true);
 
         // expect.assertions(1)
