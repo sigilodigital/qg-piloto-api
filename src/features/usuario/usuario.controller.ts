@@ -1,37 +1,40 @@
 import { Body, Controller, Post, Req } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiTags, ApiResponse as ApiResponseSwagger } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse as ApiResponseSwagger, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 
-import { ApiResponse } from '@libs/common/services/response-handler-v1';
+import { MSG } from '@libs/common/services/code-messages';
+import { ApiResponse } from '@libs/common/services/response-handler';
 import { ValidationPipe } from '@libs/common/validations/validation.pipe';
-import { UsuarioService } from './usuario.service';
 import { UsuarioDoc } from './docs/usuario.doc';
+import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from './models/dto/usuario-consultar.dto';
 import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from './models/dto/usuario-incluir/usuario-incluir.dto';
-import { UsuarioEntity } from './models/entities/usuario.entity';
-import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto} from './models/dto/usuario-consultar.dto';
-import { CodigoAcaoEnum } from '@libs/common/enumerations/codigo-acao.enum';
+import { UsuarioService } from './usuario.service';
 
 @ApiTags(UsuarioDoc.title)
 @Controller('usuario')
 export class UsuarioController {
 
-    constructor(private readonly usuarioService: UsuarioService) { }
+    private apiResponse: ApiResponse;
+
+    constructor(private readonly usuarioService: UsuarioService) {
+        this.apiResponse = new ApiResponse();
+    }
 
     @ApiOperation(UsuarioDoc.incluir())
     @ApiBody({ type: UsuarioIncluirInputDto })
     @Post('incluir')
     async usuarioIncluir(@Body(new ValidationPipe()) input: UsuarioIncluirInputDto, @Req() request: Request) {
         const result: UsuarioIncluirOutputDto = await this.usuarioService.usuarioIncluir(input, request);
-        return ApiResponse.handler({ codMessage: CodigoAcaoEnum.USUARIO_INCLUIR, output: result });
+        return this.apiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: result });
     }
 
     @ApiOperation(UsuarioDoc.consultar())
     @ApiBody({ type: UsuarioConsultarInputDto })
-    @ApiResponseSwagger({type: UsuarioConsultarOutputDto})
+    @ApiResponseSwagger({ type: UsuarioConsultarOutputDto })
     @Post('consultar')
     async usuarioConsultar(@Body(new ValidationPipe()) input: UsuarioConsultarInputDto) {
         const result: UsuarioConsultarOutputDto[] = await this.usuarioService.usuarioConsultar(input);
-        return ApiResponse.handler({ codMessage: CodigoAcaoEnum.USUARIO_ALTERAR, output: result });
+        return this.apiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: result });
     }
 
 }

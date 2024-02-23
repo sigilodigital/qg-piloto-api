@@ -10,10 +10,10 @@ import { DataAccessInputDto } from "./data-access.dto";
 
 // TODO: concluir: add propriedades
 // TODO: adicionar validadores
-export class UsuarioIncluirInputDto implements UsuarioEntity{
+export class UsuarioIncluirInputDto implements UsuarioEntity {
 
     @ApiProperty({ name: 'cpf', type: Number, nullable: false, required: true, maxLength: 11 })
-    @Validate(ValidaSchema, [<IConstraintSchema>{ nullable: false, length: 11 }])
+    @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'number', nullable: false, length: 11 }])
     cpf: number;
 
     @ApiProperty({ name: 'fullname', type: String, nullable: false, required: true, maxLength: 255 })
@@ -33,7 +33,7 @@ export class UsuarioIncluirInputDto implements UsuarioEntity{
     _dataAccess?: DataAccessInputDto;
 
     @ApiProperty({ name: 'isActive', type: Boolean, nullable: true, required: false, default: true })
-    @Validate(ValidaSchema, [<IConstraintSchema>{}])
+    @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'boolean', nullable: true }])
     isActive: boolean;
 }
 
