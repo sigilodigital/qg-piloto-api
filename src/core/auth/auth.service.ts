@@ -266,7 +266,7 @@ export class AuthService implements IAuthService {
 
         async function fnUsuarioAtualizar_zerarContadorTentativas<C extends AuthService>(user: UsuarioEntity, C: C) {
             const passCountErrors = 1;
-            C.usuarioRepository.update<UsuarioEntity>({ id: user._dataAccess.id }, { _dataAccess: { passCountErrors } });
+            await C.usuarioRepository.update<UsuarioEntity>({ id: user._dataAccess.id }, { _dataAccess: { passCountErrors } });
             // C.utilRepository.update<DataAccessEntity>({ id: user._dataAccess.id }, { passCountErrors }, DataAccessEntity);
         }
     }

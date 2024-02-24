@@ -9,6 +9,7 @@ import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
 import { LoginUserOutputDto } from '../models/dto/login-user.dto';
 import { UtilRepository } from '@sd-root/libs/common/src/internal';
+import { QUERY_RUNNER_PROVIDER } from '@sd-root/libs/common/src/providers/query-runner.provider';
 
 describe('AuthController :: MockData', () => {
     let controller: AuthController;
@@ -16,15 +17,11 @@ describe('AuthController :: MockData', () => {
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             controllers: [AuthController],
-            providers: [AuthService, ApiResponse, JwtService, UtilService, {
-                provide: UtilRepository, useFactory(...args) {
-                    return new UtilRepository();
-                },
-            }, {
-                    provide: UsuarioRepository, useFactory(...args) {
-                        return new UsuarioRepository();
-                    },
-                }]
+            providers: [AuthService, ApiResponse, JwtService, UtilService,
+                QUERY_RUNNER_PROVIDER, UtilRepository, UsuarioRepository
+                // { provide: UtilRepository, useFactory(...args) { return new UtilRepository(); }, },
+                // { provide: UsuarioRepository, useFactory(...args) { return new UsuarioRepository(); }, }
+            ]
         }).compile();
 
         controller = module.get<AuthController>(AuthController);

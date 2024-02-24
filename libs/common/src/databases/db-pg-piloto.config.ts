@@ -4,8 +4,8 @@ import { DataSourceOptions, MixedList } from "typeorm";
 import { env } from "./envSchema";
 
 export type DbConfigOptionsType = {
-    dbOption: DbOptionType;
-    subscriberList: MixedList<string | Function>;
+    dbOption?: DbOptionType;
+    subscriberList?: MixedList<string | Function>;
     entityList: EntityClassOrSchema[]
 }
 export type DbConfigType2 = (eL: EntityClassOrSchema[]) => DataSourceOptions;

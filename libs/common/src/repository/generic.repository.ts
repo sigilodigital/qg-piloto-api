@@ -1,20 +1,15 @@
 import { BadGatewayException, Injectable } from "@nestjs/common";
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
-import { DataSource, EntityTarget, FindManyOptions, FindOptionsWhere, MixedList, QueryRunner, UpdateResult } from "typeorm";
+import { DataSource, EntityTarget, FindManyOptions, FindOptionsWhere, QueryRunner, UpdateResult } from "typeorm";
 
 import { AppDataSourceAsync } from "@libs/common/databases";
-import { RunnerTransaction } from "@libs/common/databases/runner-transaction/runner-transaction";
 import { ApiResponse } from "@libs/common/services/response-handler";
-import { MSG } from "../services/code-messages";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity.js";
-import { HistoricoSubscriber } from "@sd-root/libs/auditoria/src/subscriber/historico.subscriber";
 import { DbConfigOptionsType } from "../databases/db-pg-piloto.config";
 
 @Injectable()
 export abstract class GenericRepository<E> implements IGenericRepository<E> {
     protected LOG_CLASS_NAME = 'GenericRepository';
-
-    protected subscriberList: MixedList<string | Function> = [HistoricoSubscriber];
 
     protected queryDataSource: QueryRunner | DataSource;
     protected config: EntityClassOrSchema[] | QueryRunner = [];
@@ -49,8 +44,6 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
         }
 
         const dbConfigOptions:DbConfigOptionsType = {
-            dbOption: 'pg_piloto_default', 
-            subscriberList: this.subscriberList,
             entityList: config
         }
         
@@ -98,24 +91,25 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
             const result = await this.queryDataSource.manager.save(entityClass || <EntityTarget<F>>this.entityClass, entityList);
             return result;
         } catch (error) {
-            (this.queryDataSource instanceof DataSource)
-                ? undefined
-                : RunnerTransaction.rollbackTransaction(this.queryDataSource);
-            throw new BadGatewayException(this.apiResponse.handler({
-                objMessage: MSG.DEFAULT_FALHA,
-                error: {
-                    message: 'Erro ao tentar persistir dados no DB.',
-                    fix: ''
-                        + '(1) conferir a conexão com o DB'
-                        + '(2) conferir as configurações da conexão com o DB',
-                    context: {
-                        className: this.LOG_CLASS_NAME,
-                        methodName: this.save.name,
-                        input: entityList,
-                        output: error
-                    }
-                }
-            }));
+            return error;
+            // (this.queryDataSource instanceof DataSource)
+            //     ? undefined
+            //     : RunnerTransaction.rollbackTransaction(this.queryDataSource);
+            // throw new BadGatewayException(this.apiResponse.handler({
+            //     objMessage: MSG.DEFAULT_FALHA,
+            //     error: {
+            //         message: 'Erro ao tentar persistir dados no DB.',
+            //         fix: ''
+            //             + '(1) conferir a conexão com o DB'
+            //             + '(2) conferir as configurações da conexão com o DB',
+            //         context: {
+            //             className: this.LOG_CLASS_NAME,
+            //             methodName: this.save.name,
+            //             input: entityList,
+            //             output: error
+            //         }
+            //     }
+            // }));
         }
     }
 

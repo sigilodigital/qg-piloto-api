@@ -39,7 +39,6 @@ async function bootstrap() {
     ];
 
     const queryRunner = await RunnerTransaction.startTransaction(entities);
-    let conn: DataSource;
     let utilRepo = new UtilRepository<unknown>(queryRunner);
     let userRepo = new UsuarioRepository(queryRunner);
     await queryRunner.connection.dropDatabase();

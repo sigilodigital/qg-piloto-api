@@ -7,20 +7,22 @@ import { DataAccessEntity } from '../models/entities/data-access.entity';
 import { EmailEntity } from '../models/entities/email.entity';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
 import { UsuarioRepository } from '../repositories/usuario.repository';
+import { QUERY_RUNNER_PROVIDER } from '@sd-root/libs/common/src/providers/query-runner.provider';
 
 describe('UsuarioRepository', () => {
     let repo: UsuarioRepository;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [{
-                provide: UsuarioRepository, useFactory(...args) {
-                    return new UsuarioRepository();
-                },
-            }],
+            providers: [
+                UsuarioRepository,
+                QUERY_RUNNER_PROVIDER,
+                // { provide: UsuarioRepository, useFactory(...args) { return new UsuarioRepository(); }, }
+            ],
         }).compile();
 
-        repo = module.get<UsuarioRepository>(UsuarioRepository);
+        // repo = module.get<UsuarioRepository>(UsuarioRepository);
+        repo = new UsuarioRepository();
     });
 
     it('should be defined', () => {
