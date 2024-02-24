@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 
 import { ApiResponse } from '@libs/common/services/response-handler';
-import { IUsuarioRepository } from '../repositories/usuario-repository';
+import { IUsuarioRepository } from '../repositories/usuario.repository';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
 import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from '../models/dto/usuario-incluir/usuario-incluir.dto';
 import { MSG } from '@libs/common/services/code-messages';

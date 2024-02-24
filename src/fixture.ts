@@ -18,9 +18,9 @@ import { SistemaMetodoEntity } from './core/auth/models/entities/sistema-metodo.
 import { userList } from './fixtures/users';
 import { systemList } from './fixtures/systems';
 import { methodList } from './fixtures/methods';
-import { UsuarioRepository } from './features/usuario/repositories/usuario-repository';
 import { AppDataSourceAsync } from '@sd-root/libs/common/src/databases';
 import { RunnerTransaction } from '@sd-root/libs/common/src/databases/runner-transaction/runner-transaction';
+import { UsuarioRepository } from './features/usuario/repositories/usuario.repository';
 
 async function bootstrap() {
 
@@ -38,7 +38,7 @@ async function bootstrap() {
         SistemaEntity, MetodoEntity, /*SistemaMetodoEntity*/
     ];
 
-    const queryRunner = await RunnerTransaction.startTransaction(entities, 'pg_piloto_default_fixture');
+    const queryRunner = await RunnerTransaction.startTransaction(entities);
     let conn: DataSource;
     let utilRepo = new UtilRepository<unknown>(queryRunner);
     let userRepo = new UsuarioRepository(queryRunner);

@@ -6,7 +6,7 @@ import { UtilRepository } from '@libs/common/repository/util.repository';
 import { ApiResponse } from '@libs/common/services/response-handler';
 import { UtilService } from '@libs/common/services/util.service';
 import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
-import { UsuarioRepository } from 'src/features/usuario/repositories/usuario-repository';
+import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario.repository';
 import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
 import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
 import { MetodoEntity } from './models/entities/metodo.entity';
@@ -265,8 +265,9 @@ export class AuthService implements IAuthService {
         }
 
         async function fnUsuarioAtualizar_zerarContadorTentativas<C extends AuthService>(user: UsuarioEntity, C: C) {
-            user._dataAccess.passCountErrors = 0;
-            C.usuarioRepository.update(user);
+            const passCountErrors = 1;
+            C.usuarioRepository.update<UsuarioEntity>({ id: user._dataAccess.id }, { _dataAccess: { passCountErrors } });
+            // C.utilRepository.update<DataAccessEntity>({ id: user._dataAccess.id }, { passCountErrors }, DataAccessEntity);
         }
     }
 

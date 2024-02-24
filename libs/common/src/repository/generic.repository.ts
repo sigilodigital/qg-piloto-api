@@ -1,22 +1,27 @@
-import { BadGatewayException } from "@nestjs/common";
+import { BadGatewayException, Injectable } from "@nestjs/common";
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
-import { DataSource, EntityTarget, FindManyOptions, FindOptionsWhere, QueryRunner, UpdateResult } from "typeorm";
+import { DataSource, EntityTarget, FindManyOptions, FindOptionsWhere, MixedList, QueryRunner, UpdateResult } from "typeorm";
 
 import { AppDataSourceAsync } from "@libs/common/databases";
 import { RunnerTransaction } from "@libs/common/databases/runner-transaction/runner-transaction";
 import { ApiResponse } from "@libs/common/services/response-handler";
 import { MSG } from "../services/code-messages";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity.js";
+import { HistoricoSubscriber } from "@sd-root/libs/auditoria/src/subscriber/historico.subscriber";
+import { DbConfigOptionsType } from "../databases/db-pg-piloto.config";
 
+@Injectable()
 export abstract class GenericRepository<E> implements IGenericRepository<E> {
     protected LOG_CLASS_NAME = 'GenericRepository';
+
+    protected subscriberList: MixedList<string | Function> = [HistoricoSubscriber];
 
     protected queryDataSource: QueryRunner | DataSource;
     protected config: EntityClassOrSchema[] | QueryRunner = [];
     protected entityClass: EntityTarget<E>;
     protected apiResponse: ApiResponse;
 
-    protected constructor(entityClass: EntityTarget<E>, config?: EntityClassOrSchema[] | QueryRunner) {
+    constructor(entityClass: EntityTarget<E>, config?: EntityClassOrSchema[] | QueryRunner) {
         this.config = config || [];
         //se entityClass eh especialista || senao eh util
         this.entityClass = (entityClass) ? entityClass : this.entityClass;
@@ -43,8 +48,14 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
             throw new BadGatewayException('ERRO: entityList não pode chegar neste estágio como array vazio.')
         }
 
+        const dbConfigOptions:DbConfigOptionsType = {
+            dbOption: 'pg_piloto_default', 
+            subscriberList: this.subscriberList,
+            entityList: config
+        }
+        
         // retorna um DataSource
-        this.queryDataSource = await AppDataSourceAsync.init(<[]>config);
+        this.queryDataSource = await AppDataSourceAsync.init(dbConfigOptions);
         return this.queryDataSource;
     }
 
@@ -110,7 +121,8 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
 
     async update<F>(criteria?: Partial<F>, partialEntity?: QueryDeepPartialEntity<F>, entityClass?: EntityTarget<F>): Promise<UpdateResult> {
         await this.init(this.config);
-        const result = this.queryDataSource.manager.update(entityClass || <EntityTarget<F>>this.entityClass, criteria, partialEntity);
+        const result = await this.queryDataSource.manager.update(entityClass || <EntityTarget<F>>this.entityClass, criteria, partialEntity);
+        // const result = <F>await this.queryDataSource.manager.save(entityClass || this.entityClass, partialEntity);
         // const result = await this.queryDataSource.manager.save(criteria);
         return result;
     }
@@ -136,6 +148,7 @@ export interface IGenericRepository<E> {
     findOne(partialEntity: FindManyOptions<E>, entityClass?: EntityTarget<E>): Promise<E>;
     findOneBy(partialEntity: FindOptionsWhere<E>, entityClass?: EntityTarget<E>): Promise<E>;
     save(entity: E[], pkProperty?: string, dbSequenceName?: string): Promise<E[]>;
+    // update<F>(criteria: Partial<F>, entity: QueryDeepPartialEntity<F>, entityClass?: EntityTarget<F>): Promise<F>;
     update(criteria: Partial<E>, entity: QueryDeepPartialEntity<E>, entityClass?: EntityTarget<E>): Promise<UpdateResult>;
     query(sql: string): Promise<E>;
     getSequence(dbSequenceName: string, dbScheme?: string): Promise<number>;

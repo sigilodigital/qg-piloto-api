@@ -1,8 +1,6 @@
-
-import { UtilRepository } from "@libs/common/repository/util.repository";
+import { UtilRepository } from "@libs/common/internal";
 import { AuditoriaEntity } from "../models/entities/auditoria.entity";
 import { AuditoriaIncluirUseCase } from './auditoria-incluir.usecase';
-
 
 export class AuditoriaIncluirEventListUseCase{
     async handler(input: AuditoriaEntity[]) {
@@ -12,5 +10,4 @@ export class AuditoriaIncluirEventListUseCase{
                 await ucAuditoria.handle(evento)
         }
     }
-
 }

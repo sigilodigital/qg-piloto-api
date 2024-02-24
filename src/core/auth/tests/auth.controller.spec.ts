@@ -4,10 +4,11 @@ import { Request as RequestExpress, Response as ResponseExpress } from 'express'
 
 import { UtilService } from '@libs/common/services/util.service';
 import { ApiResponse } from '@libs/common/services/response-handler';
-import { UsuarioRepository } from 'src/features/usuario/repositories/usuario-repository';
+import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario.repository';
 import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
 import { LoginUserOutputDto } from '../models/dto/login-user.dto';
+import { UtilRepository } from '@sd-root/libs/common/src/internal';
 
 describe('AuthController :: MockData', () => {
     let controller: AuthController;
@@ -15,7 +16,15 @@ describe('AuthController :: MockData', () => {
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             controllers: [AuthController],
-            providers: [AuthService, ApiResponse, JwtService, UtilService, UsuarioRepository]
+            providers: [AuthService, ApiResponse, JwtService, UtilService, {
+                provide: UtilRepository, useFactory(...args) {
+                    return new UtilRepository();
+                },
+            }, {
+                    provide: UsuarioRepository, useFactory(...args) {
+                        return new UsuarioRepository();
+                    },
+                }]
         }).compile();
 
         controller = module.get<AuthController>(AuthController);

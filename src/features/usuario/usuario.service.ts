@@ -9,7 +9,7 @@ import { ApiResponse } from '@libs/common/services/response-handler';
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from './models/dto/usuario-consultar.dto';
 import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from './models/dto/usuario-incluir/usuario-incluir.dto';
 import { UsuarioEntity } from './models/entities/usuario.entity';
-import { UsuarioRepository } from './repositories/usuario-repository';
+import { UsuarioRepository } from './repositories/usuario.repository';
 import { UsuarioConsultarUseCase } from './usecases/usuario-consultar.usecase';
 import { UsuarioIncluirUseCase } from './usecases/usuario-incluir.usecase';
 

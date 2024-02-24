@@ -1,18 +1,18 @@
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
 import { DataSource } from "typeorm";
-import { DbConfigOptionType, dbConfig } from "./db-pg-piloto.config";
+import { DbConfigOptionsType, dbConfig } from "./db-pg-piloto.config";
 
 
 export class AppDataSourceAsync {
 
-    static async init(entityList: EntityClassOrSchema[], dbConfigType?: DbConfigOptionType): Promise<DataSource> {
+    static async init(dbConfigOptions:DbConfigOptionsType): Promise<DataSource> {
 
-        const dbOption = (dbConfigType) ? dbConfigType : 'pg_piloto_default';
-        const dataSource = new DataSource(dbConfig(entityList, dbOption));
+        // dbConfigOptions.dbOption = (dbConfigOptions.dbOption) ? dbConfigOptions.dbOption : 'pg_piloto_default';
+        const dataSource = new DataSource(dbConfig( dbConfigOptions));
 
         await dataSource.initialize()
             .then(() => {
-                console.info("Data Source has been initialized! " + entityList.length);
+                console.info("Data Source has been initialized! " + dbConfigOptions.entityList.length);
             })
             .catch((err) => {
                 console.error("Error during Data Source initialization", err);

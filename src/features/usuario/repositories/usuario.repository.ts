@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
+import { Inject, Injectable } from '@nestjs/common';
 import { FindOptionsWhere, QueryRunner } from 'typeorm';
 
 import { GenericRepository, IGenericRepository } from '@libs/common/repository/generic.repository';
@@ -12,10 +11,10 @@ import { ProfileEntity } from '../models/entities/profile.entity';
 import { TelefoneEntity } from '../models/entities/telefone.entity';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
 
-// @Injectable()
+@Injectable()
 export class UsuarioRepository extends GenericRepository<UsuarioEntity> implements IUsuarioRepository {
 
-    constructor(config?: EntityClassOrSchema[] | QueryRunner) {
+    constructor(@Inject('QUERY_RUNNER_PROVIDER') config?: QueryRunner) {
         const entityList = [UsuarioEntity, ContatoEntity, EmailEntity, TelefoneEntity, EnderecoEntity, LoginInfoEntity, DataAccessEntity, ProfileEntity];
         super(UsuarioEntity, config || entityList);
     }

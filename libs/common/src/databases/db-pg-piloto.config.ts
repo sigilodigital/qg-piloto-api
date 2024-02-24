@@ -1,25 +1,29 @@
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
-import { DataSourceOptions } from "typeorm";
+import { DataSourceOptions, MixedList } from "typeorm";
 
-import { HistoricoSubscriber } from "@libs/auditoria/subscriber/historico.subscriber";
 import { env } from "./envSchema";
 
-export type DbConfigType = (eL: EntityClassOrSchema[]) => DataSourceOptions;
-export type DbConfigOptionType =
+export type DbConfigOptionsType = {
+    dbOption: DbOptionType;
+    subscriberList: MixedList<string | Function>;
+    entityList: EntityClassOrSchema[]
+}
+export type DbConfigType2 = (eL: EntityClassOrSchema[]) => DataSourceOptions;
+export type DbOptionType =
     | 'pg_piloto_default'
     | 'pg_piloto_default_fixture'
     | 'pg_piloto_test';
 
-export function dbConfig(entityList: EntityClassOrSchema[] = [], dbConfigOptionType: DbConfigOptionType): DataSourceOptions {
-    switch (dbConfigOptionType) {
+export function dbConfig(dbConfigOption: DbConfigOptionsType): DataSourceOptions {
+    switch (dbConfigOption.dbOption) {
         case 'pg_piloto_default':
-            return dbConfig_pgPilotoDefault(entityList);
+            return dbConfig_pgPilotoDefault(dbConfigOption);
         case 'pg_piloto_default_fixture':
-            return dbConfig_pgPilotoFixture(entityList);
+            return dbConfig_pgPilotoFixture(dbConfigOption);
         case 'pg_piloto_test':
-            return dbConfig_pgPilotoTest(entityList);
+            return dbConfig_pgPilotoTest(dbConfigOption);
         default:
-            return dbConfig_pgPilotoDefault(entityList);
+            return dbConfig_pgPilotoDefault(dbConfigOption);
     }
 }
 
@@ -33,32 +37,35 @@ const pgPilotoConfig: DataSourceOptions = {
     username: env.DB_USERNAME,
     password: env.DB_PASSWORD,
     synchronize: false,
-    subscribers: [HistoricoSubscriber],
+    subscribers: [/*HistoricoSubscriber*/],
     entities: [
         // '**/entities/*.entity',
         // '**/entities/*.dto'
     ]
 };
-export function dbConfig_pgPilotoDefault(entityList: EntityClassOrSchema[] = []): DataSourceOptions {
+export function dbConfig_pgPilotoDefault(dbConfigOption: DbConfigOptionsType): DataSourceOptions {
     return {
         ...pgPilotoConfig,
         // host: 'pg_piloto',
-        entities: [...entityList]
+        subscribers: [...dbConfigOption.entityList],
+        entities: [...dbConfigOption.entityList]
     } as DataSourceOptions;
 }
-export function dbConfig_pgPilotoFixture(entityList: EntityClassOrSchema[] = []): DataSourceOptions {
+export function dbConfig_pgPilotoFixture(dbConfigOption: DbConfigOptionsType): DataSourceOptions {
     return {
         ...pgPilotoConfig,
         host: 'localhost',
-        entities: [...entityList]
+        subscribers: [...dbConfigOption.entityList],
+        entities: [...dbConfigOption.entityList]
     } as DataSourceOptions;
 }
 
-function dbConfig_pgPilotoTest(entityList: EntityClassOrSchema[] = []): DataSourceOptions {
+function dbConfig_pgPilotoTest(dbConfigOption: DbConfigOptionsType): DataSourceOptions {
     return {
         ...pgPilotoConfig,
         host: 'localhost',
         schema: 'test',
-        entities: [...entityList]
+        subscribers: [...dbConfigOption.entityList],
+        entities: [...dbConfigOption.entityList]
     } as DataSourceOptions;
 }

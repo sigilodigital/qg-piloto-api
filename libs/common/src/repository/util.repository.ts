@@ -1,14 +1,16 @@
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 import { EntityTarget, QueryRunner } from 'typeorm';
 
-import { GenericRepository, IGenericRepository } from './generic.repository';
+import { GenericRepository, IGenericRepository } from '../internal';
+import { Inject, Injectable } from '@nestjs/common';
 
-export class UtilRepository<T = unknown, C = EntityTarget<T>> extends GenericRepository<T> implements IUtilRepository<T> {
+@Injectable()
+export class UtilRepository<T = unknown> extends GenericRepository<T> implements IUtilRepository<T> {
 
-    constructor(config?: EntityClassOrSchema[] | QueryRunner) {
+    constructor(@Inject('QUERY_RUNNER_PROVIDER') config?: EntityClassOrSchema[] | QueryRunner) {
         super(null, config);
     }
 
 }
 
-export interface IUtilRepository<T = unknown, C = EntityTarget<T>> extends IGenericRepository<T> { }
+export interface IUtilRepository<T = unknown> extends IGenericRepository<T> { }

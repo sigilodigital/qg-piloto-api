@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from '../models/dto/usuario-consultar.dto';
-import { UsuarioRepository } from '../repositories/usuario-repository';
+import { UsuarioRepository } from '../repositories/usuario.repository';
 import { UsuarioService } from '../usuario.service';
 
 describe('UsuarioService', () => {

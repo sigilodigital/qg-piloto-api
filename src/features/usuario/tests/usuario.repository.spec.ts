@@ -6,14 +6,18 @@ import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from '../models/d
 import { DataAccessEntity } from '../models/entities/data-access.entity';
 import { EmailEntity } from '../models/entities/email.entity';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
-import { UsuarioRepository } from '../repositories/usuario-repository';
+import { UsuarioRepository } from '../repositories/usuario.repository';
 
 describe('UsuarioRepository', () => {
     let repo: UsuarioRepository;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [UsuarioRepository],
+            providers: [{
+                provide: UsuarioRepository, useFactory(...args) {
+                    return new UsuarioRepository();
+                },
+            }],
         }).compile();
 
         repo = module.get<UsuarioRepository>(UsuarioRepository);
@@ -29,7 +33,11 @@ describe('UsuarioRepository: Testando conexão com DB', () => {
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [UsuarioRepository],
+            providers: [{
+                provide: UsuarioRepository, useFactory(...args) {
+                    return new UsuarioRepository();
+                },
+            }],
         }).compile();
 
         repo = module.get<UsuarioRepository>(UsuarioRepository);
@@ -46,7 +54,11 @@ describe('UsuarioRepository: testando os métodos do repository', () => {
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [UsuarioRepository],
+            providers: [{
+                provide: UsuarioRepository, useFactory(...args) {
+                    return new UsuarioRepository();
+                },
+            }],
         }).compile();
 
         userRepository = module.get<UsuarioRepository>(UsuarioRepository);
