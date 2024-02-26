@@ -49,4 +49,15 @@ describe('UC: Consultar usuário', () => {
         expect(body.status?.statusCode).toEqual(MSG.DEFAULT_SUCESSO.code);
         expect(body.data?.length).toEqual(0);
     });
+
+    describe('Validação de tipo', () => {
+
+        it('cpf: deve retornar todos os usuários inativos', async () => {
+            const user: UsuarioConsultarInputDto = { isActive: false };
+            const { body } = <R><unknown>await request(app.getHttpServer()).post(config.urn).send(user);
+
+            expect(body.status?.statusCode).toEqual(MSG.DEFAULT_SUCESSO.code);
+            expect(body.data?.length).toEqual(0);
+        });
+    });
 });

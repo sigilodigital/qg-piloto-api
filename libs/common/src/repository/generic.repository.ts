@@ -43,10 +43,17 @@ export abstract class GenericRepository<E> implements IGenericRepository<E> {
             throw new BadGatewayException('ERRO: entityList não pode chegar neste estágio como array vazio.')
         }
 
+<<<<<<< Updated upstream
         const dbConfigOptions:DbConfigOptionsType = {
             entityList: config
         }
         
+=======
+        /*  FIXME: criar uma solucao pra conferir se o datasource ja foi criado
+            A mesma conexao está sendo replicada a cada instancia de repository
+        */
+       
+>>>>>>> Stashed changes
         // retorna um DataSource
         this.queryDataSource = await AppDataSourceAsync.init(dbConfigOptions);
         return this.queryDataSource;
