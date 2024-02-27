@@ -4,9 +4,9 @@ import request = require('supertest');
 
 import { MSG } from '@libs/common/services/code-messages';
 import { IApiResponseHandler } from '@libs/common/services/response-handler';
+import { AppModule } from '@sd-root/src/app.module';
 import { UsuarioConsultarInputDto } from 'src/features/usuario/models/dto/usuario-consultar.dto';
 import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
-import { AppModule } from '../src/app.module';
 
 type R<T = UsuarioEntity[]> = request.Test & { body: IApiResponseHandler<any, T>; };
 

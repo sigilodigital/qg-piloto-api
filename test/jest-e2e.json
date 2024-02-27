@@ -4,18 +4,18 @@
     "json",
     "ts"
   ],
-  "rootDir": ".",
+  "rootDir": "..",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
-    "^src/(.*)": "<rootDir>/../src/$1",
-    "^@sd-root(|/.*)$": "<rootDir>/../$1",
-    "@libs/common/(.*)": "<rootDir>/../libs/common/src/$1",
-    "@libs/common": "<rootDir>/../libs/common/src",
-    "@libs/auditoria/(.*)": "<rootDir>/../libs/auditoria/src/$1",
-    "@libs/auditoria": "<rootDir>/../libs/auditoria/src"
+    "^src/(.*)": "<rootDir>/src/$1",
+    "^@sd-root(|/.*)$": "<rootDir>$1",
+    "@libs/common/(.*)": "<rootDir>/libs/common/src/$1",
+    "@libs/common": "<rootDir>/libs/common/src",
+    "@libs/auditoria/(.*)": "<rootDir>/libs/auditoria/src/$1",
+    "@libs/auditoria": "<rootDir>/libs/auditoria/src"
   }
 }
