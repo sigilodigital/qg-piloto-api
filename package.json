@@ -118,7 +118,7 @@
       "^src/(.*)$": "<rootDir>/src/$1",
       "^@sd-root(|/.*)$": "<rootDir>/$1",
       "^@libs/common(|/.*)$": "<rootDir>/libs/common/src/$1",
-      "^@libs/auditoria(|/.*)$": "<rootDir>/libs/auditoria/src/$1"
+      "^@libs/audit(|/.*)$": "<rootDir>/libs/audit/src/$1"
     }
   }
 }

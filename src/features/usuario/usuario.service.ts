@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
 
-import { IHistoricoDadosPrimarios } from '@libs/auditoria/models/dto/auditoria-event-list.dto';
+import { IAuditDadosPrimarios } from '@libs/audit/models/dto/audit-event-list.dto';
 import { RunnerTransaction } from '@libs/common/databases/runner-transaction/runner-transaction';
 import { CodigoAcaoEnum } from '@libs/common/enumerations/codigo-acao.enum';
 import { OrigemEnum } from '@libs/common/enumerations/origem.enum';
@@ -31,7 +31,7 @@ export class UsuarioService {
 
         return result;
 
-        async function fnHistoricoDadosPrimarios(): Promise<IHistoricoDadosPrimarios> {
+        async function fnHistoricoDadosPrimarios(): Promise<IAuditDadosPrimarios> {
             return {
                 codAcao: CodigoAcaoEnum.PADRAO_NAO_POSSUI,
                 // TODO: pegar do tokenSystem o codOrigem

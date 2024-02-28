@@ -34,11 +34,11 @@
             "@libs/common/*": [
                 "libs/common/src/*"
             ],
-            "@libs/auditoria": [
-                "libs/auditoria/src"
+            "@libs/audit": [
+                "libs/audit/src"
             ],
-            "@libs/auditoria/*": [
-                "libs/auditoria/src/*"
+            "@libs/audit/*": [
+                "libs/audit/src/*"
             ]
         }
     }

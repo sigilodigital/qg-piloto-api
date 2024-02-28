@@ -12,13 +12,13 @@
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     },
-    "auditoria": {
+    "audit": {
       "type": "library",
-      "root": "libs/auditoria",
+      "root": "libs/audit",
       "entryFile": "index",
-      "sourceRoot": "libs/auditoria/src",
+      "sourceRoot": "libs/audit/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/auditoria/tsconfig.lib.json"
+        "tsConfigPath": "libs/audit/tsconfig.lib.json"
       }
     }
   },

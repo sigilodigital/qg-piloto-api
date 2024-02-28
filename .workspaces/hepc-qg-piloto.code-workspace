@@ -64,6 +64,8 @@
             "LIBRARY",
             ".git"
         ],
+        "ungit.showButton": true,
+        "ungit.showInActiveColumn": true,
     },
     "launch": {
         "version": "0.2.0",

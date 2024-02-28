@@ -15,7 +15,7 @@
     "^@sd-root(|/.*)$": "<rootDir>$1",
     "@libs/common/(.*)": "<rootDir>/libs/common/src/$1",
     "@libs/common": "<rootDir>/libs/common/src",
-    "@libs/auditoria/(.*)": "<rootDir>/libs/auditoria/src/$1",
-    "@libs/auditoria": "<rootDir>/libs/auditoria/src"
+    "@libs/audit/(.*)": "<rootDir>/libs/audit/src/$1",
+    "@libs/audit": "<rootDir>/libs/audit/src"
   }
 }
