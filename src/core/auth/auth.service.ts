@@ -3,23 +3,15 @@ import { JwtService } from '@nestjs/jwt';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 
 import { UtilRepository } from '@libs/common/repository/util.repository';
+import { MSG } from '@libs/common/services/code-messages';
 import { ApiResponse } from '@libs/common/services/response-handler';
 import { UtilService } from '@libs/common/services/util.service';
-import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
 import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario.repository';
+import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
 import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
 import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
 import { MetodoEntity } from './models/entities/metodo.entity';
-import { SistemaMetodoEntity } from './models/entities/sistema-metodo.entity';
 import { SistemaEntity } from './models/entities/sistema.entity';
-import { MSG } from '@libs/common/services/code-messages';
-import { DataAccessEntity } from '../../features/usuario/models/entities/data-access.entity';
-import { ProfileEntity } from '../../features/usuario/models/entities/profile.entity';
-import { ContatoEntity } from '../../features/usuario/models/entities/contato.entity';
-import { LoginInfoEntity } from '../../features/usuario/models/entities/login-info.entity';
-import { EmailEntity } from '../../features/usuario/models/entities/email.entity';
-import { TelefoneEntity } from '../../features/usuario/models/entities/telefone.entity';
-import { EnderecoEntity } from '../../features/usuario/models/entities/endereco.entity';
 
 interface IAuthService {
     sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto>;
