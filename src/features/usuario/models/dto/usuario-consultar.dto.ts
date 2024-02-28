@@ -1,9 +1,15 @@
-import { PartialType } from "@nestjs/swagger";
+import { ApiProperty, PartialType } from "@nestjs/swagger";
 
+import { LoginInfoEntity } from "../entities/login-info.entity";
 import { UsuarioAtualizarInputDto, UsuarioAtualizarOutputDto } from "./usuario-atualizar.dto";
-import { UsuarioIncluirOutputDto } from "./usuario-incluir/usuario-incluir.dto";
 
 // TODO: adicionar validadores
-export class UsuarioConsultarInputDto extends PartialType(UsuarioAtualizarInputDto) { }
+export class UsuarioConsultarInputDto extends PartialType(UsuarioAtualizarInputDto) {
+    @ApiProperty({ name: '_loginInfo', type: LoginInfoEntity })
+    _loginInfo?: LoginInfoEntity;
+}
 
-export class UsuarioConsultarOutputDto extends PartialType(UsuarioAtualizarOutputDto) { }
+export class UsuarioConsultarOutputDto extends PartialType(UsuarioAtualizarOutputDto) {
+    @ApiProperty({ name: '_loginInfo', type: LoginInfoEntity })
+    _loginInfo?: LoginInfoEntity;
+}

@@ -2,4 +2,4 @@
 [submodule "libs"]
 	path = libs
 	url = https://github.com/sigilodigital/libs-api.git
-	branch = v1.0.0
+	branch = latest

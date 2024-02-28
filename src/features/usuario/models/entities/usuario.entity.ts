@@ -1,14 +1,10 @@
-import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
+import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 
+import { Index } from "typeorm";
 import { ContatoEntity } from "./contato.entity";
 import { DataAccessEntity } from "./data-access.entity";
 import { LoginInfoEntity } from "./login-info.entity";
-import { Index } from "typeorm";
-import { EmailEntity } from "./email.entity";
-import { TelefoneEntity } from "./telefone.entity";
-import { EnderecoEntity } from "./endereco.entity";
-import { ProfileEntity } from "./profile.entity";
 
 @Index("PK_TBL_SISTEMA", ["id"], { unique: true })
 @Entity({ name: 'TBL_USUARIO' })
@@ -34,7 +30,7 @@ export class UsuarioEntity {
     _contato?: ContatoEntity;
 
     @OneToOne(type => LoginInfoEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
-    @JoinColumn({ name: 'LoginInfoId' })
+    @JoinColumn()
     _loginInfo?: LoginInfoEntity;
 
     @OneToOne(type => DataAccessEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
