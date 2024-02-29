@@ -2,10 +2,7 @@ import { Column, Entity, OneToOne } from "typeorm";
 import { UsuarioEntity } from "./usuario.entity";
 
 @Entity({ name: 'TBL_LOGIN_INFO' })
-export class LoginInfoEntity {
-
-    @Column('uuid', { generated: 'uuid', primary: true })
-    id?: string;
+export class LoginInfoEntity extends EntityClass  {
 
     @Column("integer", { name: "accessCount" })
     accessCount: number;

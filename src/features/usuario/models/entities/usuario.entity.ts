@@ -1,17 +1,14 @@
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
-import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
+import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 
-import { Index } from "typeorm";
-import { ContatoEntity } from "./contato.entity";
+import { ContatoEntity } from "@sd-root/libs/common/src/models/entities/contato/contato.entity";
+import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
 import { DataAccessEntity } from "./data-access.entity";
 import { LoginInfoEntity } from "./login-info.entity";
 
 @Index("PK_TBL_USUARIO", ["id"], { unique: true })
 @Entity({ name: 'TBL_USUARIO' })
-export class UsuarioEntity {
-
-    @Column('uuid', { generated: 'uuid', primary: true })
-    id?: string;
+export class UsuarioEntity extends IdEntityAbstractClass  {
 
     @Column("bigint", { name: "cpf", unique: true })
     cpf: number;

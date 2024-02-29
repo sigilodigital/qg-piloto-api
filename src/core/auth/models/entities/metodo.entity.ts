@@ -2,12 +2,10 @@ import { Column, Entity, Index, ManyToMany, OneToMany } from "typeorm";
 
 import { SistemaMetodoEntity } from "./sistema-metodo.entity";
 import { SistemaEntity } from "./sistema.entity";
+import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
 
 @Entity("TBL_METODO")
-export class MetodoEntity {
-
-    @Column("uuid", { primary: true, generated: 'uuid' })
-    id?: string;
+export class MetodoEntity extends IdEntityAbstractClass {
 
     @Column("text", { unique: true, nullable: false })
     name: string;

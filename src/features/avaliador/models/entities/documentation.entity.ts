@@ -1,18 +1,13 @@
-import { ContatoEntity } from "@sd-root/src/features/usuario/models/entities/contato.entity";
+import { ContatoEntity } from "@sd-root/libs/common/src/models/entities/contato/contato.entity";
+import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
 import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 
 @Index("PK_TBL_DOCUMENTACAO", ["id"], { unique: true })
 @Entity({ name: 'TBL_DOCUMENTACAO' })
-export class DOCUMENTACAOEntity {
-
-    @Column('uuid', { generated: 'uuid', primary: true })
-    id?: string;
+export class DocumentacaoEntity extends IdEntityAbstractClass  {
 
     @Column("text", { name: "instituicaoNome", nullable: true })
     instituicaoNome?: string | null;
-
-    @Column("text", { name: "instRepresentativa", nullable: true })
-    instituicaoTelefone?: string | null;
 
     @OneToOne(type => ContatoEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
     @JoinColumn()

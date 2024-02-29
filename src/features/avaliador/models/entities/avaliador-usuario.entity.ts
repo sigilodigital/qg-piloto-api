@@ -1,20 +1,20 @@
-import { Column, Entity, Index, ManyToOne } from "typeorm";
+import { Entity, OneToOne } from "typeorm";
 
-import { MetodoEntity } from "./metodo.entity";
-import { SistemaEntity } from "./sistema.entity";
-import { JoinColumn } from "typeorm";
 import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
+import { UsuarioEntity } from "@sd-root/src/features/usuario/models/entities/usuario.entity";
+import { JoinColumn } from "typeorm";
+import { AvaliadorEntity } from "./avaliador.entity";
 
-@Entity("TBL_SISTEMA_METODO")
-export class SistemaMetodoEntity extends IdEntityAbstractClass {
+@Entity("TBL_AVALIADOR_USUARIO")
+export class AvaliadorUsuarioEntity extends IdEntityAbstractClass {
 
-    // @ManyToOne(type => SistemaEntity, e => e._sistemaMetodoList)
-    // @JoinColumn()
-    // _sistema: SistemaEntity;
+    @OneToOne(type => AvaliadorEntity)
+    @JoinColumn({referencedColumnName: 'id', foreignKeyConstraintName: 'fk_avaliador_usuario_avaliador_id'})
+    _avaliador: AvaliadorEntity;
     
-    // @ManyToOne(type => MetodoEntity, e => e._sistemaMetodoList)
-    // @JoinColumn()
-    // _metodo: MetodoEntity;
+    @OneToOne(type => UsuarioEntity)
+    @JoinColumn({referencedColumnName: 'id', foreignKeyConstraintName: 'fk_avaliador_usuario_usuario_id'})
+    _usuario: UsuarioEntity;
 
 }
 // @Entity("REL_SISTEMA_METODO")

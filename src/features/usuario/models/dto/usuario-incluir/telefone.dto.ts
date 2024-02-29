@@ -3,7 +3,7 @@ import { Validate } from 'class-validator';
 
 import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@libs/common/validations/valida-schema";
-import { TelefoneEntity } from "../../entities/telefone.entity";
+import { TelefoneEntity } from "../../../../../../libs/common/src/models/entities/contato/telefone.entity";
 
 export class TelefoneInputDto implements TelefoneEntity {
 

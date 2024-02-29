@@ -3,8 +3,8 @@ import { Validate } from 'class-validator';
 
 import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@libs/common/validations/valida-schema";
-import { ContatoEntity } from "../../entities/contato.entity";
-import { EnderecoEntity } from "../../entities/endereco.entity";
+import { ContatoEntity } from "../../../../../../libs/common/src/models/entities/contato/contato.entity";
+import { EnderecoEntity } from "../../../../../../libs/common/src/models/entities/contato/endereco.entity";
 import { ContatoInputDto } from "./contato.dto";
 
 export class EnderecoInputDto implements EnderecoEntity {

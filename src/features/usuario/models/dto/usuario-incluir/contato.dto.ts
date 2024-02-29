@@ -3,7 +3,7 @@ import { Validate, ValidateNested } from 'class-validator';
 
 import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@libs/common/validations/valida-schema";
-import { ContatoEntity } from "../../entities/contato.entity";
+import { ContatoEntity } from "../../../../../../libs/common/src/models/entities/contato/contato.entity";
 import { EmailInputDto } from "./email.dto";
 import { EnderecoInputDto } from "./endereco.dto";
 import { TelefoneInputDto } from "./telefone.dto";

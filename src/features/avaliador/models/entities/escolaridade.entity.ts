@@ -1,32 +1,19 @@
 import { Column, Entity, Index } from "typeorm";
+import { TipoGraduacaoEnum } from "../enums/tipo-graduacao";
+import { NivelEscolaridadeEnum } from "../enums/nivel-escolaridade";
 
 @Index("PK_TBL_ESCOLARIDADE", ["id"], { unique: true })
 @Entity({ name: 'TBL_ESCOLARIDADE' })
-export class EscolaridadeEntity {
+export class EscolaridadeEntity extends EntityClass  {
 
-    @Column('uuid', { generated: 'uuid', primary: true })
-    id?: string;
+    @Column("text", { name: "tipoEscolaridade" })
+    tipoEscolaridade: NivelEscolaridadeEnum; // GRADUACAO | ESPECIALIZACAO | MESTRADO | DOUTORADO | POS_DOUTORADO
 
-    @Column("text", { name: "tipoEscolaridade", nullable: true })
-    tipoEscolaridade: string | null; // GRADUACAO | ESPECIALIZACAO | MESTRADO | DOUTORADO | POS_DOUTORADO
+    @Column("text", { name: "tipoGraduacao" })
+    tipoGraduacao: TipoGraduacaoEnum; // BACHARELADO | LICENCIATURA | TECNOLOGICO
 
-    @Column("text", { name: "tipoGraduacao", nullable: true })
-    tipoGraduacao: string | null; // BACHARELADO | LICENCIATURA | TECNOLOGO
-
-    @Column("text", { name: "dtConclusao", nullable: true })
-    dtConclusao: string | null;
-
-    @Column("text", { name: "docName", nullable: true })
-    docName: string | null;
-
-    @Column("text", { name: "docUrl", nullable: true })
-    docUrl: string | null;
-
-    @Column("text", { name: "docHash", nullable: true })
-    docHash: string | null;
-
-    @Column("text", { name: "docMimetype", nullable: true })
-    docMimetype: string | null;
+    @Column("date", { name: "dtConclusao" })
+    dtConclusao: Date;
 
     @Column("boolean", { name: "isActive", default: true })
     isActive: boolean;

@@ -1,11 +1,12 @@
-import { Column, Entity, Index } from "typeorm";
+import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
+
+import { ContatoEntity } from "@sd-root/libs/common/src/models/entities/contato/contato.entity";
+import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
+import { UsuarioEntity } from "@sd-root/src/features/usuario/models/entities/usuario.entity";
 
 @Index("PK_TBL_AVALIADOR", ["id"], { unique: true })
 @Entity({ name: 'TBL_AVALIADOR' })
-export class AvaliadorEntity {
-
-    @Column('uuid', { generated: 'uuid', primary: true })
-    id?: string;
+export class AvaliadorEntity extends IdEntityAbstractClass {
 
     @Column("varchar", { name: "nacionalidade", nullable: true })
     nacionalidade?: string | null;
@@ -19,10 +20,15 @@ export class AvaliadorEntity {
     @Column("text", { name: "nomePai", nullable: true })
     nomePai?: string | null;
 
-    @Column("bigint", { name: "cpf", unique: true })
-    cpf: number;
-
     @Column("boolean", { name: "isActive", default: true })
     isActive: boolean;
+
+    @OneToOne(type => UsuarioEntity)
+    @JoinColumn({referencedColumnName: 'id'})
+    _usuario: UsuarioEntity;
+
+    @OneToOne(type => ContatoEntity)
+    @JoinColumn({referencedColumnName: 'id'})
+    _contato: ContatoEntity;
 
 }

@@ -2,11 +2,11 @@ import { Column, Entity, Index, JoinTable, ManyToMany, OneToMany } from "typeorm
 
 import { MetodoEntity } from "./metodo.entity";
 import { SistemaMetodoEntity } from "./sistema-metodo.entity";
+import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
 
+@Index("PK_TBL_SISTEMA", ["id"], { unique: true })
 @Entity("TBL_SISTEMA")
-export class SistemaEntity {
-    @Column("uuid", { primary: true, generated: 'uuid' })
-    id?: string;
+export class SistemaEntity extends IdEntityAbstractClass  {
 
     @Column("text", { name: "name", unique: true })
     name: string;
@@ -24,7 +24,7 @@ export class SistemaEntity {
     isActive?: boolean;
 
     @ManyToMany(type => MetodoEntity, e => e._sistemaList, { eager: true  })
-    @JoinTable({ 
+    @JoinTable({
         name: 'REL_SISTEMA_X_METODO', 
         joinColumn: { name: 'sistemaId', referencedColumnName: 'id'}, 
         inverseJoinColumn: { name: 'metodoId', referencedColumnName: 'id' } 

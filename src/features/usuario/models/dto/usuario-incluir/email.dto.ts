@@ -3,7 +3,7 @@ import { Validate } from 'class-validator';
 
 import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@libs/common/validations/valida-schema";
-import { EmailEntity } from "../../entities/email.entity";
+import { EmailEntity } from "../../../../../../libs/common/src/models/entities/contato/email.entity";
 
 export class EmailInputDto implements EmailEntity {
 

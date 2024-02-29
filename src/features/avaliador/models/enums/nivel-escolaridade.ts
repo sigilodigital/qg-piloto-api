@@ -1,4 +1,4 @@
-export enum TipoEscolaridadeEnum {
+export enum NivelEscolaridadeEnum {
     GRADUACAO = 'Graduação',
     ESPECIALIZACAO = 'Especialização',
     MESTRADO = 'Mestrado',

@@ -2,10 +2,7 @@ import { Column, Entity, ManyToOne } from "typeorm";
 import { DataAccessEntity } from "./data-access.entity";
 
 @Entity({ name: 'TBL_PROFILE' })
-export class ProfileEntity {
-
-    @Column('uuid', { generated: 'uuid', primary: true })
-    id?: string;
+export class ProfileEntity extends EntityClass  {
 
     @Column("text")
     name: string;

@@ -4,7 +4,7 @@ import { SDExpectJest } from '@libs/common/tests/expects-jest';
 import { LoginUserInputDto } from 'src/core/auth/models/dto/login-user.dto';
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from '../models/dto/usuario-consultar.dto';
 import { DataAccessEntity } from '../models/entities/data-access.entity';
-import { EmailEntity } from '../models/entities/email.entity';
+import { EmailEntity } from '../../../../libs/common/src/models/entities/contato/email.entity';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
 import { UsuarioRepository } from '../repositories/usuario.repository';
 import { QUERY_RUNNER_PROVIDER } from '@sd-root/libs/common/src/providers/query-runner.provider';

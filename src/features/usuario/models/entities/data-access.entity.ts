@@ -5,10 +5,7 @@ import { ProfileEntity } from "./profile.entity";
 import { UsuarioEntity } from "./usuario.entity";
 
 @Entity({ name: 'TBL_DATA_ACCESS' })
-export class DataAccessEntity {
-
-    @Column('uuid', { generated: 'uuid', primary: true })
-    id?: string;
+export class DataAccessEntity extends EntityClass  {
 
     @Column("text")
     username: string;

@@ -2,13 +2,13 @@ import { Inject, Injectable } from '@nestjs/common';
 import { FindOptionsWhere, QueryRunner } from 'typeorm';
 
 import { GenericRepository, IGenericRepository } from '@libs/common/repository/generic.repository';
-import { ContatoEntity } from '../models/entities/contato.entity';
+import { ContatoEntity } from '../../../../libs/common/src/models/entities/contato/contato.entity';
 import { DataAccessEntity } from '../models/entities/data-access.entity';
-import { EmailEntity } from '../models/entities/email.entity';
-import { EnderecoEntity } from '../models/entities/endereco.entity';
+import { EmailEntity } from '../../../../libs/common/src/models/entities/contato/email.entity';
+import { EnderecoEntity } from '../../../../libs/common/src/models/entities/contato/endereco.entity';
 import { LoginInfoEntity } from '../models/entities/login-info.entity';
 import { ProfileEntity } from '../models/entities/profile.entity';
-import { TelefoneEntity } from '../models/entities/telefone.entity';
+import { TelefoneEntity } from '../../../../libs/common/src/models/entities/contato/telefone.entity';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
 
 @Injectable()
