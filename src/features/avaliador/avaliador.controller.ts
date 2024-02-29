@@ -2,7 +2,7 @@ import { Body, Controller, Post, Req } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse as ApiResponseSwagger, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 
-import { MSG } from '@libs/common/services/code-messages';
+import { MSG } from '@libs/common/services/api-messages';
 import { ApiResponse } from '@libs/common/services/api-response';
 import { ValidationPipe } from '@libs/common/validations/validation.pipe';
 import { AvaliadorDoc } from './docs/avaliador.doc';

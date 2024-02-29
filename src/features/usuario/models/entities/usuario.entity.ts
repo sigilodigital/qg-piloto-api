@@ -6,21 +6,30 @@ import { ContatoEntity } from "./contato.entity";
 import { DataAccessEntity } from "./data-access.entity";
 import { LoginInfoEntity } from "./login-info.entity";
 
-@Index("PK_TBL_SISTEMA", ["id"], { unique: true })
+@Index("PK_TBL_USUARIO", ["id"], { unique: true })
 @Entity({ name: 'TBL_USUARIO' })
 export class UsuarioEntity {
 
     @Column('uuid', { generated: 'uuid', primary: true })
     id?: string;
 
-    @Column("varchar", { name: "fullname", length: 255 })
-    fullname: string;
-
-    @Column("varchar", { name: "socialname", length: 255, nullable: true })
-    socialname?: string | null;
-
     @Column("bigint", { name: "cpf", unique: true })
     cpf: number;
+
+    @Column("varchar", { name: "fullname" })
+    fullname: string;
+
+    @Column("varchar", { name: "socialname", nullable: true })
+    socialname?: string | null;
+
+    @Column("varchar", { name: "gender", nullable: true })
+    gender?: string | null;
+
+    @Column("varchar", { name: "maritalStatus", nullable: true })
+    maritalStatus?: string | null;
+
+    @Column("varchar", { name: "birthDate", nullable: true })
+    birthDate?: Date | null;
 
     @Column("boolean", { name: "isActive", default: true })
     isActive: boolean;

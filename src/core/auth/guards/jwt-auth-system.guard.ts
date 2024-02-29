@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 
 import { UtilRepository } from '@libs/common/repository/util.repository';
-import { MSG } from '@libs/common/services/code-messages';
+import { MSG } from '@libs/common/services/api-messages';
 import { ApiResponse } from '@libs/common/services/api-response';
 import { LoginSistemaInputDto } from '../models/dto/loginSistema.dto';
 import { MetodoEntity } from '../models/entities/metodo.entity';

@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 
 import { ApiResponse } from '@libs/common/services/api-response';
-import { MSG } from '@sd-root/libs/common/src/services/code-messages';
+import { MSG } from '@sd-root/libs/common/src/services/api-messages';
 import { AvaliadorConsultarInputDto, AvaliadorConsultarOutputDto } from '../models/dto/avaliador-consultar.dto';
 import { AvaliadorEntity } from '../models/entities/avaliador.entity';
 import { IAvaliadorRepository } from '../repositories/avaliador.repository';

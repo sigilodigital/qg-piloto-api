@@ -6,7 +6,7 @@ import { Request as RequestExpress, Response as ResponseExpress } from 'express'
 // import { ApiResponse, IAPIResponse } from './../shared/response-handler';
 import configs from '@libs/common/configs';
 import { ApiResponse } from '@libs/common/services/api-response';
-import { MSG } from '@libs/common/services/code-messages';
+import { MSG } from '@libs/common/services/api-messages';
 import { HttpExceptionFilter } from '@libs/common/services/http-exception-filter';
 import { AuthService } from './auth.service';
 import { JwtAuthSystemGuard } from './guards/jwt-auth-system.guard';

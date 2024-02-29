@@ -4,7 +4,7 @@ import { ApiResponse } from '@libs/common/services/api-response';
 import { IAvaliadorRepository } from '../repositories/avaliador.repository';
 import { AvaliadorEntity } from '../models/entities/avaliador.entity';
 import { AvaliadorIncluirInputDto, AvaliadorIncluirOutputDto } from '../models/dto/avaliador-incluir/avaliador-incluir.dto';
-import { MSG } from '@libs/common/services/code-messages';
+import { MSG } from '@libs/common/services/api-messages';
 
 export class AvaliadorIncluirUseCase {
 

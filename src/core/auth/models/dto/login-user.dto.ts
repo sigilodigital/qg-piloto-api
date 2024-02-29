@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Validate } from "class-validator";
 
-import { IConstraintSchema } from "@libs/common/interfaces/ConstraintsSchema";
+import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@libs/common/validations/valida-schema";
 import { ValidaCnpjCpf } from "@sd-root/libs/common/src/validations/v1/validaCnpjCpf";
 

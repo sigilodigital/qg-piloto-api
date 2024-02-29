@@ -7,13 +7,15 @@ import { AppMiddleware } from './app.middleware';
 import { AppService } from './app.service';
 import { AuthModule } from './core/auth/auth.module';
 import { UsuarioModule } from './features/usuario/usuario.module';
+import { AvaliadorModule } from './features/avaliador/avaliador.module';
 
 @Module({
     imports: [
         TypeOrmModule,
         // TypeOrmModule.forRoot(dbPgPilotoConfig()),
-        UsuarioModule,
         AuthModule,
+        UsuarioModule,
+        AvaliadorModule,
     ],
     controllers: [AppController],
     providers: [AppService]

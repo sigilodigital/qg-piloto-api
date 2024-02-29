@@ -4,7 +4,7 @@ import { UnauthorizedException } from '@nestjs/common/exceptions';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 
-import { MSG } from '@libs/common/services/code-messages';
+import { MSG } from '@libs/common/services/api-messages';
 import { ApiResponse } from '@libs/common/services/api-response';
 
 @Injectable()

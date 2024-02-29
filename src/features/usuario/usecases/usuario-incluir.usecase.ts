@@ -4,7 +4,7 @@ import { ApiResponse } from '@libs/common/services/api-response';
 import { IUsuarioRepository } from '../repositories/usuario.repository';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
 import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from '../models/dto/usuario-incluir/usuario-incluir.dto';
-import { MSG } from '@libs/common/services/code-messages';
+import { MSG } from '@libs/common/services/api-messages';
 
 export class UsuarioIncluirUseCase {
 

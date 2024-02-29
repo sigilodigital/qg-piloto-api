@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request = require('supertest');
 
-import { MSG } from '@libs/common/services/code-messages';
+import { MSG } from '@libs/common/services/api-messages';
 import { IApiResponseHandler } from '@libs/common/services/api-response';
 import { AppModule } from '@sd-root/src/app.module';
 import { UsuarioConsultarInputDto } from 'src/features/usuario/models/dto/usuario-consultar.dto';

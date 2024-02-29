@@ -6,7 +6,7 @@ import { IUtilRepository, UtilRepository } from '@libs/common/repository/util.re
 import { ApiResponse } from '@libs/common/services/api-response';
 import { UtilService } from '@libs/common/services/util.service';
 import configs from '@libs/common/configs';
-import { MSG } from '@libs/common/services/code-messages';
+import { MSG } from '@libs/common/services/api-messages';
 import { MetodoEntity } from '../models/entities/metodo.entity';
 import { SistemaMetodoEntity } from '../models/entities/sistema-metodo.entity';
 import { SistemaEntity } from '../models/entities/sistema.entity';

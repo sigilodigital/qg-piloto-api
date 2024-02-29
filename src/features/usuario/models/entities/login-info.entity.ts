@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
-import { ContatoEntity } from "./contato.entity";
+import { Column, Entity, OneToOne } from "typeorm";
 import { UsuarioEntity } from "./usuario.entity";
 
 @Entity({ name: 'TBL_LOGIN_INFO' })

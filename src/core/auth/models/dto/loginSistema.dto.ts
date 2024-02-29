@@ -1,4 +1,4 @@
-import { IConstraintSchema } from "@libs/common/interfaces/ConstraintsSchema";
+import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
 import { ApiProperty } from "@nestjs/swagger";
 import { Validate } from "class-validator";
 import { SistemaEntity } from "../entities/sistema.entity";
