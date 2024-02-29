@@ -6,11 +6,11 @@ export class UtilsService {
 
     constructor(private util: UtilService){}
     async encryptText(text: string): Promise<string> {
-        return <string><unknown>(await this.util.encrypt(text))
+        return <string><unknown>(await this.util.hashEncrypt(text))
     }
 
     async decryptText(text: string, hash: string) {
-        return await this.util.decrypt(text, hash)
+        return await this.util.hashCompare(text, hash)
     }
 
     codigoVerificacaoGerar(prefix = '', sufix = ''): string {

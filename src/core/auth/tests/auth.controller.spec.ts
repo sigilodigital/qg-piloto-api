@@ -3,12 +3,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Request as RequestExpress, Response as ResponseExpress } from 'express';
 
 import { UtilService } from '@libs/common/services/util.service';
-import { ApiResponse } from '@libs/common/services/response-handler';
+import { ApiResponse } from '@libs/common/services/api-response';
 import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario.repository';
 import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
 import { LoginUserOutputDto } from '../models/dto/login-user.dto';
-import { UtilRepository } from '@sd-root/libs/common/src/internal';
+import { UtilRepository } from '@sd-root/libs/common/src';
 import { QUERY_RUNNER_PROVIDER } from '@sd-root/libs/common/src/providers/query-runner.provider';
 
 describe('AuthController :: MockData', () => {

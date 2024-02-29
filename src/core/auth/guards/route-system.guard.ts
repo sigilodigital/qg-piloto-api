@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { JsonWebTokenError } from 'jsonwebtoken';
 
 import { IUtilRepository, UtilRepository } from '@libs/common/repository/util.repository';
-import { ApiResponse } from '@libs/common/services/response-handler';
+import { ApiResponse } from '@libs/common/services/api-response';
 import { UtilService } from '@libs/common/services/util.service';
 import configs from '@libs/common/configs';
 import { MSG } from '@libs/common/services/code-messages';

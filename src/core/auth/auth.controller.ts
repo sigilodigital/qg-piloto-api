@@ -1,19 +1,19 @@
 import { Controller, Post, Request, Response, UseFilters, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBody, ApiHeader, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Request as RequestExpress, Response as ResponseExpress } from 'express';
 
 // import { ApiResponse, IAPIResponse } from './../shared/response-handler';
+import configs from '@libs/common/configs';
+import { ApiResponse } from '@libs/common/services/api-response';
 import { MSG } from '@libs/common/services/code-messages';
 import { HttpExceptionFilter } from '@libs/common/services/http-exception-filter';
-import { ApiResponse } from '@libs/common/services/response-handler';
 import { AuthService } from './auth.service';
 import { JwtAuthSystemGuard } from './guards/jwt-auth-system.guard';
 import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
 import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
 import { AuthSystemValidate } from './validates/auth-system.validate';
 import { AuthUserValidate } from './validates/auth-user.validate';
-import configs from '@libs/common/configs';
 
 @ApiTags('Auth')
 @Controller('auth')

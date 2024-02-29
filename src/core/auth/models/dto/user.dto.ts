@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Validate } from "class-validator";
-import { ValidaCampoPorSchema } from 'src/shared/validation/classes/validaCampoPorSchema';
-import { ValidaCnpjCpf } from "src/shared/validation/classes/validaCnpjCpf";
+import { ValidaCampoPorSchema } from '@sd-root/libs/common/src/validations/v1/validaCampoPorSchema';
+import { ValidaCnpjCpf } from "@sd-root/libs/common/src/validations/v1/validaCnpjCpf";
 // import { ValidaTamanhoCnpjCpf } from 'src/shared/validation/classes/validaTamanhoCnpjCpf';
 import { Column } from "typeorm";
 

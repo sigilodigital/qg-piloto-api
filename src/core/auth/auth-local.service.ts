@@ -2,7 +2,7 @@
 // import { JwtService } from '@nestjs/jwt';
 // import { AppDataSource } from 'src/database';
 // import { InteressadoService } from 'src/interessado/interessado.service';
-// import { IAPIResponse } from '@libs/common/services/response-handler';
+// import { IAPIResponse } from '@libs/common/services/api-response';
 // import { decrypt, encrypt } from 'src/shared/utils';
 // import { DataSource } from 'typeorm';
 // import { ApiResponse } from './../shared/response-handler';

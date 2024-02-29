@@ -3,7 +3,7 @@ import { Validate } from "class-validator";
 
 import { IConstraintSchema } from "@libs/common/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@libs/common/validations/valida-schema";
-import { ValidaCnpjCpf } from "src/shared/validation/classes/validaCnpjCpf";
+import { ValidaCnpjCpf } from "@sd-root/libs/common/src/validations/v1/validaCnpjCpf";
 
 export class LoginUserInputDto {
 

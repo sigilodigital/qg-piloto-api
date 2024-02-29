@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 
-import { ApiResponse } from '@libs/common/services/response-handler';
+import { ApiResponse } from '@libs/common/services/api-response';
 import { IAvaliadorRepository } from '../repositories/avaliador.repository';
 import { AvaliadorEntity } from '../models/entities/avaliador.entity';
 import { AvaliadorIncluirInputDto, AvaliadorIncluirOutputDto } from '../models/dto/avaliador-incluir/avaliador-incluir.dto';

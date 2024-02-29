@@ -3,7 +3,7 @@ import { ApiBody, ApiOperation, ApiResponse as ApiResponseSwagger, ApiTags } fro
 import { Request } from 'express';
 
 import { MSG } from '@libs/common/services/code-messages';
-import { ApiResponse } from '@libs/common/services/response-handler';
+import { ApiResponse } from '@libs/common/services/api-response';
 import { ValidationPipe } from '@libs/common/validations/validation.pipe';
 import { UsuarioDoc } from './docs/usuario.doc';
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from './models/dto/usuario-consultar.dto';

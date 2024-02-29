@@ -4,7 +4,7 @@ import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-clas
 
 import { UtilRepository } from '@libs/common/repository/util.repository';
 import { MSG } from '@libs/common/services/code-messages';
-import { ApiResponse } from '@libs/common/services/response-handler';
+import { ApiResponse } from '@libs/common/services/api-response';
 import { UtilService } from '@libs/common/services/util.service';
 import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario.repository';
 import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
@@ -88,7 +88,7 @@ export class AuthService implements IAuthService {
         }
 
         async function fnSeSistemaSenhaNaoConfere<C extends AuthService>(system: SistemaEntity, input: LoginSistemaInputDto, C: C): Promise<void> {
-            if (!(await C.utilService.decrypt(input.password, system.password)))
+            if (!(await C.utilService.hashCompare(input.password, system.password)))
                 throw new ForbiddenException(C.apiResponse.handler({
                     objMessage: MSG.ERR_AUTH_SYS_N_AUTENT,
                     error: {
@@ -204,7 +204,7 @@ export class AuthService implements IAuthService {
         }
 
         async function fnUsuarioSenhaConferir<C extends AuthService>(user: UsuarioEntity, input: LoginUserInputDto, C: C): Promise<void> {
-            if (!(await C.utilService.decrypt(input.password, user._dataAccess.password)))
+            if (!(await C.utilService.hashCompare(input.password, user._dataAccess.password)))
                 await throwUsuarioSenhaIncrementaContadorErroSenha(user, input, C);
         }
 

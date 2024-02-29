@@ -1,13 +1,13 @@
 import { UtilService } from '@libs/common/services/util.service';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { ApiResponse } from '@libs/common/services/response-handler';
+import { ApiResponse } from '@libs/common/services/api-response';
 import { SDExpectJest } from '@libs/common/tests/expects-jest';
 import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
 import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario.repository';
 import { AuthService } from '../auth.service';
 import { LoginUserInputDto } from '../models/dto/login-user.dto';
-import { UtilRepository } from '@sd-root/libs/common/src/internal';
+import { UtilRepository } from '@sd-root/libs/common/src';
 import { QueryRunner } from 'typeorm';
 
 describe('AuthService :: MockData', () => {

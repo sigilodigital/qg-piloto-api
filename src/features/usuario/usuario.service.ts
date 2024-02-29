@@ -5,7 +5,7 @@ import { IAuditDadosPrimarios } from '@libs/audit/models/dto/audit-event-list.dt
 import { RunnerTransaction } from '@libs/common/databases/runner-transaction/runner-transaction';
 import { CodigoAcaoEnum } from '@libs/common/enumerations/codigo-acao.enum';
 import { OrigemEnum } from '@libs/common/enumerations/origem.enum';
-import { ApiResponse } from '@libs/common/services/response-handler';
+import { ApiResponse } from '@libs/common/services/api-response';
 import { UsuarioConsultarInputDto, UsuarioConsultarOutputDto } from './models/dto/usuario-consultar.dto';
 import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from './models/dto/usuario-incluir/usuario-incluir.dto';
 import { UsuarioEntity } from './models/entities/usuario.entity';

@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request = require('supertest');
 
 import { MSG } from '@libs/common/services/code-messages';
-import { IApiResponseHandler } from '@libs/common/services/response-handler';
+import { IApiResponseHandler } from '@libs/common/services/api-response';
 import { AppModule } from '@sd-root/src/app.module';
 import { AvaliadorConsultarInputDto } from 'src/features/avaliador/models/dto/avaliador-consultar.dto';
 import { AvaliadorEntity } from 'src/features/avaliador/models/entities/avaliador.entity';
