@@ -3,6 +3,7 @@ import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 import { ContatoEntity } from "@sd-root/libs/common/src/models/entities/contato/contato.entity";
 import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
 import { UsuarioEntity } from "@sd-root/src/features/usuario/models/entities/usuario.entity";
+import { AvaliadorDocumentacaoEntity } from "./avaliador-documento.entity";
 
 @Index("PK_TBL_AVALIADOR", ["id"], { unique: true })
 @Entity({ name: 'TBL_AVALIADOR' })
@@ -29,6 +30,10 @@ export class AvaliadorEntity extends IdEntityAbstractClass {
     @OneToOne(type => ContatoEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
     @JoinColumn()
     _instituicaoContato?: ContatoEntity;
+
+    @OneToOne(type => AvaliadorDocumentacaoEntity, e => e._avaliador, { cascade: ['insert', 'update', 'remove'] })
+    @JoinColumn()
+    _documentacao?: AvaliadorDocumentacaoEntity;
 
     @OneToOne(type => UsuarioEntity)
     @JoinColumn({referencedColumnName: 'id'})
