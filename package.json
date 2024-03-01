@@ -29,8 +29,13 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "test:e2e:watch": "jest --watch --config ./test/jest-e2e.json",
     "git:clu": "git config --local user.name \"Haroldo Cruz\" ; git config --local user.email \"haroldocruzdr@gmail.com\"",
-    "git:rao": "git remote add origin git@hc-github:/sigilodigital/gestao-acesso-api.git",
-    "git:sur": "git submodule update --remote"
+    "git:upd": "git pull --recurse-submodules",
+    "git:upd:sub": "git submodule update --remote",
+    "github:key": "git remote add origin git@hc-github:/sigilodigital/qg-gestao-acesso-api.git",
+    "github:pass": "git remote add origin https://github.com/sigilodigital/qg-gestao-acesso-api.git",
+    "find:pack:update": "npx ncu",
+    "circular:madge": "npx madge --circular --extensions ts ./",
+    "circular:dpdm": "npx dpdm ./src/main.ts"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.0",
@@ -81,10 +86,12 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
+    "dpdm": "^3.14.0",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^8.9.0",
     "eslint-plugin-prettier": "^5.0.0",
     "jest": "29.6.2",
+    "madge": "^6.1.0",
     "prettier": "^3.0.0",
     "source-map-support": "^0.5.21",
     "supertest": "^6.3.3",
