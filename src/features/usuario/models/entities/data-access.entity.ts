@@ -1,11 +1,12 @@
-import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
+import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 
+import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
 import { ProfileEntity } from "./profile.entity";
 import { UsuarioEntity } from "./usuario.entity";
 
 @Entity({ name: 'TBL_DATA_ACCESS' })
-export class DataAccessEntity extends EntityClass  {
+export class DataAccessEntity extends IdEntityAbstractClass  {
 
     @Column("text")
     username: string;

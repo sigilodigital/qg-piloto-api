@@ -8,8 +8,10 @@ import { AvaliadorIncluirInputDto, AvaliadorIncluirOutputDto } from './avaliador
 export class AvaliadorAtualizarInputDto extends PartialType(AvaliadorIncluirInputDto) {
 
     @ApiProperty({ name: 'id', type: String, nullable: false, required: true })
-    @Validate(ValidaSchema, [<IConstraintSchema>{type: 'string'}])
+    @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string' }])
     id: string;
 }
 
-export class AvaliadorAtualizarOutputDto extends OmitType(AvaliadorIncluirOutputDto, []) { }
+export class AvaliadorAtualizarOutputDto
+// extends OmitType(AvaliadorIncluirOutputDto, []) 
+{ }

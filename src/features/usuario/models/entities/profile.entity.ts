@@ -1,8 +1,10 @@
 import { Column, Entity, ManyToOne } from "typeorm";
+
+import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
 import { DataAccessEntity } from "./data-access.entity";
 
 @Entity({ name: 'TBL_PROFILE' })
-export class ProfileEntity extends EntityClass  {
+export class ProfileEntity extends IdEntityAbstractClass  {
 
     @Column("text")
     name: string;

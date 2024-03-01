@@ -1,9 +1,11 @@
 
 import { HttpException, HttpStatus } from '@nestjs/common';
+
 import { LoginUserInputDto } from 'src/core/auth/models/dto/login-user.dto';
-import { ApiResponse } from '@libs/common/services/response-handler-v1';
 import { IUtilRepository } from '@libs/common/repository/util.repository';
 import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
+import { ApiResponse } from '@sd-root/libs/common/src/services/api-response-static';
+import { MSG } from '@sd-root/libs/common/src/services/api-messages';
 
 type PessoaType = UsuarioEntity;
 
@@ -64,6 +66,6 @@ export class CertificadoUsuarioExternoVerificarUseCase {
 
 function fnCatchError(error) {
     throw new HttpException(ApiResponse.handler({
-        codMessage: 60,
+        objMessage: MSG.DEFAULT_FALHA,
     }), HttpStatus.UNAUTHORIZED);
 }

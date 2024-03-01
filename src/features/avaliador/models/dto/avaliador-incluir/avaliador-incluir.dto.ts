@@ -1,40 +1,51 @@
 import { ApiProperty, OmitType } from "@nestjs/swagger";
 import { Validate, ValidateNested } from 'class-validator';
 
-import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@libs/common/validations/valida-schema";
-import { ContatoInputDto } from "./contato.dto";
+import { ContatoEntity } from "@sd-root/libs/common/src/models/entities/contato/contato.entity";
+import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
+import { UsuarioIncluirInputDto } from "@sd-root/src/features/usuario/models/dto/usuario-incluir/usuario-incluir.dto";
+import { UsuarioEntity } from "@sd-root/src/features/usuario/models/entities/usuario.entity";
 import { AvaliadorEntity } from "../../entities/avaliador.entity";
-import { DataAccessEntity } from "../../entities/data-access.entity";
-import { DataAccessInputDto } from "./data-access.dto";
+import { ContatoInputDto } from "@sd-root/src/features/usuario/models/dto/usuario-incluir/contato.dto";
 
 // TODO: concluir: add propriedades
 // TODO: adicionar validadores
 export class AvaliadorIncluirInputDto implements AvaliadorEntity {
 
-    @ApiProperty({ name: 'cpf', type: Number, nullable: false, required: true, maxLength: 11 })
-    @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'number', nullable: false, length: 11 }])
-    cpf: number;
+    @ApiProperty({ name: 'nacionalidade', type: String, nullable: true, required: false })
+    @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', nullable: true }])
+    nacionalidade?: string;
 
-    @ApiProperty({ name: 'fullname', type: String, nullable: false, required: true, maxLength: 255 })
-    @Validate(ValidaSchema, [<IConstraintSchema>{}])
-    fullname: string;
+    @ApiProperty({ name: 'naturalidade', type: String, nullable: true, required: false })
+    @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', nullable: true }])
+    naturalidade?: string;
 
-    @ApiProperty({ name: 'socialname', type: String, nullable: true, required: false, maxLength: 255 })
-    @Validate(ValidaSchema, [<IConstraintSchema>{}])
-    socialname?: string | null;
+    @ApiProperty({ name: 'nomeMae', type: String, nullable: true, required: false })
+    @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', nullable: true }])
+    nomeMae?: string;
 
-    @ApiProperty({ name: '_contato', type: ContatoInputDto, nullable: false, required: true, maxLength: 100 })
+    @ApiProperty({ name: 'nomePai', type: String, nullable: true, required: false })
+    @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', nullable: true }])
+    nomePai?: string;
+
+    @ApiProperty({ name: 'instituicaoNome', type: String, nullable: true, required: false })
+    @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', nullable: true }])
+    instituicaoNome?: string;
+
+    @ApiProperty({ name: '_instituicaoContato', type: ContatoInputDto })
     @ValidateNested()
-    _contato?: ContatoInputDto;
+    _instituicaoContato?: ContatoEntity;
 
-    @ApiProperty({ name: '_dataAccess', type: DataAccessInputDto, nullable: false, required: true, maxLength: 20 })
-    @Validate(ValidaSchema, [<IConstraintSchema>{}])
-    _dataAccess?: DataAccessInputDto;
+    @ApiProperty({ name: '_usuario', type: UsuarioIncluirInputDto })
+    @ValidateNested()
+    _usuario: UsuarioEntity;
 
     @ApiProperty({ name: 'isActive', type: Boolean, nullable: true, required: false, default: true })
     @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'boolean', nullable: true }])
     isActive: boolean;
 }
 
-export class AvaliadorIncluirOutputDto extends OmitType(AvaliadorIncluirInputDto, ['_dataAccess']) { }
+export class AvaliadorIncluirOutputDto
+// extends OmitType(AvaliadorIncluirInputDto, []) 
+{ }

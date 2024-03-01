@@ -1,14 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Validate } from "class-validator";
-
-import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
-import { ValidaSchema } from "@libs/common/validations/valida-schema";
-import { ValidaCnpjCpf } from "@sd-root/libs/common/src/validations/v1/validaCnpjCpf";
 
 export class LoginUserInputDto {
 
     @ApiProperty({ name: 'username', type: String })
-    // @Validate(ValidaCnpjCpf)
     // @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', orLength: [11, 14] }])
     username: string;
 
@@ -25,10 +19,10 @@ export class LoginUserOutputDto {
     cpf: number;
     __params: {
         isPasswordRequireChange: boolean;
-    }
+    };
     token?: {
         bearer: string;
         replace: string;
-    }
+    };
 
 }

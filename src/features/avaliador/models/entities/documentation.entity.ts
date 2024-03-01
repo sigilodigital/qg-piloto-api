@@ -6,13 +6,6 @@ import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 @Entity({ name: 'TBL_DOCUMENTACAO' })
 export class DocumentacaoEntity extends IdEntityAbstractClass  {
 
-    @Column("text", { name: "instituicaoNome", nullable: true })
-    instituicaoNome?: string | null;
-
-    @OneToOne(type => ContatoEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
-    @JoinColumn()
-    _instituicaoContato?: ContatoEntity;
-
     @Column("text", { name: "identDtExpedicao", nullable: true })
     identDtExpedicao?: string | null;
 

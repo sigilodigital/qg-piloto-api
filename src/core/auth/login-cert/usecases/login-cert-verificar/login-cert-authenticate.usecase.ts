@@ -1,7 +1,8 @@
 
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { MSG } from '@sd-root/libs/common/src/services/api-messages';
+import { ApiResponse } from '@sd-root/libs/common/src/services/api-response-static';
 import { LoginUserInputDto } from 'src/core/auth/models/dto/login-user.dto';
-import { ApiResponse } from '@libs/common/services/response-handler-v1';
 import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
 
 type PessoaType = UsuarioEntity;
@@ -38,7 +39,7 @@ export class AuthCertLoginUseCase {
     private seNaoUsuarioException(pessoa: PessoaType) {
         if (!pessoa) {
             throw new HttpException(ApiResponse.handler({
-                codMessage: 16
+                objMessage: MSG.ERR_AUTH_USR_N_ENCONT
             }), HttpStatus.UNAUTHORIZED);
         }
     }
@@ -63,6 +64,6 @@ export class AuthCertLoginUseCase {
 
 function fnCatchError(error) {
     throw new HttpException(ApiResponse.handler({
-        codMessage: 60,
+        objMessage: MSG.DEFAULT_FALHA,
     }), HttpStatus.UNAUTHORIZED);
 }

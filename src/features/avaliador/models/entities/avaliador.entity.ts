@@ -23,12 +23,15 @@ export class AvaliadorEntity extends IdEntityAbstractClass {
     @Column("boolean", { name: "isActive", default: true })
     isActive: boolean;
 
+    @Column("text", { name: "instituicaoNome", nullable: true })
+    instituicaoNome?: string | null;
+
+    @OneToOne(type => ContatoEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
+    @JoinColumn()
+    _instituicaoContato?: ContatoEntity;
+
     @OneToOne(type => UsuarioEntity)
     @JoinColumn({referencedColumnName: 'id'})
     _usuario: UsuarioEntity;
-
-    @OneToOne(type => ContatoEntity)
-    @JoinColumn({referencedColumnName: 'id'})
-    _contato: ContatoEntity;
 
 }

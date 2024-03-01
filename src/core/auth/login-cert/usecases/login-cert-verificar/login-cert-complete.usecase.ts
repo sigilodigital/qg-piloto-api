@@ -1,7 +1,8 @@
 
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { ApiResponse } from '@libs/common/services/response-handler-v1';
 import { IPkiService } from '../../services/pki.service';
+import { ApiResponse } from '@sd-root/libs/common/src/services/api-response-static';
+import { MSG } from '@sd-root/libs/common/src/services/api-messages';
 
 export class LoginCertCompleteUseCase {
 
@@ -20,6 +21,6 @@ export class LoginCertCompleteUseCase {
 
 function fnCatchError(error) {
     throw new HttpException(ApiResponse.handler({
-        codMessage: 60,
+        objMessage: MSG.DEFAULT_FALHA,
     }), HttpStatus.UNAUTHORIZED);
 }

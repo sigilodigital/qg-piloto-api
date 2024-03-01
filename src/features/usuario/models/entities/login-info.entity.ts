@@ -1,8 +1,10 @@
 import { Column, Entity, OneToOne } from "typeorm";
+
+import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
 import { UsuarioEntity } from "./usuario.entity";
 
 @Entity({ name: 'TBL_LOGIN_INFO' })
-export class LoginInfoEntity extends EntityClass  {
+export class LoginInfoEntity extends IdEntityAbstractClass  {
 
     @Column("integer", { name: "accessCount" })
     accessCount: number;

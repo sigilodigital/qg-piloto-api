@@ -36,7 +36,7 @@ export class AvaliadorService {
                 codAcao: CodigoAcaoEnum.PADRAO_NAO_POSSUI,
                 // TODO: pegar do tokenSystem o codOrigem
                 codOrigem: OrigemEnum.PILOTO,
-                avaliadorId: '0',
+                usuarioId: '0',
                 txtEnderecoIp: request.ip,
                 txtEnderecoNome: request.hostname
             };

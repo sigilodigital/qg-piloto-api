@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Next, Post, Response } from '@nestjs/common';
-import { AuthCertService } from './login-cert.service';
-import { ApiResponse } from '@libs/common/services/response-handler-v1';
 import { ApiTags } from '@nestjs/swagger';
+
+import { AuthCertService } from './login-cert.service';
+import { ApiResponse } from '@sd-root/libs/common/src/services/api-response-static';
+import { MSG } from '@sd-root/libs/common/src/services/api-messages';
 
 @ApiTags('Auth-Certificate')
 @Controller('auth-cert')
@@ -15,7 +17,7 @@ export class LoginCertController {
         const result = await this.loginCertService.authenticationStart(next);
 
         // return ApiResponse.handler({ codNumber: 40, objSaida: result });
-        response.send(ApiResponse.handler({ codMessage: 40, output: result }));
+        response.send(ApiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: result }));
 
     }
 
@@ -25,7 +27,7 @@ export class LoginCertController {
 
         const result = await this.loginCertService.authenticationComplete(body);
 
-        return ApiResponse.handler({ codMessage: 40, output: result });
+        return ApiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: result });
     }
 
     // @UseGuards(JwtAuthGuard)
@@ -36,7 +38,7 @@ export class LoginCertController {
 
         const result = await this.loginCertService.authenticationLogin(cert.pkiBrazil.cnpj || cert.pkiBrazil.cpf);
 
-        return ApiResponse.handler({ codMessage: 40, output: result });
+        return ApiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: result });
     }
 
     // @UseGuards(JwtAuthGuard)
@@ -48,8 +50,8 @@ export class LoginCertController {
         const result = await this.loginCertService.certificadoUsuarioExternoVerificar(cert.pkiBrazil.cnpj || cert.pkiBrazil.cpf);
 
         return (result)
-            ? ApiResponse.handler({ codMessage: 10, output: result })
-            : ApiResponse.handler({ codMessage: 9, output: cert });
+            ? ApiResponse.handler({ objMessage: MSG.DEFAULT_SUCESSO, output: result })
+            : ApiResponse.handler({ objMessage: MSG.ERR_AUTH_USR_N_ENCONT, output: cert });
     }
 
 }
