@@ -3,7 +3,7 @@ import { Validate, ValidateNested } from 'class-validator';
 
 import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@sd-root/libs/common/src/validations/schema.validate";
-import { ContatoInputDto } from "@sd-root/src/features/usuario/models/dto/usuario-incluir/contato.dto";
+import { ContatoInputDto } from "@sd-root/libs/common/src/models/dto/contato/contato.dto";
 import { UsuarioIncluirInputDto } from "@sd-root/src/features/usuario/models/dto/usuario-incluir/usuario-incluir.dto";
 import { AvaliadorDocumentacaoEntity } from "../../entities/avaliador-documentacao.entity";
 import { AvaliadorEntity } from "../../entities/avaliador.entity";

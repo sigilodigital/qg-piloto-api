@@ -1,5 +1,6 @@
-import { ValidationPipe } from '@libs/common/validations/validation.pipe';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+
+import { ValidationPipe } from '@libs/common/validations/validation.pipe';
 import { LoginSistemaInputDto } from '../models/dto/login-sistema.dto';
 
 @Injectable()
