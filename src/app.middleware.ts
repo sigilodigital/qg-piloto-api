@@ -3,7 +3,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { RouteSystemGuard } from './core/auth/guards/route-system.guard';
 import configs from '@libs/common/configs';
-import { LoginSistemaInputDto } from './core/auth/models/dto/loginSistema.dto';
+import { LoginSistemaInputDto } from './core/auth/models/dto/login-sistema.dto';
 
 @Injectable()
 export class AppMiddleware implements NestMiddleware {

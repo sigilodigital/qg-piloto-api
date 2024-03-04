@@ -1,17 +1,13 @@
-import { ApiProperty, OmitType } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import { Validate, ValidateNested } from 'class-validator';
 
-import { ValidaSchema } from "@libs/common/validations/valida-schema";
-import { ContatoEntity } from "@sd-root/libs/common/src/models/entities/contato/contato.entity";
 import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
-import { UsuarioIncluirInputDto } from "@sd-root/src/features/usuario/models/dto/usuario-incluir/usuario-incluir.dto";
-import { UsuarioEntity } from "@sd-root/src/features/usuario/models/entities/usuario.entity";
-import { AvaliadorEntity } from "../../entities/avaliador.entity";
+import { ValidaSchema } from "@sd-root/libs/common/src/validations/schema.validate";
 import { ContatoInputDto } from "@sd-root/src/features/usuario/models/dto/usuario-incluir/contato.dto";
+import { UsuarioIncluirInputDto } from "@sd-root/src/features/usuario/models/dto/usuario-incluir/usuario-incluir.dto";
 import { AvaliadorDocumentacaoEntity } from "../../entities/avaliador-documentacao.entity";
+import { AvaliadorEntity } from "../../entities/avaliador.entity";
 
-// TODO: concluir: add propriedades
-// TODO: adicionar validadores
 export class AvaliadorIncluirInputDto implements AvaliadorEntity {
 
     @ApiProperty({ name: 'nacionalidade', type: String, nullable: true, required: false })

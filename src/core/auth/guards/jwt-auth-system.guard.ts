@@ -5,7 +5,7 @@ import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-clas
 import { UtilRepository } from '@libs/common/repository/util.repository';
 import { MSG } from '@libs/common/services/api-messages';
 import { ApiResponse } from '@libs/common/services/api-response';
-import { LoginSistemaInputDto } from '../models/dto/loginSistema.dto';
+import { LoginSistemaInputDto } from '../models/dto/login-sistema.dto';
 import { MetodoEntity } from '../models/entities/metodo.entity';
 import { SistemaMetodoEntity } from '../models/entities/sistema-metodo.entity';
 import { SistemaEntity } from '../models/entities/sistema.entity';

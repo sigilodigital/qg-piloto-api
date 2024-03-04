@@ -1,9 +1,9 @@
 import { ApiProperty, PartialType } from "@nestjs/swagger";
 import { Validate } from 'class-validator';
 
+import { EmailEntity } from "@sd-root/libs/common/src/models/entities/contato/email.entity";
 import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
-import { ValidaSchema } from "@libs/common/validations/valida-schema";
-import { EmailEntity } from "../../../../../../libs/common/src/models/entities/contato/email.entity";
+import { ValidaSchema } from "@sd-root/libs/common/src/validations/schema.validate";
 
 export class EmailInputDto implements EmailEntity {
 

@@ -11,7 +11,7 @@ import { HttpExceptionFilter } from '@libs/common/services/http-exception-filter
 import { AuthService } from './auth.service';
 import { JwtAuthSystemGuard } from './guards/jwt-auth-system.guard';
 import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
-import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
+import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/login-sistema.dto';
 import { AuthSystemValidate } from './validates/auth-system.validate';
 import { AuthUserValidate } from './validates/auth-user.validate';
 

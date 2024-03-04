@@ -1,7 +1,7 @@
 import { ApiProperty, OmitType } from "@nestjs/swagger";
 import { Validate, ValidateNested } from 'class-validator';
 
-import { ValidaSchema } from "@libs/common/validations/valida-schema";
+import { ValidaSchema } from "@sd-root/libs/common/src/validations/schema.validate";
 import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
 import { UsuarioEntity } from "../../entities/usuario.entity";
 import { ContatoInputDto } from "./contato.dto";

@@ -9,7 +9,7 @@ import { UtilService } from '@libs/common/services/util.service';
 import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario.repository';
 import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
 import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
-import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/loginSistema.dto';
+import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/login-sistema.dto';
 import { MetodoEntity } from './models/entities/metodo.entity';
 import { SistemaEntity } from './models/entities/sistema.entity';
 

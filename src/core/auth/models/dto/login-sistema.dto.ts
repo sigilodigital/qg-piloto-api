@@ -3,7 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Validate } from "class-validator";
 import { SistemaEntity } from "../entities/sistema.entity";
 import { MetodoEntity } from "../entities/metodo.entity";
-import { ValidaSchema } from "@libs/common/validations/valida-schema";
+import { ValidaSchema } from "@sd-root/libs/common/src/validations/schema.validate";
 
 export interface ISistemaWS {
     codSegSistemaWs: number;
@@ -22,6 +22,7 @@ export class LoginSistemaInputDto {
 
     @Validate(ValidaSchema, [<IConstraintSchema>{nullable: true, regex: /^swagger|app$/gi }])
     agent?: 'swagger' | 'app' | null;
+    
     @ApiProperty({ name: "txtLogin", type: String, required: true, description: "Nome do usuário do sistema." })
     @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'string', maxLength: 50 }])
     username: string;

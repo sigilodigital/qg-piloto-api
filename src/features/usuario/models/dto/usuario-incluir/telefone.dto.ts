@@ -2,8 +2,8 @@ import { ApiProperty, PartialType } from "@nestjs/swagger";
 import { Validate } from 'class-validator';
 
 import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
-import { ValidaSchema } from "@libs/common/validations/valida-schema";
-import { TelefoneEntity } from "../../../../../../libs/common/src/models/entities/contato/telefone.entity";
+import { ValidaSchema } from "@sd-root/libs/common/src/validations/schema.validate";
+import { TelefoneEntity } from "@sd-root/libs/common/src/models/entities/contato/telefone.entity";
 
 export class TelefoneInputDto implements TelefoneEntity {
 
