@@ -6,7 +6,7 @@ import { RunnerTransaction } from '@libs/common/databases/runner-transaction/run
 import { CodigoAcaoEnum } from '@sd-root/libs/common/src/models/enumerations/codigo-acao.enum';
 import { OrigemEnum } from '@sd-root/libs/common/src/models/enumerations/origem.enum';
 import { ApiResponse } from '@libs/common/services/api-response';
-import { AvaliadorConsultarInputDto, AvaliadorConsultarOutputDto } from './models/dto/avaliador-consultar.dto';
+import { AvaliadorConsultarInputDto, AvaliadorConsultarOutputDto } from './models/dto/avaliador-consultar/avaliador-consultar.dto';
 import { AvaliadorIncluirInputDto, AvaliadorIncluirOutputDto } from './models/dto/avaliador-incluir/avaliador-incluir.dto';
 import { AvaliadorEntity } from './models/entities/avaliador.entity';
 import { AvaliadorRepository } from './repositories/avaliador.repository';

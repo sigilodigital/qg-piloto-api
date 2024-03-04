@@ -1,6 +1,6 @@
 import { PartialType } from "@nestjs/swagger";
 
-import { AvaliadorAtualizarInputDto, AvaliadorAtualizarOutputDto } from "./avaliador-atualizar.dto";
+import { AvaliadorAtualizarInputDto, AvaliadorAtualizarOutputDto } from "../avaliador-atualizar/avaliador-atualizar.dto";
 
 // TODO: adicionar validadores
 export class AvaliadorConsultarInputDto extends PartialType(AvaliadorAtualizarInputDto) { }

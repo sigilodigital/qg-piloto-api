@@ -8,6 +8,7 @@ import { UsuarioIncluirInputDto } from "@sd-root/src/features/usuario/models/dto
 import { UsuarioEntity } from "@sd-root/src/features/usuario/models/entities/usuario.entity";
 import { AvaliadorEntity } from "../../entities/avaliador.entity";
 import { ContatoInputDto } from "@sd-root/src/features/usuario/models/dto/usuario-incluir/contato.dto";
+import { AvaliadorDocumentacaoEntity } from "../../entities/avaliador-documentacao.entity";
 
 // TODO: concluir: add propriedades
 // TODO: adicionar validadores
@@ -35,15 +36,20 @@ export class AvaliadorIncluirInputDto implements AvaliadorEntity {
 
     @ApiProperty({ name: '_instituicaoContato', type: ContatoInputDto })
     @ValidateNested()
-    _instituicaoContato?: ContatoEntity;
+    _instituicaoContato?: ContatoInputDto;
+
+    @ApiProperty({ name: '_documentacao', type: AvaliadorDocumentacaoEntity })
+    @ValidateNested()
+    _documentacao?: AvaliadorDocumentacaoEntity;
 
     @ApiProperty({ name: '_usuario', type: UsuarioIncluirInputDto })
     @ValidateNested()
-    _usuario: UsuarioEntity;
+    _usuario: UsuarioIncluirInputDto;
 
     @ApiProperty({ name: 'isActive', type: Boolean, nullable: true, required: false, default: true })
     @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'boolean', nullable: true }])
-    isActive: boolean;
+    isActive?: boolean;
+
 }
 
 export class AvaliadorIncluirOutputDto

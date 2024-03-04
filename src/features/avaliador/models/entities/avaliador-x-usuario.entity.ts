@@ -1,12 +1,12 @@
 import { Entity, OneToOne } from "typeorm";
 
-import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
+import { EntityAbstractClass } from "@sd-root/libs/common/src/models/classes/entity-abstract.class";
 import { UsuarioEntity } from "@sd-root/src/features/usuario/models/entities/usuario.entity";
 import { JoinColumn } from "typeorm";
 import { AvaliadorEntity } from "./avaliador.entity";
 
 @Entity("TBL_AVALIADOR_X_USUARIO")
-export class Avaliador_UsuarioEntity extends IdEntityAbstractClass {
+export class Avaliador_UsuarioEntity extends EntityAbstractClass {
 
     @OneToOne(type => AvaliadorEntity)
     @JoinColumn({referencedColumnName: 'id', foreignKeyConstraintName: 'fk_avaliador_x_usuario_avaliador_id'})
@@ -17,24 +17,3 @@ export class Avaliador_UsuarioEntity extends IdEntityAbstractClass {
     _usuario: UsuarioEntity;
 
 }
-// @Entity("REL_SISTEMA_METODO")
-// export class SistemaMetodoEntity {
-
-//     // @Column("uuid", { primary: true, generated: 'uuid' })
-//     // id: string;
-
-//     @Column("uuid", { primary: true })
-//     sistemaId: string;
-
-//     @Column("uuid", { primary: true })
-//     metodoId: string;
-
-//     @ManyToOne(type => SistemaEntity, e => e._sistemaMetodoList)
-//     @JoinColumn([{ name: 'sistema_id', referencedColumnName: 'id' }])
-//     _sistema: SistemaEntity[];
-    
-//     @ManyToOne(type => MetodoEntity, e => e._sistemaMetodoList)
-//     @JoinColumn([{ name: 'metodo_id', referencedColumnName: 'id' }])
-//     _metodo: MetodoEntity[];
-
-// }

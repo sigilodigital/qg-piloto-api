@@ -2,7 +2,7 @@ import { Column, Entity, Index, JoinTable, ManyToMany, OneToMany } from "typeorm
 
 import { MetodoEntity } from "./metodo.entity";
 import { SistemaMetodoEntity } from "./sistema-metodo.entity";
-import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
+import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/classes/entity-abstract.class";
 
 @Index("PK_TBL_SISTEMA", ["id"], { unique: true })
 @Entity("TBL_SISTEMA")

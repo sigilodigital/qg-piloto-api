@@ -5,8 +5,8 @@ import request = require('supertest');
 import { MSG } from '@libs/common/services/api-messages';
 import { IApiResponseHandler } from '@libs/common/services/api-response';
 import { AppModule } from '@sd-root/src/app.module';
-import { AvaliadorConsultarInputDto } from 'src/features/avaliador/models/dto/avaliador-consultar.dto';
 import { AvaliadorEntity } from 'src/features/avaliador/models/entities/avaliador.entity';
+import { AvaliadorConsultarInputDto } from '../models/dto/avaliador-consultar/avaliador-consultar.dto';
 
 type R<T = AvaliadorEntity[]> = request.Test & { body: IApiResponseHandler<any, T>; };
 

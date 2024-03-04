@@ -3,9 +3,9 @@ import { Column, Entity, Index, ManyToOne } from "typeorm";
 import { MetodoEntity } from "./metodo.entity";
 import { SistemaEntity } from "./sistema.entity";
 import { JoinColumn } from "typeorm";
-import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
+import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/classes/entity-abstract.class";
 
-@Entity("TBL_SISTEMA_METODO")
+@Entity("TBL_SISTEMA_X_METODO")
 export class SistemaMetodoEntity extends IdEntityAbstractClass {
 
     // @ManyToOne(type => SistemaEntity, e => e._sistemaMetodoList)

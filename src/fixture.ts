@@ -19,6 +19,8 @@ import { avaliadorList } from './fixtures/avaliadores';
 import { methodList } from './fixtures/methods';
 import { systemList } from './fixtures/systems';
 import { userList } from './fixtures/users';
+import { AvaliadorDocumentacaoEntity } from './features/avaliador/models/entities/avaliador-documentacao.entity';
+import { AvaliadorRepository } from './features/avaliador/repositories/avaliador.repository';
 
 async function bootstrap() {
 
@@ -34,13 +36,14 @@ async function bootstrap() {
         UsuarioEntity, ContatoEntity, EmailEntity, TelefoneEntity,
         EnderecoEntity, LoginInfoEntity, DataAccessEntity, ProfileEntity,
         SistemaEntity, MetodoEntity, /*SistemaMetodoEntity*/
-        AvaliadorEntity
+        AvaliadorEntity, AvaliadorDocumentacaoEntity
     ];
 
     const queryRunner = await RunnerTransaction.startTransaction(entities);
 
     let utilRepo = new UtilRepository<unknown>(queryRunner);
     let userRepo = new UsuarioRepository(queryRunner);
+    let avaliadorRepo = new AvaliadorRepository(queryRunner);
 
     await queryRunner.connection.dropDatabase();
     await queryRunner.connection.synchronize(true);
@@ -52,22 +55,22 @@ async function bootstrap() {
     await utilRepo.save([s[0]], SistemaEntity);
 
     const uL = await userRepo.save(userList);
-    await userRepo.update({}, { socialname: 'Haroldinho' });
-    
-    avaliadorList[0]._usuario = uL[0];
-    const a = await utilRepo.save(avaliadorList, AvaliadorEntity);
+    const us = await userRepo.update({}, { socialname: 'Haroldinho' });
 
-    console.log(await utilRepo.find({}, UsuarioEntity));
-    console.log(await utilRepo.find({}, ContatoEntity));
-    console.log(await utilRepo.find({}, EmailEntity));
-    console.log(await utilRepo.find({}, TelefoneEntity));
-    console.log(await utilRepo.find({}, EnderecoEntity));
-    console.log(await utilRepo.find({}, LoginInfoEntity));
-    console.log(await utilRepo.find({}, DataAccessEntity));
-    console.log(await utilRepo.find({}, ProfileEntity));
-    console.log(await utilRepo.find({loadRelationIds: true}, SistemaEntity));
-    console.log(await utilRepo.find({}, MetodoEntity));
-    console.log(await utilRepo.find({}, AvaliadorEntity));
+    avaliadorList[0]._usuario = uL[0];
+    const a = await avaliadorRepo.save(avaliadorList);
+
+    // console.log(await utilRepo.find({}, UsuarioEntity));
+    // console.log(await utilRepo.find({}, ContatoEntity));
+    // console.log(await utilRepo.find({}, EmailEntity));
+    // console.log(await utilRepo.find({}, TelefoneEntity));
+    // console.log(await utilRepo.find({}, EnderecoEntity));
+    // console.log(await utilRepo.find({}, LoginInfoEntity));
+    // console.log(await utilRepo.find({}, DataAccessEntity));
+    // console.log(await utilRepo.find({}, ProfileEntity));
+    // console.log(await utilRepo.find({ loadRelationIds: true }, SistemaEntity));
+    // console.log(await utilRepo.find({}, MetodoEntity));
+    console.log(await avaliadorRepo.find({ loadRelationIds: true }));
 
     console.time('commit');
     await RunnerTransaction.commitTransaction(queryRunner);

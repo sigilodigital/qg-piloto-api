@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne } from "typeorm";
 
-import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
+import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/classes/entity-abstract.class";
 import { DataAccessEntity } from "./data-access.entity";
 
 @Entity({ name: 'TBL_PROFILE' })

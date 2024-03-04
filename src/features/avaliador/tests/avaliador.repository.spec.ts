@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { SDExpectJest } from '@libs/common/tests/expects-jest';
 import { LoginUserInputDto } from 'src/core/auth/models/dto/login-user.dto';
-import { AvaliadorConsultarInputDto, AvaliadorConsultarOutputDto } from '../models/dto/avaliador-consultar.dto';
+import { AvaliadorConsultarInputDto, AvaliadorConsultarOutputDto } from '../models/dto/avaliador-consultar/avaliador-consultar.dto';
 import { DataAccessEntity } from '../models/entities/data-access.entity';
 import { EmailEntity } from '../models/entities/email.entity';
 import { AvaliadorEntity } from '../models/entities/avaliador.entity';

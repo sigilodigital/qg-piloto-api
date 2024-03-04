@@ -6,7 +6,7 @@ import { MSG } from '@libs/common/services/api-messages';
 import { ApiResponse } from '@libs/common/services/api-response';
 import { ValidationPipe } from '@libs/common/validations/validation.pipe';
 import { AvaliadorDoc } from './docs/avaliador.doc';
-import { AvaliadorConsultarInputDto, AvaliadorConsultarOutputDto } from './models/dto/avaliador-consultar.dto';
+import { AvaliadorConsultarInputDto, AvaliadorConsultarOutputDto } from './models/dto/avaliador-consultar/avaliador-consultar.dto';
 import { AvaliadorIncluirInputDto, AvaliadorIncluirOutputDto } from './models/dto/avaliador-incluir/avaliador-incluir.dto';
 import { AvaliadorService } from './avaliador.service';
 

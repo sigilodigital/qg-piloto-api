@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AvaliadorConsultarInputDto, AvaliadorConsultarOutputDto } from '../models/dto/avaliador-consultar.dto';
+import { AvaliadorConsultarInputDto, AvaliadorConsultarOutputDto } from '../models/dto/avaliador-consultar/avaliador-consultar.dto';
 import { AvaliadorRepository } from '../repositories/avaliador.repository';
 import { AvaliadorService } from '../avaliador.service';
 

@@ -1,7 +1,7 @@
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
 import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 
-import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
+import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/classes/entity-abstract.class";
 import { ProfileEntity } from "./profile.entity";
 import { UsuarioEntity } from "./usuario.entity";
 

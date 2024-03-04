@@ -1,14 +1,14 @@
 import { EntityClassOrSchema } from "@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type";
 import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 
+import { EntityAbstractClass } from "@sd-root/libs/common/src/models/classes/entity-abstract.class";
 import { ContatoEntity } from "@sd-root/libs/common/src/models/entities/contato/contato.entity";
-import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
 import { DataAccessEntity } from "./data-access.entity";
 import { LoginInfoEntity } from "./login-info.entity";
 
 @Index("PK_TBL_USUARIO", ["id"], { unique: true })
 @Entity({ name: 'TBL_USUARIO' })
-export class UsuarioEntity extends IdEntityAbstractClass  {
+export class UsuarioEntity extends EntityAbstractClass  {
 
     @Column("bigint", { name: "cpf", unique: true })
     cpf: number;
@@ -27,9 +27,6 @@ export class UsuarioEntity extends IdEntityAbstractClass  {
 
     @Column("varchar", { name: "birthDate", nullable: true })
     birthDate?: Date | null;
-
-    @Column("boolean", { name: "isActive", default: true })
-    isActive: boolean;
 
     @OneToOne(type => ContatoEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
     @JoinColumn()

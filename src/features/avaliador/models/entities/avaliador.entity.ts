@@ -1,13 +1,13 @@
 import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 
+import { EntityAbstractClass } from "@sd-root/libs/common/src/models/classes/entity-abstract.class";
 import { ContatoEntity } from "@sd-root/libs/common/src/models/entities/contato/contato.entity";
-import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
 import { UsuarioEntity } from "@sd-root/src/features/usuario/models/entities/usuario.entity";
-import { AvaliadorDocumentacaoEntity } from "./avaliador-documento.entity";
+import { AvaliadorDocumentacaoEntity } from "./avaliador-documentacao.entity";
 
 @Index("PK_TBL_AVALIADOR", ["id"], { unique: true })
 @Entity({ name: 'TBL_AVALIADOR' })
-export class AvaliadorEntity extends IdEntityAbstractClass {
+export class AvaliadorEntity extends EntityAbstractClass {
 
     @Column("varchar", { name: "nacionalidade", nullable: true })
     nacionalidade?: string | null;
@@ -21,9 +21,6 @@ export class AvaliadorEntity extends IdEntityAbstractClass {
     @Column("text", { name: "nomePai", nullable: true })
     nomePai?: string | null;
 
-    @Column("boolean", { name: "isActive", default: true })
-    isActive: boolean;
-
     @Column("text", { name: "instituicaoNome", nullable: true })
     instituicaoNome?: string | null;
 
@@ -36,7 +33,7 @@ export class AvaliadorEntity extends IdEntityAbstractClass {
     _documentacao?: AvaliadorDocumentacaoEntity;
 
     @OneToOne(type => UsuarioEntity)
-    @JoinColumn({referencedColumnName: 'id'})
+    @JoinColumn({ referencedColumnName: 'id' })
     _usuario: UsuarioEntity;
 
 }

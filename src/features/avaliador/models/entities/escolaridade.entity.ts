@@ -1,10 +1,12 @@
 import { Column, Entity, Index } from "typeorm";
-import { TipoGraduacaoEnum } from "../enums/tipo-graduacao";
+
+import { EntityAbstractClass } from "@sd-root/libs/common/src/models/classes/entity-abstract.class";
 import { NivelEscolaridadeEnum } from "../enums/nivel-escolaridade";
+import { TipoGraduacaoEnum } from "../enums/tipo-graduacao";
 
 @Index("PK_TBL_ESCOLARIDADE", ["id"], { unique: true })
 @Entity({ name: 'TBL_ESCOLARIDADE' })
-export class EscolaridadeEntity extends EntityClass  {
+export class EscolaridadeEntity extends EntityAbstractClass  {
 
     @Column("text", { name: "tipoEscolaridade" })
     tipoEscolaridade: NivelEscolaridadeEnum; // GRADUACAO | ESPECIALIZACAO | MESTRADO | DOUTORADO | POS_DOUTORADO
@@ -14,8 +16,5 @@ export class EscolaridadeEntity extends EntityClass  {
 
     @Column("date", { name: "dtConclusao" })
     dtConclusao: Date;
-
-    @Column("boolean", { name: "isActive", default: true })
-    isActive: boolean;
 
 }

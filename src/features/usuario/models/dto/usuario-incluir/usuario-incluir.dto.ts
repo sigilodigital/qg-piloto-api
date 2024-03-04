@@ -1,11 +1,10 @@
 import { ApiProperty, OmitType } from "@nestjs/swagger";
 import { Validate, ValidateNested } from 'class-validator';
 
-import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
 import { ValidaSchema } from "@libs/common/validations/valida-schema";
-import { ContatoInputDto } from "./contato.dto";
+import { IConstraintSchema } from "@sd-root/libs/common/src/models/interfaces/ConstraintsSchema";
 import { UsuarioEntity } from "../../entities/usuario.entity";
-import { DataAccessEntity } from "../../entities/data-access.entity";
+import { ContatoInputDto } from "./contato.dto";
 import { DataAccessInputDto } from "./data-access.dto";
 
 // TODO: concluir: add propriedades
@@ -34,7 +33,7 @@ export class UsuarioIncluirInputDto implements UsuarioEntity {
 
     @ApiProperty({ name: 'isActive', type: Boolean, nullable: true, required: false, default: true })
     @Validate(ValidaSchema, [<IConstraintSchema>{ type: 'boolean', nullable: true }])
-    isActive: boolean;
+    isActive?: boolean;
 }
 
 export class UsuarioIncluirOutputDto extends OmitType(UsuarioIncluirInputDto, ['_dataAccess']) { }

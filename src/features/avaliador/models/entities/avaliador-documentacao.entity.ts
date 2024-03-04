@@ -1,11 +1,11 @@
-import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
+import { Column, Entity, Index, OneToOne } from "typeorm";
 
-import { IdEntityAbstractClass } from "@sd-root/libs/common/src/models/entities/id-entity-class.entity";
+import { EntityAbstractClass } from "@sd-root/libs/common/src/models/classes/entity-abstract.class";
 import { AvaliadorEntity } from "./avaliador.entity";
 
 @Index("PK_TBL_AVALIADOR_DOCUMENTACAO", ["id"], { unique: true })
 @Entity({ name: 'TBL_AVALIADOR_DOCUMENTACAO' })
-export class AvaliadorDocumentacaoEntity extends IdEntityAbstractClass  {
+export class AvaliadorDocumentacaoEntity extends EntityAbstractClass {
 
     @Column("text", { name: "urlCurriculum", nullable: true })
     urlCurriculum?: string | null;
@@ -13,8 +13,8 @@ export class AvaliadorDocumentacaoEntity extends IdEntityAbstractClass  {
     @Column("text", { name: "identNumero" })
     identNumero: string;
 
-    @Column("text", { name: "identDtExpedicao" })
-    identDtExpedicao: string;
+    @Column("date", { name: "identDtExpedicao" })
+    identDtExpedicao: Date;
 
     @Column("text", { name: "identOrgaoExpedidor" })
     identOrgaoExpedidor: string;
@@ -46,11 +46,7 @@ export class AvaliadorDocumentacaoEntity extends IdEntityAbstractClass  {
     @Column("boolean", { name: "seExpEADTutDoc" })
     seExpEADTutDoc: boolean;
 
-    @Column("boolean", { name: "isActive", default: true })
-    isActive: boolean;
-
     @OneToOne(type => AvaliadorEntity, e => e._documentacao)
-    @JoinColumn()
     _avaliador?: AvaliadorEntity;
 
 }

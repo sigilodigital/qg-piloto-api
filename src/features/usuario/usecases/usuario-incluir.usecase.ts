@@ -7,6 +7,7 @@ import { UsuarioIncluirInputDto, UsuarioIncluirOutputDto } from '../models/dto/u
 import { MSG } from '@libs/common/services/api-messages';
 
 export class UsuarioIncluirUseCase {
+    readonly LOG_CLASS_NAME = 'UsuarioIncluirUseCase'
 
     constructor(public usuarioRepository: IUsuarioRepository, public apiResponse: ApiResponse) { }
 
@@ -14,7 +15,7 @@ export class UsuarioIncluirUseCase {
 
         try {
             const result = await this.usuarioRepository.save([<UsuarioEntity>input]);
-            return result[0];
+            return dto(result[0]);
         } catch (error) {
             throw new BadRequestException((error.response?.status)
                 ? error.response?.status
@@ -33,8 +34,8 @@ function fnCatchError(error, input, thiss: UsuarioIncluirUseCase) {
         error: {
             message: error.message,
             context: {
-                className: 'UsuarioIncluirDto',
-                methodName: 'fnIncluirUsuario',
+                className: thiss.LOG_CLASS_NAME,
+                methodName: thiss.handle.name,
                 input: input,
                 output: error
             }
