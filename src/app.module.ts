@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './core/auth/auth.module';
 import { UsuarioModule } from './features/usuario/usuario.module';
 import { AvaliadorModule } from './features/avaliador/avaliador.module';
+import configs from '@sd-root/libs/common/src/configs';
 
 @Module({
     imports: [
@@ -22,11 +23,17 @@ import { AvaliadorModule } from './features/avaliador/avaliador.module';
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        // consumer
-        //     .apply(AppMiddleware)
-        //     .exclude({ path: '/auth/sistema-autenticar', method: RequestMethod.POST })
-        //     .forRoutes(
-        //         { path: '*', method: RequestMethod.ALL }
-        //     );
+
+        const { appEnv } = configs().environment;
+        if (["development", "test"].includes(appEnv)) return;
+
+        consumer
+            .apply(AppMiddleware)
+            .exclude({ path: '/', method: RequestMethod.GET })
+            .exclude({ path: '/api/*', method: RequestMethod.ALL })
+            .exclude({ path: '/auth/sistema-autenticar', method: RequestMethod.POST })
+            .forRoutes(
+                { path: '*', method: RequestMethod.ALL }
+            );
     }
 }
