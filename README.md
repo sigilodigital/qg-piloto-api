@@ -114,12 +114,12 @@ A *stack* utilizada no desenvolvimento inclui:
 
 ## Download
 ```bash
-git clone https://github.com/sigilodigital/qg-gestao-acesso-api.git
+git clone --branch main --recurse-submodules https://github.com/sigilodigital/qg-gestao-acesso-api.git
 ```
 
 ## Installation
 ```bash
-npm install
+npm install ; cd libs && npm install ; cd ..
 ```
 
 ## Running the app
