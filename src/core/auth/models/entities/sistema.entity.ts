@@ -26,8 +26,8 @@ export class SistemaEntity extends IdEntityAbstractClass  {
     @ManyToMany(type => MetodoEntity, e => e._sistemaList, { eager: true  })
     @JoinTable({
         name: 'REL_SISTEMA_X_METODO', 
-        joinColumn: { name: 'sistemaId', referencedColumnName: 'id'}, 
-        inverseJoinColumn: { name: 'metodoId', referencedColumnName: 'id' } 
+        joinColumn: { name: 'SistemaId', referencedColumnName: 'id'}, 
+        inverseJoinColumn: { name: 'MetodoId', referencedColumnName: 'id' } 
     })
     _metodoList?: MetodoEntity[];
 
