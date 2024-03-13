@@ -1,4 +1,4 @@
-import { SistemaEntity } from "../core/auth/models/entities/sistema.entity";
+import { SistemaEntity } from "../../core/auth/models/entities/sistema.entity";
 
 export const systemList: SistemaEntity[] = [
 

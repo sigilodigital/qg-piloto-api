@@ -2,25 +2,25 @@ import { NestFactory } from '@nestjs/core';
 
 import { UtilRepository } from '@libs/common/repository/util.repository';
 import { RunnerTransaction } from '@sd-root/libs/common/src/databases/runner-transaction/runner-transaction';
-import { ContatoEntity } from '../libs/common/src/models/entities/contato/contato.entity';
-import { EmailEntity } from '../libs/common/src/models/entities/contato/email.entity';
-import { EnderecoEntity } from '../libs/common/src/models/entities/contato/endereco.entity';
-import { TelefoneEntity } from '../libs/common/src/models/entities/contato/telefone.entity';
-import { AppModule } from './app.module';
-import { MetodoEntity } from './core/auth/models/entities/metodo.entity';
-import { SistemaEntity } from './core/auth/models/entities/sistema.entity';
-import { AvaliadorEntity } from './features/avaliador/models/entities/avaliador.entity';
-import { DataAccessEntity } from './features/usuario/models/entities/data-access.entity';
-import { LoginInfoEntity } from './features/usuario/models/entities/login-info.entity';
-import { ProfileEntity } from './features/usuario/models/entities/profile.entity';
-import { UsuarioEntity } from './features/usuario/models/entities/usuario.entity';
-import { UsuarioRepository } from './features/usuario/repositories/usuario.repository';
-import { avaliadorList } from './fixtures/avaliadores';
-import { methodList } from './fixtures/methods';
-import { systemList } from './fixtures/systems';
-import { userList } from './fixtures/users';
-import { AvaliadorDocumentacaoEntity } from './features/avaliador/models/entities/avaliador-documentacao.entity';
-import { AvaliadorRepository } from './features/avaliador/repositories/avaliador.repository';
+import { ContatoEntity } from '../../libs/common/src/models/entities/contato/contato.entity';
+import { EmailEntity } from '../../libs/common/src/models/entities/contato/email.entity';
+import { EnderecoEntity } from '../../libs/common/src/models/entities/contato/endereco.entity';
+import { TelefoneEntity } from '../../libs/common/src/models/entities/contato/telefone.entity';
+import { AppModule } from '../app.module';
+import { MetodoEntity } from '../core/auth/models/entities/metodo.entity';
+import { SistemaEntity } from '../core/auth/models/entities/sistema.entity';
+import { AvaliadorEntity } from '../features/avaliador/models/entities/avaliador.entity';
+import { DataAccessEntity } from '../features/usuario/models/entities/data-access.entity';
+import { LoginInfoEntity } from '../features/usuario/models/entities/login-info.entity';
+import { ProfileEntity } from '../features/usuario/models/entities/profile.entity';
+import { UsuarioEntity } from '../features/usuario/models/entities/usuario.entity';
+import { UsuarioRepository } from '../features/usuario/repositories/usuario.repository';
+import { avaliadorList } from './models/avaliadores';
+import { methodList } from './models/methods';
+import { systemList } from './models/systems';
+import { userList } from './models/users';
+import { AvaliadorDocumentacaoEntity } from '../features/avaliador/models/entities/avaliador-documentacao.entity';
+import { AvaliadorRepository } from '../features/avaliador/repositories/avaliador.repository';
 
 async function bootstrap() {
 
