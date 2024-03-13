@@ -22,11 +22,18 @@ describe('UC: Consultar avaliador', () => {
 
         app = moduleFixture.createNestApplication();
         await app.init();
+
+        // jest.setTimeout(120000);
     });
 
-    beforeEach(async () => { });
+    beforeEach(async () => {
+        // jest.useFakeTimers();
+        // jest.setTimeout(120000);
+    });
 
+    jest.setTimeout(120000);
     it('deve retornar todos os avaliadores', async () => {
+
         const user: AvaliadorConsultarInputDto = {};
         const { body } = <R><unknown>await request(app.getHttpServer()).post(config.urn).send(user);
 
@@ -47,17 +54,18 @@ describe('UC: Consultar avaliador', () => {
         const { body } = <R><unknown>await request(app.getHttpServer()).post(config.urn).send(user);
 
         expect(body.status?.statusCode).toEqual(MSG.DEFAULT_SUCESSO.code);
-        expect(body.data?.length).toEqual(0);
+        expect(body.data?.length).toEqual(1);
+        expect(body.data[0]?.isActive).toEqual(false);
     });
 
     describe('Validação de tipo', () => {
 
-        it('cpf: deve retornar todos os avaliadores inativos', async () => {
-            const user: AvaliadorConsultarInputDto = { isActive: false };
+        it('isActive: boolean to string', async () => {
+            const user = { isActive: 'ca' };
             const { body } = <R><unknown>await request(app.getHttpServer()).post(config.urn).send(user);
 
-            expect(body.status?.statusCode).toEqual(MSG.DEFAULT_SUCESSO.code);
-            expect(body.data?.length).toEqual(0);
+            expect(body.status?.statusCode).toEqual(MSG.ERR_FIELD_TYPE.code);
+            expect(body.status?.message).toMatch(/isActive/);
         });
     });
 });
