@@ -23,6 +23,7 @@ export class AvaliadorController {
 
     @ApiOperation(AvaliadorDoc.incluir())
     @ApiBody({ type: AvaliadorIncluirInputDto })
+    @UseFilters(HttpExceptionFilter)
     @Post('incluir')
     async avaliadorIncluir(@Body(new ValidationPipe()) input: AvaliadorIncluirInputDto, @Req() request: Request) {
         const result: AvaliadorIncluirOutputDto = await this.avaliadorService.avaliadorIncluir(input, request);

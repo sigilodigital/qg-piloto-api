@@ -9,10 +9,10 @@ export const avaliadorList: AvaliadorEntity[] = [
         _instituicaoContato: {
             _emailList: [{ address: 'avaliador1@sigilo.digital' }, { address: 'avaliador2@sigilo.digital' }],
             _enderecoList: [
-                { place: 'Rua dos Programadores', number: '42', description: 'Apartamento 101' },
-                { place: 'Avenida das Árvores', number: '500', description: 'Casa' },
-                { place: 'Travessa dos Artistas', number: '13', description: 'Estúdio' },
-                { place: 'Beco do Code', number: '7', description: 'Escritório' }
+                { place: 'Rua dos Programadores', number: '42', description: 'Apartamento 101', zipCode: 12345678, country: 'Brasil', city: 'São Paulo', state: 'São Paulo', complement: 'Por do sol' },
+                { place: 'Avenida das Árvores', number: '500', description: 'Casa', zipCode: 12345678, country: 'Brasil', city: 'São Paulo', state: 'São Paulo', complement: 'Por do sol' },
+                { place: 'Travessa dos Artistas', number: '13', description: 'Estúdio', zipCode: 12345678, country: 'Brasil', city: 'São Paulo', state: 'São Paulo', complement: 'Por do sol' },
+                { place: 'Beco do Code', number: '7', description: 'Escritório', zipCode: 12345678, country: 'Brasil', city: 'São Paulo', state: 'São Paulo', complement: 'Por do sol' }
             ],
             _telefoneList: [{ number: '63984589691', description: 'Uma descrição aqui' }]
         },
@@ -39,10 +39,10 @@ export const avaliadorList: AvaliadorEntity[] = [
         _instituicaoContato: {
             _emailList: [{ address: 'avaliador1@sigilo.digital' }, { address: 'avaliador2@sigilo.digital' }],
             _enderecoList: [
-                { place: 'Rua dos Programadores', number: '42', description: 'Apartamento 101' },
-                { place: 'Avenida das Árvores', number: '500', description: 'Casa' },
-                { place: 'Travessa dos Artistas', number: '13', description: 'Estúdio' },
-                { place: 'Beco do Code', number: '7', description: 'Escritório' }
+                { place: 'Rua dos Programadores', number: '42', description: 'Apartamento 101', zipCode: 12345678, country: 'Brasil', city: 'São Paulo', state: 'São Paulo', complement: 'Por do sol' },
+                { place: 'Avenida das Árvores', number: '500', description: 'Casa', zipCode: 12345678, country: 'Brasil', city: 'São Paulo', state: 'São Paulo', complement: 'Por do sol' },
+                { place: 'Travessa dos Artistas', number: '13', description: 'Estúdio', zipCode: 12345678, country: 'Brasil', city: 'São Paulo', state: 'São Paulo', complement: 'Por do sol' },
+                { place: 'Beco do Code', number: '7', description: 'Escritório', zipCode: 12345678, country: 'Brasil', city: 'São Paulo', state: 'São Paulo', complement: 'Por do sol' }
             ],
             _telefoneList: [{ number: '63984589691', description: 'Uma descrição aqui' }]
         },

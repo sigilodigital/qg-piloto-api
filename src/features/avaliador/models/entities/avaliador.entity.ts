@@ -24,7 +24,7 @@ export class AvaliadorEntity extends EntityAbstractClass {
     @Column("text", { name: "instituicaoNome", nullable: true })
     instituicaoNome?: string | null;
 
-    @OneToOne(type => ContatoEntity, e => e._usuario, { cascade: ['insert', 'update', 'remove'] })
+    @OneToOne(type => ContatoEntity, { cascade: ['insert', 'update', 'remove'] })
     @JoinColumn()
     _instituicaoContato?: ContatoEntity;
 
