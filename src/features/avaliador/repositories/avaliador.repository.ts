@@ -17,12 +17,16 @@ import { ProfileEntity } from '../../usuario/models/entities/profile.entity';
 export class AvaliadorRepository extends GenericRepository<AvaliadorEntity> implements IAvaliadorRepository {
 
     constructor(@Inject('QUERY_RUNNER_PROVIDER') config?: QueryRunner) {
-        const entityList = [
+        const entityList = AvaliadorRepository.getEntities();
+        super(AvaliadorEntity, config || entityList);
+    }
+
+    static getEntities(){
+        return [
             UsuarioEntity, LoginInfoEntity, DataAccessEntity, ProfileEntity,
             AvaliadorEntity, AvaliadorDocumentacaoEntity, AvaliadorDocumentacaoEntity,
             ContatoEntity, EmailEntity, TelefoneEntity, EnderecoEntity
         ];
-        super(AvaliadorEntity, config || entityList);
     }
 
 }

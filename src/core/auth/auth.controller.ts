@@ -70,6 +70,7 @@ export class AuthController {
 
         let result: LoginSistemaOutputDto = req.user;
 
+        // TODO: usar 'expiresIn' das variaveis de ambiente
         const token = await this.authservice.tokenGenerate(result, { expiresIn: '24h' });
         result = fnInserirTokenNaResposta(req.user, token);
 

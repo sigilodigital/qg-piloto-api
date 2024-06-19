@@ -8,8 +8,9 @@ import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/us
 import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
 import { LoginUserOutputDto } from '../models/dto/login-user.dto';
-import { UtilRepository } from '@sd-root/libs/common/src';
+// import { UtilRepository } from '@sd-root/libs/common/src';
 import { QUERY_RUNNER_PROVIDER } from '@sd-root/libs/common/src/providers/query-runner.provider';
+import { UtilRepository } from '@sd-root/libs/common/src/repository/util.repository';
 
 describe('AuthController :: MockData', () => {
     let controller: AuthController;

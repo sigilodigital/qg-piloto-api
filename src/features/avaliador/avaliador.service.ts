@@ -18,7 +18,7 @@ export class AvaliadorService {
 
     async avaliadorIncluir(input: AvaliadorIncluirInputDto, request: Request): Promise<AvaliadorIncluirOutputDto> {
 
-        const queryRunner = await RunnerTransaction.startTransaction([AvaliadorEntity]);
+        const queryRunner = await RunnerTransaction.startTransaction(AvaliadorRepository.getEntities());
         const historico = { ...(await fnHistoricoDadosPrimarios()), codAcao: CodigoAcaoEnum.AVALIADOR_INCLUIR };
 
         queryRunner.data = historico;

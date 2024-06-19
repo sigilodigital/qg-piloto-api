@@ -1,28 +1,28 @@
 
-import { Page, chromium, expect as pExpect } from '@playwright/test';
+import { test as pTest, Page, chromium, expect as pExpect } from '@playwright/test';
 
 import { ValidationPipe } from '@libs/common/validations/validation.pipe';
 // import { SistemaLogin } from 'src/features/servicos/test/sistemaLogin';
 import { LoginUserInputDto } from '../models/dto/login-user.dto';
 import { SDExpectPlaywright } from '@libs/common/tests/expects-playwright';
 
-describe('AutorizacaoRejeitar', () => {
+pTest.describe('AutorizacaoRejeitar', () => {
     let page: Page;
     // let systemLogin: {token:string};
     let baseURL: '/auth/usuario-autenticar';
     let input: LoginUserInputDto;
     let field: string;
 
-    beforeAll(async () => {
+    pTest.beforeAll(async () => {
         // systemLogin = (await SistemaLogin.getLogin())
         page = await (await chromium.launch())?.newPage();
     });
 
-    beforeEach(async () => {
+    pTest.beforeEach(async () => {
         input = { username: 'abcd', password: 'abcd1234' };
     });
 
-    it('deve retornar codigo 1', async () => {
+    pTest('deve retornar codigo 1', async () => {
         try {
             const res = (await page.request.post(baseURL, {
                 data: {},
@@ -37,7 +37,7 @@ describe('AutorizacaoRejeitar', () => {
     });
 
     field = 'username';
-    it(`campo ${field} ausente`, async () => {
+    pTest(`campo ${field} ausente`, async () => {
         input = { ...input, [field]: null };
         try {
             const result = await (new ValidationPipe()).transform(input, { type: 'custom', metatype: LoginUserInputDto });
@@ -48,7 +48,7 @@ describe('AutorizacaoRejeitar', () => {
     });
 
     field = 'password';
-    it(`campo ${field} ausente`, async () => {
+    pTest(`campo ${field} ausente`, async () => {
         input = { ...input, [field]: null };
         try {
             const result = await (new ValidationPipe()).transform(input, { type: 'custom', metatype: LoginUserInputDto });
