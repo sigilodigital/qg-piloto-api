@@ -174,7 +174,7 @@ sudo docker run -d \
 -e POSTGRES_USER=piloto \
 -e POSTGRES_PASSWORD=piloto123 \
 -e PGDATA=/var/lib/postgresql/data/pgdata \
--v projects/databases/db_sd_ga_pg:/var/lib/postgresql/data \
+-v ~/projects/databases/db_sd_ga_pg:/var/lib/postgresql/data \
 -p 5432:5432 \
 postgres
 ```
