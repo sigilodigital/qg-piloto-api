@@ -31,7 +31,7 @@ export class DataAccessEntity extends IdEntityAbstractClass  {
     _usuario?: UsuarioEntity;
 
     public static getEntityList(): EntityClassOrSchema[] {
-        return [DataAccessEntity, ProfileEntity, ...UsuarioEntity.getEntityList()];
+        return [DataAccessEntity, ProfileEntity/*, ...UsuarioEntity.getEntityList()*/];
     }
 
 }

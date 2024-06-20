@@ -19,6 +19,12 @@ export class UsuarioRepository extends GenericRepository<UsuarioEntity> implemen
         super(UsuarioEntity, config || entityList);
     }
 
+    async preload(user: UsuarioEntity){
+        await this.init(this.config);
+        const result = this.queryDataSource.manager.getRepository(UsuarioEntity).preload(user)
+        return result;
+    }
+
     async getUserList(partialEntity: FindOptionsWhere<UsuarioEntity>): Promise<UsuarioEntity[]> {
         await this.init(this.config);
         return await this.queryDataSource.manager.findBy(UsuarioEntity, partialEntity);

@@ -36,7 +36,7 @@ describe('AuthService :: MockData', () => {
         input = { username: 'abcd', password: 'abcd1234' };
 
         const module: TestingModule = await Test.createTestingModule({
-            imports: [JwtService],
+            imports: [],
             providers: [
                 AuthService, ApiResponse, JwtService, UtilService,
                 { provide: UtilRepository, useFactory(...args) { return new UtilRepository(); } },

@@ -29,9 +29,9 @@ export class AppModule implements NestModule {
 
         consumer
             .apply(AppMiddleware)
-            .exclude({ path: '/', method: RequestMethod.GET })
-            .exclude({ path: '/api/*', method: RequestMethod.ALL })
-            .exclude({ path: '/auth/sistema-autenticar', method: RequestMethod.POST })
+            // .exclude({ path: '/', method: RequestMethod.GET })
+            // .exclude({ path: '/api/*', method: RequestMethod.ALL })
+            // .exclude({ path: '/auth/sistema-autenticar', method: RequestMethod.POST })
             .forRoutes(
                 { path: '*', method: RequestMethod.ALL }
             );
