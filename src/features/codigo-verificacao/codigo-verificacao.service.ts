@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ICreateCodigoVerificacaoDto, } from './dto/create-codigo-verificacao.dto';
 import { UpdateCodigoVerificacaoDto } from './dto/update-codigo-verificacao.dto';
-import { ApiResponse } from '@libs/common/services/response-handler-v1';
+import { ApiResponse } from '@libs/common/services/v1/response-handler-v1';
 import { CodigoVerificacaoEntity } from './entities/codigo-verificacao.entity';
 import { IUtilRepository, UtilRepository } from '@libs/common/repository/util.repository';
 

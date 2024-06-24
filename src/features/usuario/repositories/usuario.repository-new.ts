@@ -3,7 +3,6 @@ import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-clas
 import { FindOptionsWhere, QueryRunner } from 'typeorm';
 
 // import { GenericRepository, IGenericRepository } from '@libs/common/repository/generic.repository';
-import { GenericRepository, IGenericRepository } from '@libs/common';
 import { ContatoEntity } from '../../../../libs/common/src/models/entities/contato/contato.entity';
 import { DataAccessEntity } from '../models/entities/data-access.entity';
 import { EmailEntity } from '../../../../libs/common/src/models/entities/contato/email.entity';
@@ -12,6 +11,7 @@ import { LoginInfoEntity } from '../models/entities/login-info.entity';
 import { ProfileEntity } from '../models/entities/profile.entity';
 import { TelefoneEntity } from '../../../../libs/common/src/models/entities/contato/telefone.entity';
 import { UsuarioEntity } from '../models/entities/usuario.entity';
+import { GenericRepository, IGenericRepository } from '@sd-root/libs/common/src/repository/generic.repository';
 
 // @Injectable()
 export class UsuarioRepository extends GenericRepository<UsuarioEntity> implements IUsuarioRepository {
