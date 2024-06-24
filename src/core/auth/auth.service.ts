@@ -2,16 +2,17 @@ import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/com
 import { JwtService } from '@nestjs/jwt';
 import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type';
 
-import { UtilRepository } from '@libs/common/repository/util.repository';
 import { MSG } from '@libs/common/services/api-messages';
 import { ApiResponse } from '@libs/common/services/api-response';
 import { UtilService } from '@libs/common/services/util.service';
+import { UtilRepository } from '@sd-root/libs/common/src/repository/util.repository';
 import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario.repository';
 import { UsuarioEntity } from 'src/features/usuario/models/entities/usuario.entity';
 import { LoginSistemaInputDto, LoginSistemaOutputDto } from './models/dto/login-sistema.dto';
 import { LoginUserInputDto, LoginUserOutputDto } from './models/dto/login-user.dto';
 import { MetodoEntity } from './models/entities/metodo.entity';
 import { SistemaEntity } from './models/entities/sistema.entity';
+import { RunnerTransaction } from '@sd-root/libs/common/src';
 
 interface IAuthService {
     sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto>;
@@ -23,21 +24,26 @@ export class AuthService implements IAuthService {
     readonly LOG_CLASS_NAME = "AuthService";
 
     private systemEntityList: EntityClassOrSchema[];
+    private utilRepository: UtilRepository
 
     constructor(
         private apiResponse: ApiResponse<LoginSistemaInputDto, any>,
         private jwtService: JwtService,
         private utilService: UtilService,
-        private utilRepository: UtilRepository,
         private usuarioRepository: UsuarioRepository
     ) {
         this.systemEntityList = [SistemaEntity, MetodoEntity/*, SistemaMetodoEntity*/];
+
+
     }
 
     async sistemaValidar(input: LoginSistemaInputDto): Promise<LoginSistemaOutputDto> {
 
-        await this.utilRepository.init(this.systemEntityList);
+        // await this.utilRepository.init(this.systemEntityList);
 
+        const queryRunner = await RunnerTransaction.startTransaction([
+            SistemaEntity, MetodoEntity]);
+        this.utilRepository = new UtilRepository(queryRunner)
         const system = <SistemaEntity>await this.utilRepository.findOne({ where: { username: input.username }, relations: { _metodoList: true } }, SistemaEntity);
 
         fnThrowSeSistemaAusente(system, this);

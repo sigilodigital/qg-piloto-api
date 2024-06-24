@@ -7,10 +7,11 @@ import { UtilService } from '@libs/common/services/util.service';
 import { UsuarioRepository } from '@sd-root/src/features/usuario/repositories/usuario.repository';
 import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
-import { LoginUserOutputDto } from '../models/dto/login-user.dto';
+import { LoginUserInputDto, LoginUserOutputDto } from '../models/dto/login-user.dto';
 // import { UtilRepository } from '@sd-root/libs/common/src';
 import { QUERY_RUNNER_PROVIDER } from '@sd-root/libs/common/src/providers/query-runner.provider';
 import { UtilRepository } from '@sd-root/libs/common/src/repository/util.repository';
+import { LoginSistemaInputDto, LoginSistemaOutputDto } from '../models/dto/login-sistema.dto';
 
 describe('AuthController :: MockData', () => {
     let controller: AuthController;
@@ -124,6 +125,58 @@ describe('AuthController', () => {
 
     function createRequestMock(): RequestExpress & { user: LoginUserOutputDto; } {
         return { user: {} } as RequestExpress & { user: LoginUserOutputDto; };
+    }
+
+    function createResponseMock(): ResponseExpress {
+        return { json: jest.fn(), header: jest.fn() } as unknown as ResponseExpress;
+    }
+});
+
+describe('AuthController', () => {
+    let authController: AuthController;
+    let authService: AuthService;
+    let mockResponse: ResponseExpress;
+    let mockRequest: RequestExpress & { user: LoginSistemaInputDto; };
+
+    beforeEach(async () => {
+        const moduleRef = await Test.createTestingModule({
+            controllers: [AuthController],
+            providers: [AuthService, ApiResponse],
+        })
+            // .overrideProvider(AuthService)
+            // .useValue({ tokenGenerate: jest.fn().mockResolvedValue('mockToken') })
+            .compile();
+
+        authService = moduleRef.get<AuthService>(AuthService);
+        authController = moduleRef.get<AuthController>(AuthController);
+
+        mockResponse = createResponseMock();
+        mockRequest = createRequestMock();
+    });
+
+    it('deve autenticar o sistema', async () => {
+        const input: LoginSistemaInputDto = {
+            username: 'sd-portal',
+            password: 'abcd1234'
+        };
+        const expected: LoginSistemaOutputDto = {
+            sistema: expect.any(Object),
+            metodoList: expect.any(Array),
+            token: expect.any(String)
+        };
+
+        // jest.spyOn(authService, 'tokenGenerate').mockResolvedValueOnce('bearer-token').mockResolvedValueOnce('replace-token');
+        mockRequest.user = input;
+
+        const result = await authController.sistemaAutenticar(mockRequest, mockResponse);
+
+        expect(authService.tokenGenerate).toHaveBeenCalledTimes(2);
+        expect(mockResponse.json).toHaveBeenCalledWith(expect.any(Object));
+        // expect(result).toEqual(expect.any(Object));
+    });
+
+    function createRequestMock(): RequestExpress & { user: LoginSistemaInputDto; } {
+        return { user: {} } as RequestExpress & { user: LoginSistemaInputDto; };
     }
 
     function createResponseMock(): ResponseExpress {

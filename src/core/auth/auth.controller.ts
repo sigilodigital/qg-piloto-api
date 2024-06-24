@@ -66,7 +66,7 @@ export class AuthController {
     @UseGuards(AuthSystemValidate)
     @UseFilters(HttpExceptionFilter)
     @Post('sistema-autenticar')
-    async sistemaSenhaValidar(@Request() req: RequestExpress & { user: LoginSistemaOutputDto; }, @Response() res: ResponseExpress) {
+    async sistemaAutenticar(@Request() req: RequestExpress & { user: LoginSistemaOutputDto; }, @Response() res: ResponseExpress) {
 
         let result: LoginSistemaOutputDto = req.user;
 

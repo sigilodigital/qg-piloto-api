@@ -5,22 +5,9 @@ import { SistemaEntity } from "../entities/sistema.entity";
 import { MetodoEntity } from "../entities/metodo.entity";
 import { ValidaSchema } from "@sd-root/libs/common/src/validations/schema.validate";
 
-export interface ISistemaWS {
-    codSegSistemaWs: number;
-    txtSegSistemaWs: string;
-    txtLogin: string;
-    txtSenha: string;
-    codAtivo: number;
-}
-
-export interface ISistemaMetodoWS {
-    codSegSistemaWs: number;
-    codSegMetodoWs: number;
-}
-
 export class LoginSistemaInputDto {
 
-    @Validate(ValidaSchema, [<IConstraintSchema>{nullable: true, regex: /^swagger|app$/gi }])
+    // @Validate(ValidaSchema, [<IConstraintSchema>{nullable: true, regex: /^(swagger|app)$/gi }])
     agent?: 'swagger' | 'app' | null;
     
     @ApiProperty({ name: "txtLogin", type: String, required: true, description: "Nome do usuário do sistema." })
